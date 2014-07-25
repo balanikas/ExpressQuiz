@@ -20,6 +20,7 @@ namespace ExpressQuiz.Controllers
     {
         private ApplicationUserManager _userManager;
 
+
         public AccountController()
         {
         }
