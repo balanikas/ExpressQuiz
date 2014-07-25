@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ExpressQuiz</h1>
+    <p class="lead">ExpressQuiz is a free online quiz engine</p>
+    <p>
+        @Html.ActionLink("Learn more", "Index", "Quizzes")
+        
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            If you feel that existing online quizzes suck then this is for you. It is totally free.
+        </p>
+        <p>@Html.ActionLink("Learn more", "Index", "Quizzes")</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Create and Share</h2>
+        <p>Why keep it to yourself? Create you r own quizzes and share them with the world!</p>
+        <p>@Html.ActionLink("Learn more", "Index", "Quizzes")</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Source</h2>
+        <p>Use, reuse, modify, or contribute on github.</p>
+        <p><a class="btn btn-default" href="http://github.com/balanikas">Github</a></p>
+    </div>
+</div>

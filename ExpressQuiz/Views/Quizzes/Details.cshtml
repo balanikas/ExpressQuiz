@@ -1,0 +1,44 @@
+﻿@model ExpressQuiz.Models.Quiz
+
+@{
+    <h2>
+        @Model.Name  (@Model.Questions.Count questions)</h2>
+    }
+    <div>
+      
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Summary)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Summary)
+            </dd>
+
+            <dt>
+                Questions
+            </dt>
+            <dd>
+                @*@foreach (var q in Model.Questions)
+                {
+                    @q.Text <br />
+                }*@
+                @Model.Questions.Count
+            </dd>
+        </dl>
+        <p>@Html.ActionLink("Take", "Index", "ActiveQuiz", new { id = Model.ID }, new { @class = "btn btn-default btn-lg btn-block" })</p>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+
+    </p>

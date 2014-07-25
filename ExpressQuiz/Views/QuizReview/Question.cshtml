@@ -1,0 +1,63 @@
+﻿@model ExpressQuiz.ViewModels.QuestionReviewViewModel
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery.bootpag.min.js"></script>
+<script src="~/Scripts/expressquiz/main.js"></script>
+
+<div>
+
+
+    @Html.ActionLink("Back to List", "Index", new { id = @Model.QuizResultId })
+</div>
+<div>
+
+  
+    <div id="page-selection"></div>
+    <div id="content">
+
+        <h4>Question</h4>
+        <p style="white-space: pre" >
+            @Model.Question.Text 
+        </p>
+
+        <h4>Answers</h4>
+        <p>
+            <div id="answers" class="col-lg-10">
+                @{
+                    for (int i = 0; i < Model.Question.Answers.Count; i++)
+                    {
+                        <div class="radio" >
+                            <label>
+                                @{
+                                    if (Model.Question.Answers[i].IsCorrect)
+                                    {
+                                        <input type="radio" checked name="optionsRadios" disabled />
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" name="optionsRadios" disabled />
+                                    }
+                                }
+                                @Model.Question.Answers[i].Text
+                            </label>
+                        </div>
+                        <div style="color: green">
+                            @Model.Question.Answers[i].Explanation
+                        </div>
+                    }
+                }
+            </div>
+        </p>
+
+    </div>
+
+    <br />
+
+
+
+</div>
+
+<br/>
+

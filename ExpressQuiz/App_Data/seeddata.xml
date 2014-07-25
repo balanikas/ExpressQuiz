@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Content>
+  <Categories>
+    <Category id="0">
+      <Name>C#</Name>
+    </Category>
+    <Category id="1">
+      <Name>Java</Name>
+    </Category>
+  </Categories>
+
+
+  <Quizzes>
+    <Quiz category="0">
+      <Name>quiz</Name>
+      <Summary>quiz summary</Summary>
+      <Question>
+        <Text>q1</Text>
+        <Answer>
+          <IsCorrect />
+          <Text>a1 (correct)</Text>
+         <Explanation>.</Explanation>
+        </Answer>
+        <Answer>
+          <Text>a2</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+      </Question>
+
+      <Question>
+        <Text>q2</Text>
+        <Answer>
+
+          <Text>a1</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+        <Answer>
+          <IsCorrect />
+          <Text>a2(correct)</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+
+        <Answer>
+          <Text>a3</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+      </Question>
+
+    </Quiz>
+
+    <Quiz category="1">
+      <Name>ORACLE JAVA QUIZ 1</Name>
+      <Summary>
+        This practice test contains 15 java questions with answer explanations to help you test your Java
+        skills and  prepare for the Oracle Certified Associate - Java Programmer exam.
+      </Summary>
+      <Question>
+        <Text>
+          Given
+
+          1.    int []a = {1,2,3,4,5,6};
+          2.    inti = a.length - 1;
+          3.
+          4.    while(i>=0){
+          5.      System.out.print(a[i]);
+          6.      i--;
+          7.    }
+
+          What is the result?
+        </Text>
+        <Answer>
+
+          <Text>123456</Text>
+          <Explanation>Wrong answer. The value of 'i' starts with 0.</Explanation>
+        </Answer>
+        <Answer>
+          <Text>An exception could be thrown at runtime.</Text>
+          <Explanation>Wrong answer. There is no way of throwing exceptions (there is no arrayOutOfBoundException). </Explanation>
+        </Answer>
+
+
+        <Answer>
+          <IsCorrect />
+          <Text>654321</Text>
+          <Explanation>
+            Correct! The length of array 'a' is 6, so the value of the variable 'i' is 5. Execution of the while loop will print the array elements
+            in reverse order because the variable 'i' has an initial value of 5. So printing of the elements starts with 6 (a[5]) and runs until the value of
+            variable 'i' equals 0. Therefore the first element of the array 'a' (a[0]) prints last.
+          </Explanation>
+        </Answer>
+        <Answer>
+          <Text>nothing</Text>
+          <Explanation>Wrong answer.</Explanation>
+        </Answer>
+        <Answer>
+          <Text>65432</Text>
+          <Explanation>Wrong answer. The while loop goes through all elements.</Explanation>
+        </Answer>
+        <Answer>
+          <Text>12345</Text>
+          <Explanation>Wrong answer. The while loop goes through all elements.</Explanation>
+        </Answer>
+      </Question>
+
+      <Question>
+        <Text>Choose the three legal identifiers.</Text>
+        <Answer>
+
+          <Text>1stName</Text>
+          <Explanation>Wrong answer. An identifier cannot start with a number.</Explanation>
+        </Answer>
+        <Answer>
+          <IsCorrect />
+          <Text>_4_</Text>
+          <Explanation>Correct! Identifiers can start with a letter, a dollar mark or an underscore. They can be any length.</Explanation>
+        </Answer>
+
+        <Answer>
+          <Text>@name</Text>
+          <Explanation>Wrong answer. An identifier cannot start with @</Explanation>
+        </Answer>
+        <Answer>
+          <Text>$</Text>
+          <Explanation>Correct! Identifiers can start with a letter, a dollar mark or an underscore. They can be any length.</Explanation>
+        </Answer>
+        <Answer>
+          <Text>getSize</Text>
+          <Explanation>Wrong! ............</Explanation>
+        </Answer>
+      </Question>
+
+    </Quiz>
+  </Quizzes>
+</Content>
