@@ -15,6 +15,8 @@ namespace ExpressQuiz.Repos
         void Delete(Quiz quiz);
 
         void SetModified(Quiz quiz);
+
+        Quiz GetByQuestionId(int id);
         void Save();
     }
 }

@@ -6,7 +6,7 @@ using ExpressQuiz.Models;
 
 namespace ExpressQuiz.ViewModels
 {
-    public class MainViewModel
+    public class QuizzesViewModel
     {
         public List<QuizCategory> QuizCategories { get; set; }
 

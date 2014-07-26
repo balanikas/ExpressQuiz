@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
 using ExpressQuiz.Models;
+using ExpressQuiz.Repos;
 
 namespace ExpressQuiz.ViewModels
 {
@@ -15,11 +16,12 @@ namespace ExpressQuiz.ViewModels
         
 
         public QuizResult Result { get; private set; }
-        public QuizReviewViewModel(QuizResult result)
+        public QuizReviewViewModel(QuizResult result, IAnswerRepo answerRepo, IQuestionRepo questionRepo)
         {
             Result = result;
             
         }
+
 
         public int GetScore()
         {

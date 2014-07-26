@@ -171,10 +171,16 @@
     </Compile>
     <Compile Include="Models\QuizResult.cs" />
     <Compile Include="Models\UserAnswer.cs" />
+    <Compile Include="Repos\AnswerRepo.cs" />
+    <Compile Include="Repos\IAnswerRepo.cs" />
+    <Compile Include="Repos\IQuestionRepo.cs" />
     <Compile Include="Repos\IQuizCategoryRepo.cs" />
     <Compile Include="Repos\IQuizRepo.cs" />
+    <Compile Include="Repos\IQuizResultRepo.cs" />
+    <Compile Include="Repos\QuestionRepo.cs" />
     <Compile Include="Repos\QuizCategoryRepo.cs" />
     <Compile Include="Repos\QuizRepo.cs" />
+    <Compile Include="Repos\QuizResultRepo.cs" />
     <Compile Include="ViewModels\QuestionReviewViewModel.cs" />
     <Compile Include="ViewModels\QuizReviewViewModel.cs" />
     <Compile Include="Controllers\QuizzesController.cs" />
@@ -194,7 +200,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ActiveQuizViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\QuizzesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_Data\seeddata.xml">
@@ -618,6 +624,8 @@
     <Content Include="Views\ActiveQuiz\Index.cshtml" />
     <Content Include="Views\QuizReview\Index.cshtml" />
     <Content Include="Views\QuizReview\Question.cshtml" />
+    <Content Include="Views\Quizzes\_TopList.cshtml" />
+    <Content Include="Views\Quizzes\_Categories.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

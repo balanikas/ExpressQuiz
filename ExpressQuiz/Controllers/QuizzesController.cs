@@ -28,16 +28,16 @@ namespace ExpressQuiz.Controllers
         }
 
         // GET: Quizzes
-        public ActionResult Index(int? catId, string movieGenre, string searchString)
+        public ActionResult Index(int? catId, string searchString)
         {
-            var GenreLst = new List<string>();
+            //var GenreLst = new List<string>();
 
-            var GenreQry = from d in _quizRepo.GetAll()
-                           orderby d.Summary
-                           select d.Summary;
+            //var GenreQry = from d in _quizRepo.GetAll()
+            //               orderby d.Summary
+            //               select d.Summary;
 
-            GenreLst.AddRange(GenreQry.Distinct());
-            ViewBag.movieGenre = new SelectList(GenreLst);
+            //GenreLst.AddRange(GenreQry.Distinct());
+            //ViewBag.movieGenre = new SelectList(GenreLst);
 
             var quizzes = from m in _quizRepo.GetAll()
                          select m;
@@ -52,8 +52,8 @@ namespace ExpressQuiz.Controllers
                 quizzes = quizzes.Where(x => x.Category.Id == catId);
             }
 
-            var vm = new MainViewModel();
-            vm.QuizCategories = (from c in _quizCategoryRepo.GetAll() select c).ToList();
+            var vm = new QuizzesViewModel();
+            vm.QuizCategories = (from c in _quizCategoryRepo.GetAll() orderby c.Name select c).ToList();
 
             vm.Quizzes = quizzes.ToList();
 

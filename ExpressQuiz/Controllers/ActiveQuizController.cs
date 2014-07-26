@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using ExpressQuiz.Logic;
 using ExpressQuiz.Models;
+using ExpressQuiz.Repos;
 using ExpressQuiz.ViewModels;
 using Newtonsoft.Json;
 
@@ -11,7 +12,17 @@ namespace ExpressQuiz.Controllers
 {
     public class ActiveQuizController : Controller
     {
-        private readonly QuizDbContext db = new QuizDbContext();
+        private readonly IQuizResultRepo _quizQuizResultRepo;
+
+        private readonly IQuizRepo _quizRepo;
+
+
+        public ActiveQuizController()
+        {
+            _quizQuizResultRepo = new QuizResultRepo(new QuizDbContext());
+            _quizRepo = new QuizRepo(new QuizDbContext());
+        }
+        
         // GET: ActiveQuiz
         public ActionResult Index(int? id)
         {
@@ -19,7 +30,7 @@ namespace ExpressQuiz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Quiz quiz = db.Quizzes.Find(id);
+            Quiz quiz = _quizRepo.GetById(id.Value);
             if (quiz == null)
             {
                 return HttpNotFound();
@@ -44,8 +55,8 @@ namespace ExpressQuiz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-         
-            Quiz quiz = db.Quizzes.Find(id);
+
+            Quiz quiz = _quizRepo.GetById(id.Value);
             if (quiz == null)
             {
                 return HttpNotFound();
@@ -60,35 +71,15 @@ namespace ExpressQuiz.Controllers
             return jsonNetResult;
         }
 
-     
-
-
         [HttpPost]
         public JsonResult PostResult(QuizResult result)
         {
-            db.QuizResults.Add(result);
-            db.SaveChanges();
+            _quizQuizResultRepo.Insert(result);
+            _quizQuizResultRepo.Save();
+            
             return Json(result.ID);
           
         }
-        public ActionResult Summary(int? id)
-        {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-
-            //var result = db.QuizResults.FirstOrDefault(x => x.ID == id);
-            //if (result != null)
-            //{
-            //    var vm = new QuizReviewViewModel(result);
-            //    //vm.Score = 56;
-            //    return View(vm);
-            //}
-            
-            return new HttpStatusCodeResult(HttpStatusCode.ExpectationFailed);
-        }
-
- 
+     
     }
 }

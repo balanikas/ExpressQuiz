@@ -17,7 +17,7 @@ namespace ExpressQuiz.Models
         [Required]
         public string Summary { get; set; }
 
-        public  QuizCategory Category { get; set; }
+        public virtual QuizCategory Category { get; set; }
 
         public virtual List<Question> Questions { get; set; } 
        

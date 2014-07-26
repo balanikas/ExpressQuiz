@@ -11,7 +11,7 @@ namespace ExpressQuiz.ViewModels
 
     public class QuestionReviewViewModel
     {
-        QuizDbContext db = new QuizDbContext();
+       
 
 
         public Question Question { get; private set; }

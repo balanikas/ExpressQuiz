@@ -40,6 +40,18 @@ namespace ExpressQuiz.Repos
             _ctx.Entry(quiz).State = EntityState.Modified;
         }
 
+        public Quiz GetByQuestionId(int id)
+        {
+            foreach (var quiz in _ctx.Quizzes)
+            {
+                if (quiz.Questions.Any(q => id == q.ID))
+                {
+                    return quiz;
+                }
+            }
+            throw new ArgumentException("id");
+        }
+
         public void Save()
         {
             _ctx.SaveChanges();
