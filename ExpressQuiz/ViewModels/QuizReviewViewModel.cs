@@ -16,7 +16,7 @@ namespace ExpressQuiz.ViewModels
         
 
         public QuizResult Result { get; private set; }
-        public QuizReviewViewModel(QuizResult result, IAnswerRepo answerRepo, IQuestionRepo questionRepo)
+        public QuizReviewViewModel(QuizResult result)
         {
             Result = result;
             
@@ -35,10 +35,13 @@ namespace ExpressQuiz.ViewModels
             var qDetails = new List<QuestionDetails>();
             foreach (var userAnswer in Result.Answers)
             {
-                var isCorrectAnswer = db.Answers.First(x => x.ID == userAnswer.AnswerId).IsCorrect;
-               
-                var questionText = db.Questions.First(x => x.ID == userAnswer.QuestionId).Text;
-                qDetails.Add(new QuestionDetails(isCorrectAnswer,questionText, userAnswer.QuestionId));
+                var answer = db.Answers.FirstOrDefault(x => x.Id == userAnswer.AnswerId);
+                var isAnswerCorrect = answer != null ? answer.IsCorrect : false;
+                var questionText = db.Questions.First(x => x.Id == userAnswer.QuestionId).Text;
+
+                qDetails.Add(new QuestionDetails(isAnswerCorrect, questionText, userAnswer.QuestionId));
+              
+                
             }
 
             return qDetails;
@@ -50,8 +53,8 @@ namespace ExpressQuiz.ViewModels
             int count = 0;
             foreach (var userAnswer in Result.Answers)
             {
-                var isCorrectAnswer = db.Answers.First(x => x.ID == userAnswer.AnswerId).IsCorrect;
-                if (isCorrectAnswer)
+                var correctAnswer = db.Answers.FirstOrDefault(x => x.Id == userAnswer.AnswerId);
+                if (correctAnswer != null && correctAnswer.IsCorrect)
                 {
                     count++;
                 }

@@ -1,9 +1,9 @@
 ﻿var ExpressQuiz;
 (function (ExpressQuiz) {
     var UserAnswer = (function () {
-        function UserAnswer(AnswerId, QuestionId) {
-            this.AnswerId = AnswerId;
-            this.QuestionId = QuestionId;
+        function UserAnswer(questionId, answerId) {
+            this.questionId = questionId;
+            this.answerId = answerId;
         }
         return UserAnswer;
     })();
@@ -44,15 +44,15 @@
             this.userAnswers = [];
             this.currentQuestionIndex = 0;
             for (var i = 0; i < quiz.Questions.length; i++) {
-                this.userAnswers[i] = undefined;
+                this.userAnswers[i] = new UserAnswer(quiz.Questions[i].Id, undefined);
             }
         }
         Runtime.prototype.setActiveQuestion = function (index) {
-            if (this.quiz.Questions[index] === undefined) {
-                throw "index out of range";
-            }
+            //if (this.quiz.Questions[index] === undefined) {
+            //    throw "index out of range";
+            //}
             this.currentQuestionIndex = index;
-            return this.quiz.Questions[index];
+            // return this.quiz.Questions[index];
         };
 
         Runtime.prototype.getActiveQuestion = function (index) {
@@ -61,20 +61,26 @@
 
         Runtime.prototype.setAnswer = function (index, answer) {
             var q = this.quiz.Questions[index];
-            var a = q.Answers[answer];
-            var userAnswer = new UserAnswer(a.ID, q.ID);
+            var userAnswer;
+            if (answer === undefined) {
+                userAnswer = new UserAnswer(q.Id, undefined);
+            } else {
+                var a = q.Answers[answer];
+                userAnswer = new UserAnswer(q.Id, a.Id);
+            }
+
             this.userAnswers[index] = userAnswer;
         };
 
         Runtime.prototype.getAnswer = function (index) {
-            return this.userAnswers[index];
+            return this.userAnswers[index].answerId;
         };
 
         Runtime.prototype.getProgress = function () {
             var qCount = this.quiz.Questions.length;
             var answered = 0;
             for (var i = 0; i < qCount; i++) {
-                if (this.userAnswers[i] !== undefined) {
+                if (this.userAnswers[i].answerId !== undefined) {
                     answered++;
                 }
             }

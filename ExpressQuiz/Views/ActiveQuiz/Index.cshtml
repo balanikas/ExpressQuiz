@@ -39,7 +39,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.ID",
+            url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
             type: "GET",
 
         })
@@ -51,7 +51,7 @@
 
     $("#done").click(function () {
         var result = {};
-        result.QuizId = "@Model.Quiz.ID";
+        result.QuizId = "@Model.Quiz.Id";
         result.Answers = runtime.getResult();
         debugger;
 
@@ -79,14 +79,14 @@
     });
 
 
-    function loadQuestion(question, answer) {
+    function loadQuestion(question, answerId) {
 
   
         $("#qDesc").text(question.Text);
         $("#answers").empty();
 
         for (var i = 0; i < question.Answers.length; i++) {
-            var checked = answer == i ? "checked" : "";
+            var checked = answerId == question.Answers[i].Id ? "checked" : "";
 
             var div = $(" <div class='radio'/>");
             var label = $("<label/>");
@@ -119,8 +119,9 @@
             next: "next",
             prev: "previous",
         }).on("page", function(event, num) {
-            //var a = $('input[name=optionsRadios]:checked', '#answers').val();
-            //runtime.setAnswer(runtime.currentQuestionIndex, a);
+            var a = $('input[name=optionsRadios]:checked', '#answers').val();
+            
+            runtime.setAnswer(runtime.currentQuestionIndex, a);
 
             runtime.setActiveQuestion(num - 1);
             var question = runtime.getActiveQuestion(num - 1);
@@ -148,21 +149,3 @@
 
 
 
-
-<div class="modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <p>One fine body…</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>

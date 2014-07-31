@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ExpressQuiz.Models;
 
 namespace ExpressQuiz.Repos
 {
-    public interface IAnswerRepo : IDisposable
+    interface IRepo<T> :  IDisposable
     {
-        IEnumerable<Answer> GetAll();
-        Answer GetById(int id);
-       
+        T Get(int id);
+        IQueryable<T> GetAll();
+        T Insert(T o);
+        void Update(T o);
         void Save();
+        void Delete(int id);
+       
     }
 }

@@ -4,7 +4,7 @@
 module ExpressQuiz {
 
     export class UserAnswer {
-        constructor(public AnswerId: number, public QuestionId: number) {
+        constructor(public questionId: number, public answerId: number) {
             
         }
     }
@@ -36,7 +36,7 @@ module ExpressQuiz {
             this.userAnswers = [];
             this.currentQuestionIndex = 0;
             for (var i = 0; i < quiz.Questions.length; i++) {
-                this.userAnswers[i] = undefined;
+                this.userAnswers[i] = new UserAnswer(quiz.Questions[i].Id, undefined );
             }
         }
 
@@ -45,11 +45,11 @@ module ExpressQuiz {
         setActiveQuestion(index: number) {
 
             
-            if (this.quiz.Questions[index] === undefined) {
-                throw "index out of range";
-            }
+            //if (this.quiz.Questions[index] === undefined) {
+            //    throw "index out of range";
+            //}
             this.currentQuestionIndex = index;
-            return this.quiz.Questions[index];
+           // return this.quiz.Questions[index];
         }
 
         getActiveQuestion(index: number) {
@@ -58,21 +58,29 @@ module ExpressQuiz {
         }
 
         setAnswer(index: number, answer: number) {
+            
             var q = this.quiz.Questions[index];
-            var a = q.Answers[answer];
-            var userAnswer = new UserAnswer(a.ID, q.ID);
+            var userAnswer;
+            if (answer === undefined) {
+                userAnswer = new UserAnswer(q.Id,undefined);
+            } else {
+                var a = q.Answers[answer];
+                userAnswer = new UserAnswer(q.Id, a.Id);
+            }
+            
             this.userAnswers[index] = userAnswer;
         }
 
         getAnswer(index: number) {
-            return this.userAnswers[index];
+
+            return this.userAnswers[index].answerId;
         }
 
         getProgress(): number {
             var qCount = this.quiz.Questions.length;
             var answered = 0;
             for (var i = 0; i < qCount; i++) {
-                if (this.userAnswers[i] !== undefined) {
+                if (this.userAnswers[i].answerId !== undefined) {
                     answered++;
                 }
             }

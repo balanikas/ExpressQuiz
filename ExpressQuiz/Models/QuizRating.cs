@@ -6,9 +6,9 @@ using System.Web.Script.Serialization;
 
 namespace ExpressQuiz.Models
 {
-    public class QuizRating
+    public class QuizRating : Entity
     {
-        public int Id { get; set; }
+       
 
         public  Quiz Quiz { get; set; }
         public int Rating { get; set; }

@@ -5,7 +5,7 @@
     <br />
 
     <div id="leftSideBar" style="float:left;width:200px; margin:5px">
-        @Html.Partial("_Categories", Model.QuizCategories)
+        @Html.Partial("_QuizCategoriesPartial", Model.QuizCategories)
     </div>
     <div id="content" style="float:left;width:500px;margin:5px">
         <table>
@@ -27,7 +27,7 @@
 
             @foreach (var item in Model.Quizzes)
             {
-                <a href="/Quizzes/Details/@item.ID" class="list-group-item">
+                <a href="/Quizzes/Details/@item.Id" class="list-group-item">
                     <h4 class="list-group-item-heading">@item.Name</h4>
                     <p class="list-group-item-text">@item.Summary</p>
 
@@ -40,6 +40,6 @@
 
     </div>
     <div id="rightSideBar" style="float:left;width:200px;height:200px;margin:5px">
-        @Html.Partial("_TopList", Model.TopQuizzes)
+        @Html.Partial("_TopListPartial", Model.TopQuizzes)
     </div>
 </div>

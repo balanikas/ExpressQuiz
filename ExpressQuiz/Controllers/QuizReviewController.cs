@@ -13,16 +13,19 @@ namespace ExpressQuiz.Controllers
     public class QuizReviewController : Controller
     {
 
-        private readonly IQuizResultRepo _quizResultRepo;
+        private readonly IRepo<QuizResult> _quizResultRepo;
 
-        private readonly IQuestionRepo _questionRepo;
-        private readonly IAnswerRepo _answerRepo;
+        private readonly IRepo<Question> _questionRepo;
+        private readonly IRepo<Answer> _answerRepo;
 
         public QuizReviewController()
         {
-            _quizResultRepo = new QuizResultRepo(new QuizDbContext());
-            _questionRepo = new QuestionRepo(new QuizDbContext());
-            _answerRepo = new AnswerRepo(new QuizDbContext());
+            var ctx = new QuizDbContext();
+
+
+            _quizResultRepo = new Repo<QuizResult>(ctx);
+            _questionRepo = new Repo<Question>(ctx);
+            _answerRepo = new Repo<Answer>(ctx);
         }
         // GET: QuizReview
         public ActionResult Index(int? id)
@@ -32,10 +35,10 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var result = _quizResultRepo.GetById(id.Value);
+            var result = _quizResultRepo.Get(id.Value);
             if (result != null)
             {
-                var vm = new QuizReviewViewModel(result,_answerRepo, _questionRepo);
+                var vm = new QuizReviewViewModel(result);
                 //vm.Score = 56;
                 return View(vm);
             }
@@ -43,14 +46,14 @@ namespace ExpressQuiz.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
         }
 
-        public ActionResult Question(int? questionID, int resultId )
+        public ActionResult Question(int? questionId, int resultId )
         {
-            if (questionID == null)
+            if (questionId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var result = _questionRepo.GetById(questionID.Value);
+            var result = _questionRepo.Get(questionId.Value);
             if (result != null)
             {
                 var vm = new QuestionReviewViewModel(result,resultId);

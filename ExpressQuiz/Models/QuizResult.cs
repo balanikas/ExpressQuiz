@@ -5,10 +5,10 @@ using System.Web;
 
 namespace ExpressQuiz.Models
 {
-    public class QuizResult
+    public class QuizResult : Entity
     {
 
-        public int ID { get; set; }
+   
         public virtual ICollection<UserAnswer> Answers { get; set; }
 
         public int QuizId { get; set; }

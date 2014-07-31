@@ -1,8 +1,8 @@
 ﻿namespace ExpressQuiz.Models
 {
-    public class UserAnswer
+    public class UserAnswer : Entity
     {
-        public int ID { get; set; }
+       
         public int AnswerId { get; set; }
         public int QuestionId { get; set; }
         public int QuizResultId { get; set; }

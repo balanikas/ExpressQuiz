@@ -169,18 +169,14 @@
     <Compile Include="Migrations\201407241856232_initial.Designer.cs">
       <DependentUpon>201407241856232_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\QuizResult.cs" />
     <Compile Include="Models\UserAnswer.cs" />
-    <Compile Include="Repos\AnswerRepo.cs" />
-    <Compile Include="Repos\IAnswerRepo.cs" />
-    <Compile Include="Repos\IQuestionRepo.cs" />
-    <Compile Include="Repos\IQuizCategoryRepo.cs" />
-    <Compile Include="Repos\IQuizRepo.cs" />
-    <Compile Include="Repos\IQuizResultRepo.cs" />
-    <Compile Include="Repos\QuestionRepo.cs" />
-    <Compile Include="Repos\QuizCategoryRepo.cs" />
-    <Compile Include="Repos\QuizRepo.cs" />
-    <Compile Include="Repos\QuizResultRepo.cs" />
+    <Compile Include="Repos\IRepo.cs" />
+    <Compile Include="Repos\Repo.cs" />
+    <Compile Include="ViewModels\CreateQuizViewModel.cs" />
+    <Compile Include="ViewModels\EditQuestionViewModel.cs" />
+    <Compile Include="ViewModels\EditQuizViewModel.cs" />
     <Compile Include="ViewModels\QuestionReviewViewModel.cs" />
     <Compile Include="ViewModels\QuizReviewViewModel.cs" />
     <Compile Include="Controllers\QuizzesController.cs" />
@@ -188,7 +184,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\QuizDbContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -576,7 +572,14 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.custom.min.js" />
     <Content Include="Scripts\jquery.bootpag.min.js" />
+    <Content Include="Scripts\jquery.dataTables.js" />
+    <Content Include="Scripts\jquery.dataTables.rowReordering.js" />
+    <Content Include="Scripts\jquery.sortable.min.js" />
+    <Content Include="Scripts\jquery.tablednd.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -620,12 +623,14 @@
     <Content Include="Views\Quizzes\Details.cshtml" />
     <Content Include="Views\Quizzes\Edit.cshtml" />
     <Content Include="Views\Quizzes\Index.cshtml" />
-    <Content Include="Views\Quizzes\QuizCategories.cshtml" />
     <Content Include="Views\ActiveQuiz\Index.cshtml" />
     <Content Include="Views\QuizReview\Index.cshtml" />
     <Content Include="Views\QuizReview\Question.cshtml" />
-    <Content Include="Views\Quizzes\_TopList.cshtml" />
-    <Content Include="Views\Quizzes\_Categories.cshtml" />
+    <Content Include="Views\Quizzes\_TopListPartial.cshtml" />
+    <Content Include="Views\Quizzes\_QuizCategoriesPartial.cshtml" />
+    <Content Include="Views\Quizzes\_EditQuestionPartial.cshtml" />
+    <Content Include="Views\Quizzes\_EditAnswerPartial.cshtml" />
+    <Content Include="Views\Quizzes\_EditQuizPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -642,6 +647,24 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

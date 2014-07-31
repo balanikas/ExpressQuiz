@@ -2,6 +2,7 @@
 
 <Content>
   <Categories>
+    
     <Category id="0">
       <Name>C#</Name>
     </Category>
@@ -16,32 +17,40 @@
       <Name>quiz</Name>
       <Summary>quiz summary</Summary>
       <Question>
+        <OrderId>1</OrderId>
         <Text>q1</Text>
         <Answer>
+
+
+          <OrderId>1</OrderId>
           <IsCorrect />
           <Text>a1 (correct)</Text>
          <Explanation>.</Explanation>
         </Answer>
         <Answer>
+          <OrderId>2</OrderId>
           <Text>a2</Text>
         <Explanation>.</Explanation>
         </Answer>
       </Question>
 
       <Question>
+        <OrderId>2</OrderId>
         <Text>q2</Text>
         <Answer>
-
+          <OrderId>1</OrderId>
           <Text>a1</Text>
         <Explanation>.</Explanation>
         </Answer>
         <Answer>
+          <OrderId>2</OrderId>
           <IsCorrect />
           <Text>a2(correct)</Text>
         <Explanation>.</Explanation>
         </Answer>
 
         <Answer>
+          <OrderId>3</OrderId>
           <Text>a3</Text>
         <Explanation>.</Explanation>
         </Answer>
@@ -56,6 +65,7 @@
         skills and  prepare for the Oracle Certified Associate - Java Programmer exam.
       </Summary>
       <Question>
+        <OrderId>1</OrderId>
         <Text>
           Given
 
@@ -70,17 +80,19 @@
           What is the result?
         </Text>
         <Answer>
-
+          <OrderId>1</OrderId>
           <Text>123456</Text>
           <Explanation>Wrong answer. The value of 'i' starts with 0.</Explanation>
         </Answer>
         <Answer>
+          <OrderId>2</OrderId>
           <Text>An exception could be thrown at runtime.</Text>
           <Explanation>Wrong answer. There is no way of throwing exceptions (there is no arrayOutOfBoundException). </Explanation>
         </Answer>
 
 
         <Answer>
+          <OrderId>3</OrderId>
           <IsCorrect />
           <Text>654321</Text>
           <Explanation>
@@ -90,41 +102,49 @@
           </Explanation>
         </Answer>
         <Answer>
+          <OrderId>4</OrderId>
           <Text>nothing</Text>
           <Explanation>Wrong answer.</Explanation>
         </Answer>
         <Answer>
+          <OrderId>5</OrderId>
           <Text>65432</Text>
           <Explanation>Wrong answer. The while loop goes through all elements.</Explanation>
         </Answer>
         <Answer>
+          <OrderId>6</OrderId>
           <Text>12345</Text>
           <Explanation>Wrong answer. The while loop goes through all elements.</Explanation>
         </Answer>
       </Question>
 
       <Question>
+        <OrderId>2</OrderId>
         <Text>Choose the three legal identifiers.</Text>
         <Answer>
-
+          <OrderId>1</OrderId>
           <Text>1stName</Text>
           <Explanation>Wrong answer. An identifier cannot start with a number.</Explanation>
         </Answer>
         <Answer>
+          <OrderId>2</OrderId>
           <IsCorrect />
           <Text>_4_</Text>
           <Explanation>Correct! Identifiers can start with a letter, a dollar mark or an underscore. They can be any length.</Explanation>
         </Answer>
 
         <Answer>
+          <OrderId>3</OrderId>
           <Text>@name</Text>
           <Explanation>Wrong answer. An identifier cannot start with @</Explanation>
         </Answer>
         <Answer>
+          <OrderId>4</OrderId>
           <Text>$</Text>
           <Explanation>Correct! Identifiers can start with a letter, a dollar mark or an underscore. They can be any length.</Explanation>
         </Answer>
         <Answer>
+          <OrderId>5</OrderId>
           <Text>getSize</Text>
           <Explanation>Wrong! ............</Explanation>
         </Answer>

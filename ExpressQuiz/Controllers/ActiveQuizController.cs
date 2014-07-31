@@ -12,15 +12,16 @@ namespace ExpressQuiz.Controllers
 {
     public class ActiveQuizController : Controller
     {
-        private readonly IQuizResultRepo _quizQuizResultRepo;
+        private readonly IRepo<QuizResult> _quizQuizResultRepo;
 
-        private readonly IQuizRepo _quizRepo;
+        private readonly IRepo<Quiz> _quizRepo;
 
 
         public ActiveQuizController()
         {
-            _quizQuizResultRepo = new QuizResultRepo(new QuizDbContext());
-            _quizRepo = new QuizRepo(new QuizDbContext());
+            var ctx = new QuizDbContext();
+            _quizQuizResultRepo = new Repo<QuizResult>(ctx);
+            _quizRepo = new Repo<Quiz>(ctx);
         }
         
         // GET: ActiveQuiz
@@ -30,7 +31,7 @@ namespace ExpressQuiz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Quiz quiz = _quizRepo.GetById(id.Value);
+            Quiz quiz = _quizRepo.Get(id.Value);
             if (quiz == null)
             {
                 return HttpNotFound();
@@ -56,7 +57,7 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Quiz quiz = _quizRepo.GetById(id.Value);
+            Quiz quiz = _quizRepo.Get(id.Value);
             if (quiz == null)
             {
                 return HttpNotFound();
@@ -77,7 +78,7 @@ namespace ExpressQuiz.Controllers
             _quizQuizResultRepo.Insert(result);
             _quizQuizResultRepo.Save();
             
-            return Json(result.ID);
+            return Json(result.Id);
           
         }
      

@@ -2,9 +2,9 @@
 
 namespace ExpressQuiz.Models
 {
-    public class QuestionType
+    public class QuestionType : Entity
     {
-        public int Id { get; set; }
+        
         public string Name { get; set; }
 
     }

@@ -1,19 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
 namespace ExpressQuiz.Models
 {
-    public class Answer
+    public class Answer : Entity
     {
-        public int ID { get; set; }
-        public int QuestionID { get; set; }
+ 
+        public int QuestionId { get; set; }
         public virtual Question Question { get; set; }
-      
+
+
+        [Required]
+        public int OrderId { get; set; }
+
+        [Required]
+        [StringLength(500)]
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Answer text")]
         public string Text { get; set; }
 
+        [StringLength(1000)]
+        [DataType(DataType.MultilineText)]
         public string Explanation { get; set; }
 
         public bool IsCorrect { get; set; }

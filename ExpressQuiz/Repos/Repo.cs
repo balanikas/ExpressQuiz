@@ -1,39 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using ExpressQuiz.Models;
 
 namespace ExpressQuiz.Repos
 {
-    class QuizResultRepo : IQuizResultRepo
+    public class Repo<T>: IRepo<T> where T: Entity,new()
     {
         private readonly QuizDbContext _ctx;
         private bool _disposed = false;
 
-        public QuizResultRepo(QuizDbContext ctx)
+        public Repo(QuizDbContext ctx)
         {
             _ctx = ctx;
         }
-
-        public IEnumerable<QuizResult> GetAll()
+        public T Get(int id)
         {
-            return _ctx.QuizResults.ToList();
+            return _ctx.Set<T>().Find(id);
         }
 
-        public QuizResult GetById(int id)
+        public IQueryable<T> GetAll()
         {
-            return _ctx.QuizResults.Find(id);
+            return _ctx.Set<T>();
         }
 
-        public void Insert(QuizResult result)
+        public T Insert(T o)
         {
-            _ctx.QuizResults.Add(result);
+            return _ctx.Set<T>().Add(o);
+        }
+
+        public void Update(T o)
+        {
+            _ctx.Entry(o).State = EntityState.Modified;
         }
 
         public void Save()
         {
             _ctx.SaveChanges();
         }
+
+        public void Delete(int id)
+        {
+            var existing = _ctx.Set<T>().Find(id);
+            _ctx.Set<T>().Remove(existing);
+        }
+
+       
 
         public void Dispose()
         {

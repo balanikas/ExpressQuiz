@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using ExpressQuiz.Models;
+using System.Data.Entity.Migrations;
+using System.Linq;
 
 namespace ExpressQuiz.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ExpressQuiz.Models.QuizDbContext>
+
+
+    internal sealed class Configuration : DbMigrationsConfiguration<QuizDbContext>
     {
         public Configuration()
         {
@@ -17,52 +17,51 @@ namespace ExpressQuiz.Migrations
         }
 
 
-        public static List<Quiz> ParseSeedData()
+        public static List<Quiz> ParseSeedDataFromXml(string uri)
         {
 
-            //if (System.Diagnostics.Debugger.IsAttached == false)
-            //    System.Diagnostics.Debugger.Launch();
-            var xml = System.Xml.Linq.XDocument.Load(
-@"C:\Users\grillo\documents\visual studio 2013\Projects\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xml", LoadOptions.PreserveWhitespace);
+           
+            var xml = XDocument.Load(uri, LoadOptions.PreserveWhitespace);
 
 
 
             var content = xml.Element("Content");
             var catId = 0;
-            var categories = content.Element("Categories").Elements("Category").Select(x => new ExpressQuiz.Models.QuizCategory
+            var categories = content.Element("Categories").Elements("Category").Select(x => new QuizCategory
             {
                 Name = x.Element("Name").Value,
                 Id = catId++
 
             }).ToArray();
 
-            var quizzes = new List<ExpressQuiz.Models.Quiz>();
+            var quizzes = new List<Quiz>();
             foreach (var quiz in content.Element("Quizzes").Elements("Quiz"))
             {
-                var questions = new List<ExpressQuiz.Models.Question>();
+                var questions = new List<Question>();
                 foreach (var q in quiz.Elements("Question"))
                 {
-                    var answers = new List<ExpressQuiz.Models.Answer>();
+                    var answers = new List<Answer>();
                     foreach (var a in q.Elements("Answer"))
                     {
-                        answers.Add(new ExpressQuiz.Models.Answer()
+                        answers.Add(new Answer()
                         {
                             Text = a.Element("Text").Value,
                             IsCorrect = a.Descendants("IsCorrect").Any(),
-                            Explanation = a.Element("Explanation").Value
+                            Explanation = a.Element("Explanation").Value,
+                            OrderId = int.Parse(a.Element("OrderId").Value)
                         });
 
                     }
-                    questions.Add(new ExpressQuiz.Models.Question()
+                    questions.Add(new Question()
                     {
                         Answers = answers,
-                        Text = q.Element("Text").Value
-                        
+                        Text = q.Element("Text").Value,
+                        OrderId = int.Parse(q.Element("OrderId").Value)
 
                     });
                 }
 
-                quizzes.Add(new ExpressQuiz.Models.Quiz()
+                quizzes.Add(new Quiz()
                 {
                     Category = categories.First(x => x.Id == int.Parse((string)quiz.Attribute("category"))),
                     Name = quiz.Element("Name").Value,
@@ -77,18 +76,20 @@ namespace ExpressQuiz.Migrations
 
         }
 
-        protected override void Seed(ExpressQuiz.Models.QuizDbContext context)
+        protected override void Seed(QuizDbContext context)
         {
             
 
             context.UserAnswers.RemoveRange(context.UserAnswers.AsEnumerable());
             context.QuizResults.RemoveRange(context.QuizResults.AsEnumerable());
-            var quizzes = ParseSeedData();
+
+            var uri = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xml";
+            var quizzes = ParseSeedDataFromXml(uri);
 
             context.Quizzes.AddOrUpdate(i => i.Name,
                         quizzes.ToArray()
                    );
-
+           
         }
     }
 }
