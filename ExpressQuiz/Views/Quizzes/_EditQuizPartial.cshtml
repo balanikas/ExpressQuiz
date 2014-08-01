@@ -1,4 +1,5 @@
-﻿@model ExpressQuiz.ViewModels.EditQuizViewModel
+﻿@using System.Data.Entity
+@model ExpressQuiz.ViewModels.EditQuizViewModel
 
 @using (Ajax.BeginForm("Edit", "Quizzes", new AjaxOptions()
 {
@@ -66,7 +67,7 @@
             <tbody>
                 @{
 
-    foreach (var q in Model.Quiz.Questions)
+    foreach (var q in Model.Quiz.Questions.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId))
     {
         <tr id="@q.Id">
             <td>

@@ -45,6 +45,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -169,6 +170,7 @@
     <Compile Include="Migrations\201407241856232_initial.Designer.cs">
       <DependentUpon>201407241856232_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\DataProvider.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\QuizResult.cs" />
     <Compile Include="Models\UserAnswer.cs" />
@@ -202,6 +204,7 @@
     <EmbeddedResource Include="App_Data\seeddata.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="App_Data\out.xml" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -214,6 +217,9 @@
     <EmbeddedResource Include="Migrations\201407241856232_initial.resx">
       <DependentUpon>201407241856232_initial.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App_Data\seeddata.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.af-ZA.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.af.js" />

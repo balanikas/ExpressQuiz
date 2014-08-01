@@ -1,4 +1,5 @@
-﻿@model ExpressQuiz.ViewModels.EditQuestionViewModel
+﻿@using System.Data.Entity
+@model ExpressQuiz.ViewModels.EditQuestionViewModel
 
 @Html.ActionLink("Back to quiz", "Edit", new { id = Model.Question.QuizId })
 
@@ -51,7 +52,7 @@
             <tbody>
                 @{
 
-    foreach (var a in Model.Question.Answers)
+    foreach (var a in Model.Question.Answers.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId))
     {
 
         <tr id="@a.Id">

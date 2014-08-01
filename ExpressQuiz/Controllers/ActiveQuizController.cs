@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -63,6 +64,11 @@ namespace ExpressQuiz.Controllers
                 return HttpNotFound();
             }
 
+            quiz.Questions = quiz.Questions.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId).ToArray();
+            foreach (var question in quiz.Questions)
+            {
+                question.Answers = question.Answers.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId).ToArray();
+            }
 
             JsonNetResult jsonNetResult = new JsonNetResult();
             jsonNetResult.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;

@@ -12,7 +12,8 @@ namespace ExpressQuiz.Models
         public QuizDbContext()
             : base("QuizDbContext")
         {
-           // Database.SetInitializer<QuizDbContext>(new DropCreateDatabaseAlways<QuizDbContext>());
+            //this.Configuration.LazyLoadingEnabled = false;
+            // Database.SetInitializer<QuizDbContext>(new DropCreateDatabaseAlways<QuizDbContext>());
         }
         public DbSet<UserAnswer> UserAnswers { get; set; }
         public DbSet<Answer> Answers { get; set; }
