@@ -34,7 +34,7 @@
                 @Model.Questions.Count
             </dd>
         </dl>
-        <p>@Html.ActionLink("Take", "Index", "ActiveQuiz", new { id = Model.Id }, new { @class = "btn btn-default btn-lg btn-block" })</p>
+        <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Id }, new { @class = "btn btn-success" })</div>
     </div>
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

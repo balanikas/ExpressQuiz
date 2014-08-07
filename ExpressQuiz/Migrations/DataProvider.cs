@@ -22,19 +22,21 @@ namespace ExpressQuiz.Migrations
             var schemas = new XmlSchemaSet();
             schemas.Add("", schemaUri);
 
-            bool errors = false;
+            bool valid = true;
             doc.Validate(schemas, (o, e) =>
             {
-                Console.WriteLine("{0}", e.Message);
-                errors = true;
+                throw new Exception(e.Exception.InnerException.Message);
+
+                valid = false;
             });
 
-            return errors;
+            return valid;
         }
 
         public static List<Quiz> Import(QuizDbContext context, string uri)
         {
 
+          
             var xml = XDocument.Load(uri, LoadOptions.PreserveWhitespace);
             string schemaUri = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xsd";
             if (!ValidateData(xml,schemaUri))
@@ -70,7 +72,8 @@ namespace ExpressQuiz.Migrations
                     {
                         Answers = answers,
                         Text = q.Element("Text").Value,
-                        OrderId = int.Parse(q.Element("OrderId").Value)
+                        OrderId = int.Parse(q.Element("OrderId").Value),
+                        EstimatedTime = int.Parse(q.Element("EstimatedTime").Value)
 
                     });
                 }
@@ -80,8 +83,10 @@ namespace ExpressQuiz.Migrations
                     Category = new QuizCategory() { Name = (string)quiz.Attribute("category") },
                     Name = quiz.Element("Name").Value,
                     Summary = quiz.Element("Summary").Value,
-                    Questions = questions
-
+                    Questions = questions,
+                    Created = DateTime.Now,
+                    IsTimeable = quiz.Descendants("IsTimeable").Any()
+                    
 
                 });
 
@@ -106,13 +111,16 @@ namespace ExpressQuiz.Migrations
                 var quizEl = new XElement("Quiz", new XAttribute("category",quiz.Category.Name));
                 quizEl.Add(new XElement("Name",quiz.Name));
                 quizEl.Add(new XElement("Summary", quiz.Summary));
-
+                if (quiz.IsTimeable)
+                {
+                    quizEl.Add(new XElement("IsTimeable"));
+                }
                 foreach (var q in quiz.Questions.ToList())
                 {
                     var qEl = new XElement("Question");
                     qEl.Add(new XElement("OrderId", q.OrderId));
                     qEl.Add(new XElement("Text", q.Text));
-
+                    qEl.Add(new XElement("EstimatedTime", q.EstimatedTime));
                     foreach (var a in q.Answers.ToList())
                     {
                         var aEl = new XElement("Answer");

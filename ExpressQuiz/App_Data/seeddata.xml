@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Content>
-  <Categories>
+  <!--<Categories>
     
     <Category id="0">
       <Name>C#</Name>
@@ -9,18 +9,20 @@
     <Category id="1">
       <Name>Java</Name>
     </Category>
-  </Categories>
+  </Categories>-->
 
 
   <Quizzes>
-    <Quiz category="0">
+    <Quiz category="C#">
       <Name>quiz</Name>
       <Summary>quiz summary</Summary>
+      <IsTimeable/>
       <Question>
         <OrderId>1</OrderId>
         <Text>q1</Text>
+        <EstimatedTime>10</EstimatedTime>
         <Answer>
-
+          
 
           <OrderId>1</OrderId>
           <IsCorrect />
@@ -37,6 +39,7 @@
       <Question>
         <OrderId>2</OrderId>
         <Text>q2</Text>
+        <EstimatedTime>10</EstimatedTime>
         <Answer>
           <OrderId>1</OrderId>
           <Text>a1</Text>
@@ -58,12 +61,13 @@
 
     </Quiz>
 
-    <Quiz category="1">
+    <Quiz category="Java">
       <Name>ORACLE JAVA QUIZ 1</Name>
       <Summary>
         This practice test contains 15 java questions with answer explanations to help you test your Java
         skills and  prepare for the Oracle Certified Associate - Java Programmer exam.
       </Summary>
+      <IsTimeable/>
       <Question>
         <OrderId>1</OrderId>
         <Text>
@@ -79,6 +83,7 @@
 
           What is the result?
         </Text>
+        <EstimatedTime>1</EstimatedTime>
         <Answer>
           <OrderId>1</OrderId>
           <Text>123456</Text>
@@ -121,6 +126,7 @@
       <Question>
         <OrderId>2</OrderId>
         <Text>Choose the three legal identifiers.</Text>
+        <EstimatedTime>1</EstimatedTime>
         <Answer>
           <OrderId>1</OrderId>
           <Text>1stName</Text>

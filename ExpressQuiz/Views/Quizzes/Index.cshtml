@@ -1,45 +1,65 @@
 ﻿@model ExpressQuiz.ViewModels.QuizzesViewModel
-
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 <div style="min-width: 1000px">
 
     <br />
 
-    <div id="leftSideBar" style="float:left;width:200px; margin:5px">
+    <div id="leftSideBar" style="float:left;width:15%; margin:5px">
         @Html.Partial("_QuizCategoriesPartial", Model.QuizCategories)
     </div>
-    <div id="content" style="float:left;width:500px;margin:5px">
-        <table>
-            <tr>
-                @using (Html.BeginForm("Index", "Quizzes", FormMethod.Get))
-                {
-                    <td>
-                        @Html.TextBox("SearchString", null, new { @class = "form-control" })
-                    </td>
-                    <td>
-                        <input type="submit" value="Search" class="btn btn-info" />
-                    </td>
-                }
-            </tr>
-        </table>
-        @Html.ActionLink("Create New", "Create")
+    <div id="content" style="float:left;width:60%;margin:5px">
 
-        <div class="list-group">
+        @using (Ajax.BeginForm("GetQuizzes", "Quizzes", new AjaxOptions()
+        {
+            UpdateTargetId = "quizList",
+            HttpMethod = "Post",
+            InsertionMode = InsertionMode.Replace
+        }))
+        {
+            @Html.TextBox("searchTerm", null, new { @class = "form-control" , placeholder="search here" })
+             <br />
+            <div class="form-group">
+                @Html.EnumDropDownListFor(m => m.Filter, htmlAttributes: new { @class = "form-control input-sm col-md-2", id = "filterList" })
+                <div class="col-md-2">
+                    <input type="submit" value="Sort" class="btn btn-primary btn-sm" />
+                </div>
+            </div>
 
-            @foreach (var item in Model.Quizzes)
-            {
-                <a href="/Quizzes/Details/@item.Id" class="list-group-item">
-                    <h4 class="list-group-item-heading">@item.Name</h4>
-                    <p class="list-group-item-text">@item.Summary</p>
+          <br />
+        }
 
+        <br/>
+            @Html.ActionLink("Create New", "Create", "Quizzes", htmlAttributes: new { @class = "btn btn-default btn-sm btn-block" })
+     
+          
 
-                </a>
-            }
+            <div id="quizList" class="list-group">
+                @Html.Partial("_QuizListPartial", Model.Quizzes)
 
+            </div>
 
         </div>
-
-    </div>
-    <div id="rightSideBar" style="float:left;width:200px;height:200px;margin:5px">
+    <div id="rightSideBar" style="float:left;width:15%;height:200px;margin:5px">
         @Html.Partial("_TopListPartial", Model.TopQuizzes)
     </div>
 </div>
+
+<script>
+    //$(document).ready(function () {
+    //    $("#filterList").change(function () {
+    //        this.form.submit();
+    //    });
+
+    //    $('#filterList').change(function () {
+    //        $.ajax(
+    //            {
+    //                type: "POST",
+    //                url: "Quizzes/GetQuizzes",
+    //                data: {
+    //                    Value: $(this).val(),
+    //                    Id: $(this).attr('data-Id'),
+    //                }
+    //            });
+    //    });
+    //});
+</script>

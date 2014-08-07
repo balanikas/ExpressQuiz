@@ -11,6 +11,7 @@ namespace ExpressQuiz.ViewModels
     {
         public Quiz Quiz { get; set; }
         public int SelectedCategory { get; set; }
-        public IEnumerable<SelectListItem> Categories { get; set; } 
+        public IEnumerable<SelectListItem> Categories { get; set; }
+        public string NewCategory { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -22,6 +23,9 @@ namespace ExpressQuiz.Models
         [Required]
         public int OrderId { get; set; }
 
+        //[Range(typeof(int),"1", "600")]
+        [Column(TypeName = "int")]
+        public int EstimatedTime { get; set; }
 
         public int QuizId { get; set; }
         public virtual Quiz Quiz { get; set; }

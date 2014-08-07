@@ -26,12 +26,12 @@
         <p>
             <div id="answers" class="col-lg-10">
                 @{
-                    for (int i = 0; i < Model.Question.Answers.Count; i++)
+                    foreach(var a in Model.Question.Answers)
                     {
                         <div class="radio" >
                             <label>
                                 @{
-                                    if (Model.Question.Answers[i].IsCorrect)
+                                    if (a.IsCorrect)
                                     {
                                         <input type="radio" checked name="optionsRadios" disabled />
                                     }
@@ -40,11 +40,11 @@
                                         <input type="radio" name="optionsRadios" disabled />
                                     }
                                 }
-                                @Model.Question.Answers[i].Text
+                                @a.Text
                             </label>
                         </div>
                         <div style="color: green">
-                            @Model.Question.Answers[i].Explanation
+                            @a.Explanation
                         </div>
                     }
                 }

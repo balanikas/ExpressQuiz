@@ -11,6 +11,7 @@ namespace ExpressQuiz.ViewModels
     public class ActiveQuizViewModel
     {
         public Quiz Quiz { get; set; }
+        public int EstimatedTime { get; set; }
 
     }
 }

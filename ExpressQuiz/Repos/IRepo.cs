@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExpressQuiz.Repos
 {
-    interface IRepo<T> :  IDisposable
+    public interface IRepo<T> :  IDisposable
     {
         T Get(int id);
         IQueryable<T> GetAll();

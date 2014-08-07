@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
@@ -20,6 +21,13 @@ namespace ExpressQuiz.Models
         [DataType(DataType.MultilineText)]
         [StringLength(1000)]
         public string Summary { get; set; }
+
+
+        public bool IsTimeable { get; set; }
+
+        //[DataType(DataType.DateTime)]
+        [Column(TypeName = "DateTime2")]
+        public DateTime Created { get; set; }
 
         public int QuizCategoryId { get; set; }
         public virtual QuizCategory Category { get; set; }

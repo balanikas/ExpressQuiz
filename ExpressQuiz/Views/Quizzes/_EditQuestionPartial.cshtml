@@ -26,7 +26,21 @@
 
 
         <div class="form-group">
-            <div class="col-md-offset-1 col-md-1">
+            @if (Model.Question.Quiz.IsTimeable)
+            {
+                @Html.LabelFor(model => model.Question.EstimatedTime, htmlAttributes: new { @class = "control-label col-md-2" });
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.Question.EstimatedTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Question.EstimatedTime, "", new { @class = "text-danger" })
+                </div>
+
+            }
+
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-11 col-md-1">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
@@ -38,9 +52,9 @@
                                         HttpMethod = "Get",
                                         UpdateTargetId = "content"
 
-                                    })
+                                    }, htmlAttributes: new { @class = "btn btn-default btn-block" })
 
-    
+
         <table id="answersTbl" class="table table-striped table-hover table-bordered">
             <thead>
                 <tr>
@@ -101,7 +115,7 @@
 <script>
     $(function () {
 
-        
+
         $("#answersTbl").tableDnD({
             onDrop: function (table, row) {
                 var rows = table.tBodies[0].rows;

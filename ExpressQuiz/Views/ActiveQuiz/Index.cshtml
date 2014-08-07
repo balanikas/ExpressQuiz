@@ -6,19 +6,29 @@
 
 <script src="~/Scripts/jquery.bootpag.min.js"></script>
 <script src="~/Scripts/expressquiz/main.js"></script>
-<br />
-<div class="btn-group btn-group-justified">
+<script src="~/Scripts/expressquiz/countdown.js"></script>
 
 
-    <a id="done" class="btn btn-default" href="#">Done</a>
-</div>
+
+
 
 
 <div>
+    <br />
+
+    <div class="text-center" >
+
+        <button id="done" type="button" class="btn btn-default">Finish</button>
+        <h4 id="pTimeLeft">
+        </h4>
     
-    <div class="progress">
-        <div class="progress-bar" style="width: 0%;"></div>
+
     </div>
+    <br />
+    <div class="progress">
+        <div id="prgCompleted" class="progress-bar" style="width: 0%;"></div>
+    </div>
+
     <div id="page-selection"></div>
     <div id="content">
 
@@ -36,116 +46,127 @@
     <br />
 
     <script>
-    $(document).ready(function () {
 
-        $.ajax({
-            url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
-            type: "GET",
-
-        })
-        .done(function (results) {
-            load(results);
-        });
-
-    });
-
-    $("#done").click(function () {
-        var result = {};
-        result.QuizId = "@Model.Quiz.Id";
-        result.Answers = runtime.getResult();
-        debugger;
-
-        $.ajax({
-            url: '/ActiveQuiz/PostResult/',
-            async: false,
-            type: "POST",
-            data: JSON.stringify(result),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR + "-" + textStatus + "-" + errorThrown);
+        var counter = new ExpressQuiz.CountDown({
+            seconds: "@Model.EstimatedTime",
+            onUpdateStatus: function(sec) {
+                $("#pTimeLeft").text("Time left: " + sec);
             },
-            success: function(data, textStatus, jqXHR) {
-                var url = '/QuizReview/Index/' + data;
-                window.location.href = url;
+            onCounterEnd: function() {
+                alert("times up");
+                sendResults();
             }
+        });
+
+        $(document).ready(function () {
+
+            $.ajax({
+                url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
+                type: "GET",
+
+            })
+                .done(function (results) {
+                    load(results);
+                });
+
+
+            $("#pTimeLeft").text("Time left: " + @Model.EstimatedTime);
+            counter.start();
+        });
+
+
+
+        $("#done").click(function () {
+            sendResults();
 
         });
 
-        @*$.post("/ActiveQuiz/PostResult/", JSON.stringify(result), function (data) {
-            var url = '@Url.Action("Summary", "ActiveQuiz")' + "/" + data;
-            window.location.href = url;
-        });*@
-    });
+        function sendResults() {
+            var result = {};
+            result.QuizId = "@Model.Quiz.Id";
+            result.Answers = runtime.getResult();
+            result.EllapsedTime = counter.getRemainingTime();
 
+            $.ajax({
+                url: '/ActiveQuiz/PostResult/',
+                async: false,
+                type: "POST",
+                data: JSON.stringify(result),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR + "-" + textStatus + "-" + errorThrown);
+                },
+                success: function (data, textStatus, jqXHR) {
+                    var url = '/QuizReview/Index/' + data;
+                    window.location.href = url;
+                }
 
-    function loadQuestion(question, answerId) {
-
-  
-        $("#qDesc").text(question.Text);
-        $("#answers").empty();
-
-        for (var i = 0; i < question.Answers.length; i++) {
-            var checked = answerId == question.Answers[i].Id ? "checked" : "";
-
-            var div = $(" <div class='radio'/>");
-            var label = $("<label/>");
-            var input = $("<input type='radio' " + checked + " name='optionsRadios' id=" + i + " value=" + i + ">");
-
-
-            label.append(input);
-            label.append(question.Answers[i].Text);
-            div.append(label);
-            $("#answers").append(div);
+            });
         }
 
-        $('input[type=radio][name=optionsRadios]').on('change', function() {
-            var a = $('input[name=optionsRadios]:checked', '#answers').val();
-            runtime.setAnswer(runtime.currentQuestionIndex, a);
-            updateProgress();
-        });
-    }
-
-    var runtime = undefined;
-
-    function load(quiz) {
-
-        runtime = new ExpressQuiz.Runtime(quiz);
-
-        $('#page-selection').bootpag({
-            total: runtime.quiz.Questions.length,
-            page: 1,
-            maxVisible: 5,
-            next: "next",
-            prev: "previous",
-        }).on("page", function(event, num) {
-            var a = $('input[name=optionsRadios]:checked', '#answers').val();
-            
-            runtime.setAnswer(runtime.currentQuestionIndex, a);
-
-            runtime.setActiveQuestion(num - 1);
-            var question = runtime.getActiveQuestion(num - 1);
-            loadQuestion(question, runtime.getAnswer(runtime.currentQuestionIndex));
-
-        });
-
-        loadQuestion(quiz.Questions[0]);
-
-    }
+        function loadQuestion(question, answerId) {
 
 
-    function updateProgress() {
-        var value = runtime.getProgress();
-        $('.progress-bar').css('width', value + '%').attr('aria-valuenow', value);
-    }
+            $("#qDesc").text(question.Text);
+            $("#answers").empty();
+
+            for (var i = 0; i < question.Answers.length; i++) {
+                var checked = answerId == question.Answers[i].Id ? "checked" : "";
+
+                var div = $(" <div class='radio'/>");
+                var label = $("<label/>");
+                var input = $("<input type='radio' " + checked + " name='optionsRadios' id=" + i + " value=" + i + ">");
+
+
+                label.append(input);
+                label.append(question.Answers[i].Text);
+                div.append(label);
+                $("#answers").append(div);
+            }
+
+            $('input[type=radio][name=optionsRadios]').on('change', function() {
+                var a = $('input[name=optionsRadios]:checked', '#answers').val();
+                runtime.setAnswer(runtime.currentQuestionIndex, a);
+                updateProgress();
+            });
+        }
+
+        var runtime = undefined;
+
+        function load(quiz) {
+
+            runtime = new ExpressQuiz.Runtime(quiz);
+
+            $('#page-selection').bootpag({
+                total: runtime.quiz.Questions.length,
+                page: 1,
+                maxVisible: 5,
+                next: "next",
+                prev: "previous",
+            }).on("page", function(event, num) {
+                var a = $('input[name=optionsRadios]:checked', '#answers').val();
+
+                runtime.setAnswer(runtime.currentQuestionIndex, a);
+
+                runtime.setActiveQuestion(num - 1);
+                var question = runtime.getActiveQuestion(num - 1);
+                loadQuestion(question, runtime.getAnswer(runtime.currentQuestionIndex));
+
+            });
+
+            loadQuestion(quiz.Questions[0]);
+
+        }
+
+
+        function updateProgress() {
+            var value = runtime.getProgress();
+            $('.progress-bar').css('width', value + '%').attr('aria-valuenow', value);
+        }
 
 
     </script>
 
 
 </div>
-
-
-
-
-

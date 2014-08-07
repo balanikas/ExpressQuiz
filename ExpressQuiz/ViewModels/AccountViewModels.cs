@@ -8,6 +8,9 @@ namespace ExpressQuiz.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        public string NickName { get; set; }
     }
 
     public class ExternalLoginListViewModel

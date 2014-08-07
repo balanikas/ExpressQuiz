@@ -13,16 +13,18 @@ namespace ExpressQuiz.Controllers
 {
     public class ActiveQuizController : Controller
     {
-        private readonly IRepo<QuizResult> _quizQuizResultRepo;
+        private readonly IRepo<QuizResult> _quizResultRepo;
 
         private readonly IRepo<Quiz> _quizRepo;
+        private readonly IRepo<Answer> _answerRepo;
 
 
         public ActiveQuizController()
         {
             var ctx = new QuizDbContext();
-            _quizQuizResultRepo = new Repo<QuizResult>(ctx);
+            _quizResultRepo = new Repo<QuizResult>(ctx);
             _quizRepo = new Repo<Quiz>(ctx);
+            _answerRepo = new Repo<Answer>(ctx);
         }
         
         // GET: ActiveQuiz
@@ -39,7 +41,7 @@ namespace ExpressQuiz.Controllers
             }
             var vm = new ActiveQuizViewModel();
             vm.Quiz = quiz;
-
+            vm.EstimatedTime = quiz.Questions.Sum(x => x.EstimatedTime);
             return View(vm);
 
         }
@@ -81,11 +83,28 @@ namespace ExpressQuiz.Controllers
         [HttpPost]
         public JsonResult PostResult(QuizResult result)
         {
-            _quizQuizResultRepo.Insert(result);
-            _quizQuizResultRepo.Save();
+            result.Score = CalculateScore(result);
+            _quizResultRepo.Insert(result);
+            _quizResultRepo.Save();
             
             return Json(result.Id);
           
+        }
+
+        private int CalculateScore(QuizResult result)
+        {
+
+            int count = 0;
+            foreach (var userAnswer in result.Answers)
+            {
+                var correctAnswer = _answerRepo.GetAll().FirstOrDefault(x => x.Id == userAnswer.AnswerId);
+                if (correctAnswer != null && correctAnswer.IsCorrect)
+                {
+                    count++;
+                }
+
+            }
+            return (int) (((double) count/(double) result.Answers.Count)*100);
         }
      
     }

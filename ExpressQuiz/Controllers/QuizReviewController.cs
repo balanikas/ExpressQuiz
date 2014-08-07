@@ -17,6 +17,7 @@ namespace ExpressQuiz.Controllers
 
         private readonly IRepo<Question> _questionRepo;
         private readonly IRepo<Answer> _answerRepo;
+        private readonly IRepo<QuizRating> _quizRatingRepo;
 
         public QuizReviewController()
         {
@@ -26,6 +27,7 @@ namespace ExpressQuiz.Controllers
             _quizResultRepo = new Repo<QuizResult>(ctx);
             _questionRepo = new Repo<Question>(ctx);
             _answerRepo = new Repo<Answer>(ctx);
+            _quizRatingRepo = new Repo<QuizRating>(ctx);
         }
         // GET: QuizReview
         public ActionResult Index(int? id)
@@ -38,12 +40,45 @@ namespace ExpressQuiz.Controllers
             var result = _quizResultRepo.Get(id.Value);
             if (result != null)
             {
-                var vm = new QuizReviewViewModel(result);
-                //vm.Score = 56;
+
+                var vm = new QuizReviewViewModel();
+                vm.Items = GetQuestionDetails(result);
+                vm.Result = result;
+                vm.QuizId = result.QuizId;
                 return View(vm);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+        }
+
+        public List<QuizReviewItem> GetQuestionDetails(QuizResult result)
+        {
+
+
+            var qDetails = new List<QuizReviewItem>();
+            foreach (var userAnswer in result.Answers)
+            {
+                var answer = _answerRepo.GetAll().FirstOrDefault(x => x.Id == userAnswer.AnswerId);
+                var isAnswerCorrect = answer != null ? answer.IsCorrect : false;
+                var questionText = _questionRepo.GetAll().First(x => x.Id == userAnswer.QuestionId).Text;
+
+                qDetails.Add(new QuizReviewItem(isAnswerCorrect, questionText, userAnswer.QuestionId));
+
+
+            }
+
+            return qDetails;
+        }
+
+        [HttpPost]
+        public ActionResult Index(QuizReviewViewModel model)
+        {
+            var quizRating = new QuizRating();
+            quizRating.Rating = model.Rating;
+            quizRating.QuizId = model.QuizId;
+            _quizRatingRepo.Insert(quizRating);
+            _quizRatingRepo.Save();
+            return RedirectToAction("Index", "Quizzes");
         }
 
         public ActionResult Question(int? questionId, int resultId )

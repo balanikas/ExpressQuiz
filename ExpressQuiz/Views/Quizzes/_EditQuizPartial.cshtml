@@ -20,9 +20,20 @@
         
         <div class="form-group">
             @Html.LabelFor(m => m.SelectedCategory, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownListFor(m => m.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
-        </div>
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
+            </div>
 
+        </div>
+        
+        <div class="form-group">
+            @Html.Label("New category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NewCategory, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+        </div>
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.Quiz.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -40,20 +51,30 @@
                 @Html.ValidationMessageFor(model => model.Quiz.Summary, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quiz.IsTimeable, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Quiz.IsTimeable, new { htmlAttributes = new { @class = "form-control checkbox" } })
+                </div>
+              
+            </div>
+        </div>
 
         <div class="form-group">
-            <div class="col-md-offset-1 col-md-1">
+            <div class="col-md-offset-11 col-md-1">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
         <hr />
-        @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes", new { id = Model.Quiz.Id, orderId = Model.Quiz.Questions.Count }, new AjaxOptions()
+        @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes" ,new { id = Model.Quiz.Id, orderId = Model.Quiz.Questions.Count }, new AjaxOptions()
                                     {
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",
                                         UpdateTargetId = "content"
 
-                                    })
+                                    }, htmlAttributes: new { @class = "btn btn-default btn-block" } )
 
 
         <table id="questionsTbl" class="table table-striped table-hover table-bordered">

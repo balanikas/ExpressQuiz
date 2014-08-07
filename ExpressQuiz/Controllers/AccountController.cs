@@ -407,7 +407,9 @@ namespace ExpressQuiz.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser() {
+                    UserName = model.NickName,
+                    Email = model.Email};
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -420,7 +422,7 @@ namespace ExpressQuiz.Controllers
                         // Send an email with this link
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // SendEmail(user.Email, callbackUrl, "Confirm your account", "Please confirm your account by clicking this link");
+                        // SendEmail(user.UserName, callbackUrl, "Confirm your account", "Please confirm your account by clicking this link");
                         
                         return RedirectToLocal(returnUrl);
                     }

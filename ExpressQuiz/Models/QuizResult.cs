@@ -13,7 +13,8 @@ namespace ExpressQuiz.Models
 
         public int QuizId { get; set; }
         public virtual Quiz Quiz { get; set; }
-
+        public int EllapsedTime { get; set; }
+        public int Score { get; set; }
         //public QuizResult()
         //{
         //    Answers = new List<UserAnswer>();
