@@ -20,6 +20,9 @@ namespace ExpressQuiz.Migrations
             context.QuizResults.RemoveRange(context.QuizResults.AsEnumerable());
             context.QuizCategories.RemoveRange(context.QuizCategories.AsEnumerable());
 
+            context.SaveChanges();
+
+
             var uri = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xml";
             var quizzes = DataProvider.Import(context, uri);
 

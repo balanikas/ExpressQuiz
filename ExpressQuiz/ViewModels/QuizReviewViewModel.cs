@@ -15,7 +15,8 @@ namespace ExpressQuiz.ViewModels
     {
 
         public List<QuizReviewItem> Items { get; set; }
-      
+
+        public int Level { get; set; }
         public int Rating { get; set; }
         public QuizResult Result { get;  set; }
         public int QuizId { get; set; }

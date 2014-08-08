@@ -10,6 +10,7 @@ namespace ExpressQuiz.Models
         
         Rating = 1,
         Newest,
+        Level
 
     }
 }

@@ -9,7 +9,7 @@ namespace ExpressQuiz.Repos
 {
     public static class RepoExtensions
     {
-        public static IEnumerable<Quiz> GetTopList(this IRepo<Quiz> repo, IRepo<QuizRating> quizRatingRepo,  int? count)
+        public static IEnumerable<Quiz> GetTopListByRating(this IRepo<Quiz> repo, IRepo<QuizRating> quizRatingRepo,  int? count)
         {
             var avgRatings = quizRatingRepo.GetAll().GroupBy(x => x.QuizId).Select(
                group => new
@@ -40,18 +40,51 @@ namespace ExpressQuiz.Repos
             }
         }
 
+        public static IEnumerable<Quiz> GetTopListByLevel(this IRepo<Quiz> repo, IRepo<QuizRating> quizRatingRepo, int? count)
+        {
+            var avgLevels = quizRatingRepo.GetAll().GroupBy(x => x.QuizId).Select(
+               group => new
+               {
+                   QuizId = group.Key,
+                   Level = group.Select(x => x.Level).Average()
+               }
+
+               );
+
+            var topList = from x in avgLevels
+                          join y in repo.GetAll() on x.QuizId equals y.Id
+                          orderby x.Level descending
+                          select y;
+
+            if (!topList.Any())
+            {
+                return repo.GetAll().OrderByDescending(x => x.Created);
+            }
+
+            if (count.HasValue)
+            {
+                return topList.Take(count.Value);
+            }
+            else
+            {
+                return topList;
+            }
+        }
+
         public static IEnumerable<Quiz> AsOrdered(this IRepo<Quiz> repo, IRepo<QuizRating> quizRatingRepo, QuizFilter filter)
         {
-
-
 
             switch (filter)
             {
                 case QuizFilter.Rating:
-                    return repo.GetTopList(quizRatingRepo, null);
+                    return repo.GetTopListByRating(quizRatingRepo, null);
                     break;
                 case QuizFilter.Newest:
                     return repo.GetAll().OrderByDescending(x => x.Created);
+                    break;
+
+                case QuizFilter.Level:
+                    return repo.GetTopListByLevel(quizRatingRepo, null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

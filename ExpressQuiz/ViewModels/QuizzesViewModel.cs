@@ -9,7 +9,7 @@ namespace ExpressQuiz.ViewModels
 {
     public class QuizzesViewModel
     {
-        public List<QuizCategory> QuizCategories { get; set; }
+        public List<QuizCategoryViewModel> QuizCategories { get; set; }
 
         public List<TopListItem> TopQuizzes { get; set; } 
 

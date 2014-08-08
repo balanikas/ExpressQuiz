@@ -10,8 +10,9 @@ namespace ExpressQuiz.Models
 {
     public class Quiz : Entity
     {
-       
 
+        //[Required]
+        //public string CreatorId { get; set; }
 
         [Required]
         [StringLength(100)]

@@ -179,6 +179,7 @@
     <Compile Include="ViewModels\EditQuestionViewModel.cs" />
     <Compile Include="ViewModels\EditQuizViewModel.cs" />
     <Compile Include="ViewModels\QuestionReviewViewModel.cs" />
+    <Compile Include="ViewModels\QuizCategoriesViewModel.cs" />
     <Compile Include="ViewModels\QuizReviewItem.cs" />
     <Compile Include="ViewModels\QuizReviewViewModel.cs" />
     <Compile Include="Controllers\QuizzesController.cs" />
@@ -592,6 +593,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\starrating\loading.gif" />
+    <Content Include="Scripts\starrating\star-rating.min.css" />
+    <Content Include="Scripts\starrating\star-rating.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

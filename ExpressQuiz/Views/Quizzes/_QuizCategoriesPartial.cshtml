@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ExpressQuiz.Models.QuizCategory>
+﻿@model IEnumerable<ExpressQuiz.ViewModels.QuizCategoryViewModel>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -7,7 +7,13 @@
     <div class="list-group">
         @foreach (var category in Model)
         {
-            @Html.ActionLink(@category.Name, "Index", new { catId = category.Id }, new { @class = "list-group-item" })
+          
+            <a class="list-group-item @(category.IsSelected? "active": "") " href="/Quizzes?catId=@category.Id">
+                @category.Name
+                <span class="badge">@category.QuizCount</span>
+            </a>
+          
+
         }
     </div>
 </div>

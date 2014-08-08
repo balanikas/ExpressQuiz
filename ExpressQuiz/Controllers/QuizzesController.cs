@@ -67,6 +67,28 @@ namespace ExpressQuiz.Controllers
             var quizzes = from m in _quizRepo.GetAll()
                 select m;
 
+          
+            
+            var vm = new QuizzesViewModel();
+
+            vm.QuizCategories = (from c in _quizCategoryRepo.GetAll()
+                orderby c.Name
+                select new QuizCategoryViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    IsSelected = c.Id == catId.Value,
+                    QuizCount = quizzes.Count(x => x.Category.Id == c.Id)
+                }).ToList();
+           
+            vm.QuizCategories.Insert(0,new QuizCategoryViewModel()
+            {
+                Id = -1,
+                Name = "All",
+                IsSelected = catId.HasValue ? (-1 == catId.Value) : true,
+                QuizCount = quizzes.Count()
+            });
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 quizzes = quizzes.Where(s => s.Name.Contains(searchString));
@@ -76,15 +98,12 @@ namespace ExpressQuiz.Controllers
             {
                 quizzes = quizzes.Where(x => x.Category.Id == catId);
             }
-            
-            
-            var vm = new QuizzesViewModel();
-            vm.QuizCategories = (from c in _quizCategoryRepo.GetAll() orderby c.Name select c).ToList();
-            vm.QuizCategories.Insert(0,new QuizCategory(){Id = -1, Name ="All"});
+
+
             vm.Quizzes = quizzes.OrderByDescending(x=>x.Created).ToList();
 
             vm.Filter = QuizFilter.Newest;
-            vm.TopQuizzes = _quizRepo.GetTopList(_quizRatingRepo, 10).Select(x => new TopListItem()
+            vm.TopQuizzes = _quizRepo.GetTopListByRating(_quizRatingRepo, 10).Select(x => new TopListItem()
             {
                 Id = x.Id,
                 Name = x.Name

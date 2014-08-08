@@ -16,5 +16,9 @@ namespace ExpressQuiz.Models
         [Required]
         [Range(0,100)]
         public int Rating { get; set; }
+
+        [Required]
+        [Range(0, 100)]
+        public int Level { get; set; }
     }
 }

@@ -75,6 +75,7 @@ namespace ExpressQuiz.Controllers
         {
             var quizRating = new QuizRating();
             quizRating.Rating = model.Rating;
+            quizRating.Level = model.Level;
             quizRating.QuizId = model.QuizId;
             _quizRatingRepo.Insert(quizRating);
             _quizRatingRepo.Save();
