@@ -16,6 +16,7 @@
             InsertionMode = InsertionMode.Replace
         }))
         {
+            @Html.HiddenFor(m=>m.SelectedCategory)
             @Html.TextBox("searchTerm", null, new { @class = "form-control" , placeholder="search here" })
              <br />
             <div class="form-group">

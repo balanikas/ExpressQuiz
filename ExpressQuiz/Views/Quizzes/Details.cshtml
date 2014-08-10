@@ -1,44 +1,76 @@
-﻿@model ExpressQuiz.Models.Quiz
+﻿@model ExpressQuiz.ViewModels.QuizDetailsViewModel
 
 @{
     <h2>
-        @Model.Name  (@Model.Questions.Count questions)</h2>
+        @Model.Quiz.Name  (@Model.Quiz.Questions.Count questions)</h2>
     }
     <div>
       
         <hr />
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Quiz.Name)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Name)
+                @Html.DisplayFor(model => model.Quiz.Name)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Summary)
+                @Html.DisplayNameFor(model => model.Quiz.Summary)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Summary)
+                @Html.DisplayFor(model => model.Quiz.Summary)
             </dd>
 
             <dt>
                 Questions
             </dt>
             <dd>
-                @*@foreach (var q in Model.Questions)
-                {
-                    @q.Text <br />
-                }*@
-                @Model.Questions.Count
+               
+                @Model.Quiz.Questions.Count
             </dd>
-        </dl>
-        <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Id }, new { @class = "btn btn-success" })</div>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.AvgLevel)
+            </dt>
+            <dd>
+               @Html.DisplayFor(model => model.AvgLevel)
+            </dd>
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.AvgRating)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AvgRating)
+            </dd>
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.AvgScore)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AvgScore)
+            </dd>
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.AvgTime)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AvgTime)
+            </dd>
 
-    </p>
+        </dl>
+        <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Quiz.Id }, new { @class = "btn btn-success" })</div>
+    </div>
+<div>
+    @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name) 
+    {
+        <div>@Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.Id })</div>
+
+       
+        <div> @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.Id })</div>
+    }
+    
+   
+
+</div>

@@ -17,6 +17,9 @@
       <Name>quiz</Name>
       <Summary>quiz summary</Summary>
       <IsTimeable/>
+      <CreatedBy>
+        kris
+      </CreatedBy>
       <Question>
         <OrderId>1</OrderId>
         <Text>q1</Text>
@@ -68,6 +71,9 @@
         skills and  prepare for the Oracle Certified Associate - Java Programmer exam.
       </Summary>
       <IsTimeable/>
+       <CreatedBy>
+        kris
+      </CreatedBy>
       <Question>
         <OrderId>1</OrderId>
         <Text>

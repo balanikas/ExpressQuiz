@@ -30,6 +30,12 @@ namespace ExpressQuiz.Models
         [Column(TypeName = "DateTime2")]
         public DateTime Created { get; set; }
 
+        [Required]
+        public string CreatedBy { get; set; }
+
+        
+        public bool Locked { get; set; }
+
         public int QuizCategoryId { get; set; }
         public virtual QuizCategory Category { get; set; }
         public virtual ICollection<Question> Questions { get; set; }

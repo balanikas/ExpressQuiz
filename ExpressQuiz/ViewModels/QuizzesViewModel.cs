@@ -18,6 +18,8 @@ namespace ExpressQuiz.ViewModels
         public int SelectedFilter { get; set; }
         public IEnumerable<SelectListItem> Filters { get; set; }
         public QuizFilter Filter { get; set; }
+
+        public int SelectedCategory { get; set; }
         
     }
 }

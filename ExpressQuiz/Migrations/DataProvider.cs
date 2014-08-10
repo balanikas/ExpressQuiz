@@ -38,14 +38,16 @@ namespace ExpressQuiz.Migrations
 
           
             var xml = XDocument.Load(uri, LoadOptions.PreserveWhitespace);
-            string schemaUri = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xsd";
-            if (!ValidateData(xml,schemaUri))
-            {
-                if (!Debugger.IsAttached)
-                {
-                    Debugger.Launch();
-                }
-            }
+            //string schemaUri = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xsd";
+            //if (!ValidateData(xml,schemaUri))
+            //{
+            //    if (!Debugger.IsAttached)
+            //    {
+            //        Debugger.Launch();
+            //    }
+            //}
+
+            char[] charsToTrim = { '\r', ' ', '\n' };
 
 
             var content = xml.Element("Content");
@@ -61,31 +63,32 @@ namespace ExpressQuiz.Migrations
                     {
                         answers.Add(new Answer()
                         {
-                            Text = a.Element("Text").Value,
+                            Text = a.Element("Text").Value.Trim(charsToTrim),
                             IsCorrect = a.Descendants("IsCorrect").Any(),
-                            Explanation = a.Element("Explanation").Value,
-                            OrderId = int.Parse(a.Element("OrderId").Value)
+                            Explanation = a.Element("Explanation").Value.Trim(charsToTrim),
+                            OrderId = int.Parse(a.Element("OrderId").Value.Trim(charsToTrim))
                         });
 
                     }
                     questions.Add(new Question()
                     {
                         Answers = answers,
-                        Text = q.Element("Text").Value,
-                        OrderId = int.Parse(q.Element("OrderId").Value),
-                        EstimatedTime = int.Parse(q.Element("EstimatedTime").Value)
+                        Text = q.Element("Text").Value.Trim(charsToTrim),
+                        OrderId = int.Parse(q.Element("OrderId").Value.Trim(charsToTrim)),
+                        EstimatedTime = int.Parse(q.Element("EstimatedTime").Value.Trim(charsToTrim))
 
                     });
                 }
 
                 quizzes.Add(new Quiz()
                 {
-                    Category = new QuizCategory() { Name = (string)quiz.Attribute("category") },
-                    Name = quiz.Element("Name").Value,
-                    Summary = quiz.Element("Summary").Value,
+                    Category = new QuizCategory() { Name = ((string)quiz.Attribute("category")).Trim(charsToTrim) },
+                    Name = quiz.Element("Name").Value.Trim(charsToTrim),
+                    Summary = quiz.Element("Summary").Value.Trim(charsToTrim),
                     Questions = questions,
                     Created = DateTime.Now,
-                    IsTimeable = quiz.Descendants("IsTimeable").Any()
+                    IsTimeable = quiz.Descendants("IsTimeable").Any(),
+                    CreatedBy = quiz.Element("CreatedBy").Value.Trim(charsToTrim)
                     
 
                 });
@@ -111,6 +114,7 @@ namespace ExpressQuiz.Migrations
                 var quizEl = new XElement("Quiz", new XAttribute("category",quiz.Category.Name));
                 quizEl.Add(new XElement("Name",quiz.Name));
                 quizEl.Add(new XElement("Summary", quiz.Summary));
+                quizEl.Add(new XElement("CreatedBy", quiz.CreatedBy));
                 if (quiz.IsTimeable)
                 {
                     quizEl.Add(new XElement("IsTimeable"));

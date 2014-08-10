@@ -166,6 +166,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuizReviewController.cs" />
+    <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Logic\JsonNetResult.cs" />
     <Compile Include="Migrations\DataProvider.cs" />
     <Compile Include="Models\Entity.cs" />
@@ -175,11 +176,13 @@
     <Compile Include="Repos\IRepo.cs" />
     <Compile Include="Repos\Repo.cs" />
     <Compile Include="Repos\RepoExtensions.cs" />
+    <Compile Include="Services\IQuizService.cs" />
     <Compile Include="ViewModels\CreateQuizViewModel.cs" />
     <Compile Include="ViewModels\EditQuestionViewModel.cs" />
     <Compile Include="ViewModels\EditQuizViewModel.cs" />
     <Compile Include="ViewModels\QuestionReviewViewModel.cs" />
     <Compile Include="ViewModels\QuizCategoriesViewModel.cs" />
+    <Compile Include="ViewModels\QuizDetailsViewModel.cs" />
     <Compile Include="ViewModels\QuizReviewItem.cs" />
     <Compile Include="ViewModels\QuizReviewViewModel.cs" />
     <Compile Include="Controllers\QuizzesController.cs" />
@@ -202,6 +205,7 @@
     <Compile Include="ViewModels\QuizzesViewModel.cs" />
     <Compile Include="ViewModels\TopListItem.cs" />
     <Compile Include="ViewModels\TopListViewModel.cs" />
+    <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_Data\seeddata.xml">
@@ -642,6 +646,7 @@
     <Content Include="Views\Quizzes\_EditQuizPartial.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Quizzes\_QuizListPartial.cshtml" />
+    <Content Include="Views\UserProfile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

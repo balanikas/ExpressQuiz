@@ -16,7 +16,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Quiz.Id)
         @Html.HiddenFor(model => model.Order)
-
+        @Html.HiddenFor(model => model.Quiz.CreatedBy)
         
         <div class="form-group">
             @Html.LabelFor(m => m.SelectedCategory, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -61,12 +61,28 @@
               
             </div>
         </div>
-
+        
         <div class="form-group">
-            <div class="col-md-offset-11 col-md-1">
-                <input type="submit" value="Save" class="btn btn-default" />
+            @Html.LabelFor(model => model.Quiz.Locked, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Quiz.Locked, new { htmlAttributes = new { @class = "form-control checkbox" } })
+                </div>
+
             </div>
         </div>
+        
+      
+
+            <div class="form-group">
+               
+               
+                <div class="col-md-offset-11 col-md-1">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+       
+       
         <hr />
         @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes" ,new { id = Model.Quiz.Id, orderId = Model.Quiz.Questions.Count }, new AjaxOptions()
                                     {

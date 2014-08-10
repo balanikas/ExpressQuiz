@@ -39,20 +39,22 @@ namespace ExpressQuiz.Controllers
            
         }
 
-        public ActionResult GetQuizzes(string searchTerm, int? filter)
+        public ActionResult GetQuizzes(string searchTerm, int? filter, int? selectedCategory)
         {
-            IEnumerable<Quiz> quizzes;
+            IEnumerable<Quiz> quizzes = from m in _quizRepo.GetAll()
+                                               select m;
 
             if (filter.HasValue)
             {
                 quizzes = _quizRepo.AsOrdered(_quizRatingRepo, (QuizFilter) filter);
             }
-            else
+
+
+            if (selectedCategory.HasValue && selectedCategory.Value != -1)
             {
-                quizzes = from m in _quizRepo.GetAll()
-                              select m;
+                quizzes = quizzes.Where(s => s.QuizCategoryId == selectedCategory.Value);
             }
-         
+
             if (!String.IsNullOrEmpty(searchTerm))
             {
                 quizzes = quizzes.Where(s => s.Name.IndexOf(searchTerm,StringComparison.OrdinalIgnoreCase) != -1);
@@ -69,9 +71,9 @@ namespace ExpressQuiz.Controllers
 
           
             
-            var vm = new QuizzesViewModel();
+            var model = new QuizzesViewModel();
 
-            vm.QuizCategories = (from c in _quizCategoryRepo.GetAll()
+            model.QuizCategories = (from c in _quizCategoryRepo.GetAll()
                 orderby c.Name
                 select new QuizCategoryViewModel()
                 {
@@ -81,7 +83,7 @@ namespace ExpressQuiz.Controllers
                     QuizCount = quizzes.Count(x => x.Category.Id == c.Id)
                 }).ToList();
            
-            vm.QuizCategories.Insert(0,new QuizCategoryViewModel()
+            model.QuizCategories.Insert(0,new QuizCategoryViewModel()
             {
                 Id = -1,
                 Name = "All",
@@ -98,23 +100,23 @@ namespace ExpressQuiz.Controllers
             {
                 quizzes = quizzes.Where(x => x.Category.Id == catId);
             }
+            
 
+            model.Quizzes = quizzes.OrderByDescending(x=>x.Created).ToList();
 
-            vm.Quizzes = quizzes.OrderByDescending(x=>x.Created).ToList();
-
-            vm.Filter = QuizFilter.Newest;
-            vm.TopQuizzes = _quizRepo.GetTopListByRating(_quizRatingRepo, 10).Select(x => new TopListItem()
+            model.Filter = QuizFilter.Newest;
+            model.TopQuizzes = _quizRepo.GetTopListByRating(_quizRatingRepo, 10).Select(x => new TopListItem()
             {
                 Id = x.Id,
                 Name = x.Name
             }).ToList();
 
+            model.SelectedCategory = catId.HasValue ? catId.Value : -1;
 
-            return View(vm);
+            return View(model);
         }
 
 
-        // GET: Quizzes/Details/5
 
         public ActionResult Details(int? id)
         {
@@ -128,7 +130,16 @@ namespace ExpressQuiz.Controllers
                 return HttpNotFound();
             }
 
-            return View(quiz);
+            var model = new QuizDetailsViewModel();
+            model.AvgLevel = 5;
+            model.AvgRating = 4;
+            model.AvgScore = 2;
+            model.AvgTime = 23;
+
+            model.Sessions = 12;
+            model.Quiz = quiz;
+
+            return View(model);
         }
 
         private IEnumerable<SelectListItem> GetCategories()
@@ -172,7 +183,16 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Quiz quiz = _quizRepo.Get(id.Value);
-            
+
+             if (quiz.Locked)
+             {
+                 if (quiz.CreatedBy != User.Identity.Name)
+                 {
+                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                 }
+                 
+             }
+
             var vm = new EditQuizViewModel();
             vm.Quiz = quiz;
 
@@ -212,6 +232,7 @@ namespace ExpressQuiz.Controllers
                 quiz.Summary = model.Quiz.Summary;
                 quiz.Name = model.Quiz.Name;
                 quiz.IsTimeable = model.Quiz.IsTimeable;
+                quiz.Locked = model.Quiz.Locked;
 
                 _quizRepo.Update(quiz);
                 _quizRepo.Save();
@@ -219,9 +240,15 @@ namespace ExpressQuiz.Controllers
                 {
                    _questionRepo.SaveOrder(quiz,model.Order);
                 }
-              
-
-                return RedirectToAction("Index");
+                model.Quiz = quiz;
+                model.Categories = GetCategories();
+                model.SelectedCategory = quiz.Category.Id;
+                var sortedQuestions = quiz.Questions.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId).Select(x => x.Id);
+                model.Order = string.Join(",", sortedQuestions);
+                
+                return PartialView("_EditQuizPartial", model);
+               // return RedirectToAction("Edit",new {id = quiz.Id});
+                
             }
             return View(model);
         }
@@ -234,6 +261,7 @@ namespace ExpressQuiz.Controllers
             var vm = new CreateQuizViewModel();
             vm.Categories = GetCategories();
             vm.Quiz = new Quiz();
+            vm.Quiz.CreatedBy = User.Identity.Name;
             return View(vm);
         }
 
@@ -255,7 +283,7 @@ namespace ExpressQuiz.Controllers
 
               
                 model.Quiz.Created = DateTime.Now;
-
+                
                 _quizRepo.Insert(model.Quiz);
                 _quizRepo.Save();
                 return RedirectToAction("Index");
@@ -369,18 +397,23 @@ namespace ExpressQuiz.Controllers
                     _answerRepo.SaveOrder(q,model.Order);
                 }
                 
-                var quiz = _quizRepo.Get(model.Question.QuizId);
+                //var quiz = _quizRepo.Get(model.Question.QuizId);
                
-                var vm = new EditQuizViewModel()
-                {
-                    Quiz = quiz,
-                    Order = string.Join(",", quiz.Questions.OrderBy(x => x.Id).Select(x => x.Id)),
-                    Categories = GetCategories(),
-                    SelectedCategory = quiz.QuizCategoryId
+                //var vm = new EditQuizViewModel()
+                //{
+                //    Quiz = quiz,
+                //    Order = string.Join(",", quiz.Questions.OrderBy(x => x.Id).Select(x => x.Id)),
+                //    Categories = GetCategories(),
+                //    SelectedCategory = quiz.QuizCategoryId
                     
-                };
+                //};
                 ModelState.Clear();
-                return PartialView("_EditQuizPartial", vm);
+
+                model.Question = q;
+
+
+
+                return PartialView("_EditQuestionPartial", model);
             }
             return PartialView("_EditQuestionPartial", model);
         }
