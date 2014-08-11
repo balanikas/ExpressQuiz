@@ -39,9 +39,7 @@ namespace ExpressQuiz.Controllers
             {
                 return HttpNotFound();
             }
-            var vm = new ActiveQuizViewModel();
-            vm.Quiz = quiz;
-            vm.EstimatedTime = quiz.Questions.Sum(x => x.EstimatedTime);
+            var vm = quiz.ToViewModel();
             return View(vm);
 
         }
@@ -83,6 +81,7 @@ namespace ExpressQuiz.Controllers
         [HttpPost]
         public JsonResult PostResult(QuizResult result)
         {
+            result.UserId = User.Identity.Name;
             result.Score = CalculateScore(result);
             _quizResultRepo.Insert(result);
             _quizResultRepo.Save();

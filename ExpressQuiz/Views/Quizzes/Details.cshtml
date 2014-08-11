@@ -7,6 +7,18 @@
     <div>
       
         <hr />
+        
+        
+        @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)
+        {
+            <div>@Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.Id }, new { @class="btn btn-default btn-xs col-md-offset-10 col-md-1"})</div>
+
+
+            <div> @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.Id }, new { @class = "btn btn-warning btn-xs col-md-1" })</div>
+        }
+        
+        
+
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Quiz.Name)
@@ -63,14 +75,8 @@
         <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Quiz.Id }, new { @class = "btn btn-success" })</div>
     </div>
 <div>
-    @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name) 
-    {
-        <div>@Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.Id })</div>
-
-       
-        <div> @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.Id })</div>
-    }
+  
     
    
-
+    @Html.Action("Index", "Users",new { quizId = @Model.Quiz.Id})
 </div>

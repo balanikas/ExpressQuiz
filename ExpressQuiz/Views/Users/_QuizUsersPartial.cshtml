@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ExpressQuiz.Models.QuizResult>
+
+
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Score</th>
+          
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @{
+
+            foreach (var r in Model)
+            {
+       
+                <tr>
+                 
+
+                    <td>@r.UserId</td>
+                    <td>@r.Score</td>
+                </tr>
+
+            }
+        }
+
+
+    </tbody>
+</table>

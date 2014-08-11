@@ -167,12 +167,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuizReviewController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Logic\JsonNetResult.cs" />
     <Compile Include="Migrations\DataProvider.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\QuizFilter.cs" />
     <Compile Include="Models\QuizResult.cs" />
     <Compile Include="Models\UserAnswer.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Repos\IRepo.cs" />
     <Compile Include="Repos\Repo.cs" />
     <Compile Include="Repos\RepoExtensions.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="ViewModels\CreateQuizViewModel.cs" />
     <Compile Include="ViewModels\EditQuestionViewModel.cs" />
     <Compile Include="ViewModels\EditQuizViewModel.cs" />
+    <Compile Include="ViewModels\ModelExtensions.cs" />
     <Compile Include="ViewModels\QuestionReviewViewModel.cs" />
     <Compile Include="ViewModels\QuizCategoriesViewModel.cs" />
     <Compile Include="ViewModels\QuizDetailsViewModel.cs" />
@@ -647,6 +650,8 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Quizzes\_QuizListPartial.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\_QuizUsersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

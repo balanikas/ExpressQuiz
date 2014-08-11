@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using ExpressQuiz.Models;
 using ExpressQuiz.ViewModels;
 
@@ -133,6 +134,20 @@ namespace ExpressQuiz.Repos
                 repo.Save();
                 return newCat;
             }
+        }
+
+        public static IEnumerable<SelectListItem> GetCategoriesAsSelectList(this IRepo<QuizCategory> repo )
+        {
+            var cats = repo.GetAll()
+                .Select(x =>
+                    new SelectListItem
+                    {
+                        Value = x.Id.ToString(),
+                        Text = x.Name
+                    });
+
+
+            return new SelectList(cats, "Value", "Text");
         }
     }
 }

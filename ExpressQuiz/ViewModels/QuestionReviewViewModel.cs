@@ -12,17 +12,8 @@ namespace ExpressQuiz.ViewModels
     public class QuestionReviewViewModel
     {
        
-
-
-        public Question Question { get; private set; }
-        public int QuizResultId { get; private set; }
-        public QuestionReviewViewModel(Question q, int id)
-        {
-            Question = q;
-            QuizResultId = id;
-        }
-
-
-
+        public Question Question { get;  set; }
+        public int QuizResultId { get;  set; }
+       
     }
 }

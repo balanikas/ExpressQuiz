@@ -41,34 +41,14 @@ namespace ExpressQuiz.Controllers
             if (result != null)
             {
 
-                var vm = new QuizReviewViewModel();
-                vm.Items = GetQuestionDetails(result);
-                vm.Result = result;
-                vm.QuizId = result.QuizId;
+                var vm = result.ToViewModel(_questionRepo, _answerRepo);
                 return View(vm);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
         }
 
-        public List<QuizReviewItem> GetQuestionDetails(QuizResult result)
-        {
-
-
-            var qDetails = new List<QuizReviewItem>();
-            foreach (var userAnswer in result.Answers)
-            {
-                var answer = _answerRepo.GetAll().FirstOrDefault(x => x.Id == userAnswer.AnswerId);
-                var isAnswerCorrect = answer != null ? answer.IsCorrect : false;
-                var questionText = _questionRepo.GetAll().First(x => x.Id == userAnswer.QuestionId).Text;
-
-                qDetails.Add(new QuizReviewItem(isAnswerCorrect, questionText, userAnswer.QuestionId));
-
-
-            }
-
-            return qDetails;
-        }
+     
 
         [HttpPost]
         public ActionResult Index(QuizReviewViewModel model)
@@ -89,10 +69,10 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var result = _questionRepo.Get(questionId.Value);
-            if (result != null)
+            var q = _questionRepo.Get(questionId.Value);
+            if (q != null)
             {
-                var vm = new QuestionReviewViewModel(result,resultId);
+                var vm = q.ToViewModel(resultId);
                 return View(vm);
             }
 
