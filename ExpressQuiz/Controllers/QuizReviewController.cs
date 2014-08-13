@@ -19,15 +19,18 @@ namespace ExpressQuiz.Controllers
         private readonly IRepo<Answer> _answerRepo;
         private readonly IRepo<QuizRating> _quizRatingRepo;
 
-        public QuizReviewController()
+        public QuizReviewController(
+            IRepo<QuizResult> quizResultRepo,
+            IRepo<Question> questionRepo,
+            IRepo<Answer> answerRepo,
+            IRepo<QuizRating> quizRatingRepo
+
+            )
         {
-            var ctx = new QuizDbContext();
-
-
-            _quizResultRepo = new Repo<QuizResult>(ctx);
-            _questionRepo = new Repo<Question>(ctx);
-            _answerRepo = new Repo<Answer>(ctx);
-            _quizRatingRepo = new Repo<QuizRating>(ctx);
+            _quizResultRepo = quizResultRepo;
+            _questionRepo = questionRepo;
+            _answerRepo = answerRepo;
+            _quizRatingRepo = quizRatingRepo;
         }
         // GET: QuizReview
         public ActionResult Index(int? id)

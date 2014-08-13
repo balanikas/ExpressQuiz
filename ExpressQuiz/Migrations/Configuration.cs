@@ -1,3 +1,9 @@
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Web;
+using System.Web.Hosting;
+
 namespace ExpressQuiz.Migrations
 {
     using System;
@@ -22,13 +28,29 @@ namespace ExpressQuiz.Migrations
 
             context.SaveChanges();
 
-
-            var uri = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xml";
+            //if (!Debugger.IsAttached)
+            //{
+            //    Debugger.Launch();
+            //}
+            var uri = MapPath("~/bin/App_Data/seeddata.xml");
+            //var uri = HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml");
             var quizzes = DataProvider.Import(context, uri);
 
             context.Quizzes.AddOrUpdate(i => i.Name,
                         quizzes.ToArray()
                    );
+        }
+
+        private string MapPath(string seedFile)
+        {
+            if (HttpContext.Current != null)
+                return HostingEnvironment.MapPath(seedFile);
+
+            var absolutePath = new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath;
+            var directoryName = Path.GetDirectoryName(absolutePath);
+            var path = Path.Combine(directoryName, ".." + seedFile.TrimStart('~').Replace('/', '\\'));
+
+            return path;
         }
     }
 }

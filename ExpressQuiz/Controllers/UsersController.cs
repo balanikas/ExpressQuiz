@@ -13,11 +13,13 @@ namespace ExpressQuiz.Controllers
     {
         private IRepo<QuizResult> _quizResultRepo;
 
-        public UsersController()
+        public UsersController(
+            IRepo<QuizResult> quizResultRepo
+            )
         {
-            var ctx = new QuizDbContext();
 
-            _quizResultRepo = new Repo<QuizResult>(ctx);
+
+            _quizResultRepo = quizResultRepo;
         }
         //public ActionResult Index()
         //{

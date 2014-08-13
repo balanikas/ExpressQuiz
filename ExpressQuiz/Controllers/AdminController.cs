@@ -24,7 +24,7 @@ namespace ExpressQuiz.Controllers
         public ActionResult Export()
         {
             var quizRepo = new Repo<Quiz>(new QuizDbContext());
-            DataProvider.Export(quizRepo, @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\out.xml");
+            DataProvider.Export(quizRepo, System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
             return View("Index");
         }
 
@@ -34,7 +34,7 @@ namespace ExpressQuiz.Controllers
             var ctx = new QuizDbContext();
 
 
-            var quizzes = DataProvider.Import(ctx, @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xml");
+            var quizzes = DataProvider.Import(ctx, System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
 
             ctx.Quizzes.AddOrUpdate(i => i.Name,
                        quizzes.ToArray()

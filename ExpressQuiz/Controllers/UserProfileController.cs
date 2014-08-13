@@ -15,10 +15,12 @@ namespace ExpressQuiz.Controllers
     {
         private readonly IRepo<Quiz> _quizRepo;
 
-        public UserProfileController()
+        public UserProfileController(
+            IRepo<Quiz> quizRepo
+            )
         {
-            var ctx = new QuizDbContext();
-            _quizRepo = new Repo<Quiz>(ctx);
+
+            _quizRepo = quizRepo;
         }
     
         public ActionResult Index()

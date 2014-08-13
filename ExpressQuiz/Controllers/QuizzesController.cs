@@ -18,6 +18,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ExpressQuiz.Controllers
 {
+     [HandleError]
     public class QuizzesController : Controller
     {
         private readonly IRepo<Answer> _answerRepo;
@@ -28,17 +29,22 @@ namespace ExpressQuiz.Controllers
         private readonly IRepo<QuizRating> _quizRatingRepo;
         private readonly IRepo<QuizResult> _quizResultRepo;
 
-        public QuizzesController()
+        public QuizzesController(
+            IRepo<Answer> answerRepo,
+            IRepo<Question> questionRepo,
+            IRepo<QuizCategory> quizCategoryRepo,
+            IRepo<Quiz> quizRepo,
+            IRepo<QuizRating> quizRatingRepo,
+            IRepo<QuizResult> quizResultRepo
+            )
         {
-            var ctx = new QuizDbContext();
-           
-            _quizRepo = new Repo<Quiz>(ctx);
-            _questionRepo = new Repo<Question>(ctx);
-            _answerRepo = new Repo<Answer>(ctx);
-            _quizCategoryRepo = new Repo<QuizCategory>(ctx);
-            _quizRatingRepo = new Repo<QuizRating>(ctx);
-            _quizResultRepo = new Repo<QuizResult>(ctx);
-           
+            _quizRepo = quizRepo;
+            _questionRepo = questionRepo;
+            _answerRepo = answerRepo;
+            _quizCategoryRepo = quizCategoryRepo;
+            _quizRatingRepo = quizRatingRepo;
+            _quizResultRepo = quizResultRepo;
+
         }
 
         public ActionResult GetQuizzes(string searchTerm, int? filter, int? selectedCategory)
@@ -68,6 +74,8 @@ namespace ExpressQuiz.Controllers
         // GET: Quizzes
         public ActionResult Index(int? catId, string searchString)
         {
+            
+            
             var quizzes = from m in _quizRepo.GetAll()
                 select m;
 
@@ -77,9 +85,10 @@ namespace ExpressQuiz.Controllers
         }
 
 
-
+       
         public ActionResult Details(int? id)
         {
+           
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -391,7 +400,7 @@ namespace ExpressQuiz.Controllers
         {
             if (disposing)
             {
-                _quizRepo.Dispose();
+               // _quizRepo.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -430,5 +439,8 @@ namespace ExpressQuiz.Controllers
              var vm = question.ToViewModel();
             return PartialView("_EditQuestionPartial", vm);
         }
+
+
+      
     }
 }
