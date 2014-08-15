@@ -191,7 +191,6 @@
     <Compile Include="Repos\IRepo.cs" />
     <Compile Include="Repos\Repo.cs" />
     <Compile Include="Repos\RepoExtensions.cs" />
-    <Compile Include="Services\IQuizService.cs" />
     <Compile Include="ViewModels\CreateQuizViewModel.cs" />
     <Compile Include="ViewModels\EditQuestionViewModel.cs" />
     <Compile Include="ViewModels\EditQuizViewModel.cs" />
@@ -677,7 +676,9 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_QuizUsersPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

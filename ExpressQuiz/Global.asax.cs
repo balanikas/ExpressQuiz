@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.UI;
-using System.Xml.Linq;
-using Autofac.Core;
-using ExpressQuiz.Controllers;
-using ExpressQuiz.Migrations;
-
 using Autofac;
 using Autofac.Integration.Mvc;
 using ExpressQuiz.Models;
@@ -34,15 +24,6 @@ namespace ExpressQuiz
         private void Register()
         {
             var cb = new Autofac.ContainerBuilder();
-            
-            //var ctx = new QuizDbContext();
-            //var quizRepo = new Repo<Quiz>(ctx);
-            //var questionRepo = new Repo<Question>(ctx);
-            //var answerRepo = new Repo<Answer>(ctx);
-            //var quizCategoryRepo = new Repo<QuizCategory>(ctx);
-            //var quizRatingRepo = new Repo<QuizRating>(ctx);
-            //var quizResultRepo = new Repo<QuizResult>(ctx);
-
 
             cb.RegisterType<QuizDbContext>().InstancePerRequest();
             cb.RegisterType<Repo<Quiz>>().As<IRepo<Quiz>>().InstancePerRequest();
@@ -52,13 +33,6 @@ namespace ExpressQuiz
             cb.RegisterType<Repo<QuizRating>>().As<IRepo<QuizRating>>().InstancePerRequest();
             cb.RegisterType<Repo<QuizResult>>().As<IRepo<QuizResult>>().InstancePerRequest();
 
-            //cb.RegisterInstance(quizRepo).As<IRepo<Quiz>>();
-            //cb.RegisterInstance(questionRepo).As<IRepo<Question>>();
-            //cb.RegisterInstance(answerRepo).As<IRepo<Answer>>();
-            //cb.RegisterInstance(quizCategoryRepo).As<IRepo<QuizCategory>>();
-            //cb.RegisterInstance(quizRatingRepo).As<IRepo<QuizRating>>();
-            //cb.RegisterInstance(quizResultRepo).As<IRepo<QuizResult>>();
-
             cb.RegisterControllers(typeof(MvcApplication).Assembly).InstancePerRequest();
 
             cb.RegisterAssemblyModules(typeof(MvcApplication).Assembly);
@@ -66,7 +40,6 @@ namespace ExpressQuiz
             var container = cb.Build();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-           
 
         }
 
@@ -75,7 +48,6 @@ namespace ExpressQuiz
             Exception exception = Server.GetLastError();
             Response.Clear();
             Response.Redirect(String.Format("~/Views/Shared/Error/?message={0}", exception.Message));
-
 
         }
     }
