@@ -98,10 +98,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="RepoProvider.cs" />
-    <Compile Include="Repos\InMemAnswerRepo.cs" />
-    <Compile Include="Repos\InMemQuestionRepo.cs" />
-    <Compile Include="Repos\InMemQuizCategoryRepo.cs" />
-    <Compile Include="Repos\InMemQuizRepo.cs" />
     <Compile Include="Repos\InMemRepo.cs" />
   </ItemGroup>
   <ItemGroup>
