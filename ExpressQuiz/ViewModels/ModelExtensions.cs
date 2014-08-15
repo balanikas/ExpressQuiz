@@ -54,7 +54,7 @@ namespace ExpressQuiz.ViewModels
                                  {
                                      Id = c.Id,
                                      Name = c.Name,
-                                     IsSelected = c.Id == catId.Value,
+                                     IsSelected = catId.HasValue ?  (c.Id == catId.Value) : false,
                                      QuizCount = quizzes.Count(x => x.Category.Id == c.Id)
                                  }).ToList();
 
@@ -151,6 +151,17 @@ namespace ExpressQuiz.ViewModels
             vm.Items = qDetails;
             vm.Result = quizResult;
             vm.QuizId = quizResult.QuizId;
+
+            return vm;
+        }
+
+
+        public static CreateQuizViewModel ToViewModel(this Quiz quiz, IRepo<QuizCategory> categories, string userName)
+        {
+            var vm = new CreateQuizViewModel();
+            vm.Categories = categories.GetCategoriesAsSelectList();
+            vm.Quiz = new Quiz();
+            vm.Quiz.CreatedBy = userName;
 
             return vm;
         }

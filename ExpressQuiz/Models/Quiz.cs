@@ -26,6 +26,9 @@ namespace ExpressQuiz.Models
 
         public bool IsTimeable { get; set; }
 
+
+        public bool AllowPoints { get; set; }
+
         //[DataType(DataType.DateTime)]
         [Column(TypeName = "DateTime2")]
         public DateTime Created { get; set; }

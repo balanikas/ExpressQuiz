@@ -1,40 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ExpressQuiz.Controllers;
+using System.Text;
+using System.Threading.Tasks;
 using ExpressQuiz.Models;
 using ExpressQuiz.Repos;
 
 namespace ExpressQuiz.Tests.Repos
 {
-    class InMemQuizRepo : IRepo<Quiz>
+    class InMemAnswerRepo : IRepo<Answer>
     {
 
-        private readonly List<Quiz> _items;
+        private readonly List<Answer> _items;
 
-        public InMemQuizRepo(List<Quiz> items)
+        public InMemAnswerRepo(List<Answer> items)
         {
             _items = items;
         }
 
-        public Quiz Get(int id)
+        public Answer Get(int id)
         {
             return _items.First(x => x.Id == id);
         }
 
-        public IQueryable<Quiz> GetAll()
+        public IQueryable<Answer> GetAll()
         {
             return _items.AsQueryable();
         }
 
-        public Quiz Insert(Quiz o)
+        public Answer Insert(Answer o)
         {
             _items.Add(o);
-            o.Id = new Random().Next(1,10000);
+            o.Id = new Random().Next(1, 10000);
             return o;
         }
 
-        public void Update(Quiz o)
+        public void Update(Answer o)
         {
             var existing = _items.First(x => x.Id == o.Id);
             existing = o;
@@ -42,7 +43,7 @@ namespace ExpressQuiz.Tests.Repos
 
         public void Save()
         {
-            
+
         }
 
         public void Delete(int id)
@@ -52,7 +53,7 @@ namespace ExpressQuiz.Tests.Repos
 
         public void Dispose()
         {
-           
+
         }
     }
 }

@@ -44,7 +44,11 @@ namespace ExpressQuiz.Repos
         public void Delete(int id)
         {
             var existing = _ctx.Set<T>().Find(id);
-            _ctx.Set<T>().Remove(existing);
+            if (existing != null)
+            {
+                _ctx.Set<T>().Remove(existing);
+            }
+            
         }
 
        

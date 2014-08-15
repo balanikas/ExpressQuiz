@@ -4,8 +4,10 @@ using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Web;
+using System.Web.Hosting;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
@@ -33,7 +35,7 @@ namespace ExpressQuiz.Migrations
             return valid;
         }
 
-        public static List<Quiz> Import(QuizDbContext context, string uri)
+        public static IEnumerable<Quiz> Import(string uri)
         {
 
           
@@ -145,6 +147,18 @@ namespace ExpressQuiz.Migrations
 
             doc.Save(fileName);
 
+        }
+
+        public static string MapPath(string seedFile)
+        {
+            if (HttpContext.Current != null)
+                return HostingEnvironment.MapPath(seedFile);
+
+            var absolutePath = new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath;
+            var directoryName = Path.GetDirectoryName(absolutePath);
+            var path = Path.Combine(directoryName, ".." + seedFile.TrimStart('~').Replace('/', '\\'));
+
+            return path;
         }
 
 

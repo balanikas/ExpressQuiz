@@ -34,7 +34,7 @@ namespace ExpressQuiz.Controllers
             var ctx = new QuizDbContext();
 
 
-            var quizzes = DataProvider.Import(ctx, System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
+            var quizzes = DataProvider.Import( System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
 
             ctx.Quizzes.AddOrUpdate(i => i.Name,
                        quizzes.ToArray()

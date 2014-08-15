@@ -16,9 +16,6 @@ namespace ExpressQuiz.Models
         public int EllapsedTime { get; set; }
         public int Score { get; set; }
         public string UserId { get; set; }
-        //public QuizResult()
-        //{
-        //    Answers = new List<UserAnswer>();
-        //}
+       
     }
 }

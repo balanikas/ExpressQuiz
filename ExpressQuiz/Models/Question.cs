@@ -27,6 +27,9 @@ namespace ExpressQuiz.Models
         [Column(TypeName = "int")]
         public int EstimatedTime { get; set; }
 
+        [Range(0,1000)]
+        public int Points { get; set; }
+
         public int QuizId { get; set; }
         public virtual Quiz Quiz { get; set; }
         public virtual ICollection<Answer> Answers { get; set; }

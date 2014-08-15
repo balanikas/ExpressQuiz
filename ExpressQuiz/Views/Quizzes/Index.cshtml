@@ -32,8 +32,6 @@
         <br/>
             @Html.ActionLink("Create New", "Create", "Quizzes", htmlAttributes: new { @class = "btn btn-default btn-sm btn-block" })
      
-          
-
             <div id="quizList" class="list-group">
                 @Html.Partial("_QuizListPartial", Model.Quizzes)
 
@@ -45,22 +43,3 @@
     </div>
 </div>
 
-<script>
-    //$(document).ready(function () {
-    //    $("#filterList").change(function () {
-    //        this.form.submit();
-    //    });
-
-    //    $('#filterList').change(function () {
-    //        $.ajax(
-    //            {
-    //                type: "POST",
-    //                url: "Quizzes/GetQuizzes",
-    //                data: {
-    //                    Value: $(this).val(),
-    //                    Id: $(this).attr('data-Id'),
-    //                }
-    //            });
-    //    });
-    //});
-</script>

@@ -18,7 +18,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ExpressQuiz.Controllers
 {
-     [HandleError]
+    [HandleError]
     public class QuizzesController : Controller
     {
         private readonly IRepo<Answer> _answerRepo;
@@ -50,11 +50,11 @@ namespace ExpressQuiz.Controllers
         public ActionResult GetQuizzes(string searchTerm, int? filter, int? selectedCategory)
         {
             IEnumerable<Quiz> quizzes = from m in _quizRepo.GetAll()
-                                               select m;
+                                        select m;
 
             if (filter.HasValue)
             {
-                quizzes = _quizRepo.AsOrdered(_quizRatingRepo, (QuizFilter) filter);
+                quizzes = _quizRepo.AsOrdered(_quizRatingRepo, (QuizFilter)filter);
             }
 
 
@@ -65,19 +65,19 @@ namespace ExpressQuiz.Controllers
 
             if (!String.IsNullOrEmpty(searchTerm))
             {
-                quizzes = quizzes.Where(s => s.Name.IndexOf(searchTerm,StringComparison.OrdinalIgnoreCase) != -1);
+                quizzes = quizzes.Where(s => s.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) != -1);
             }
 
-            return PartialView("_QuizListPartial",quizzes.ToList());
+            return PartialView("_QuizListPartial", quizzes.ToList());
         }
 
         // GET: Quizzes
         public ActionResult Index(int? catId, string searchString)
         {
-            
-            
+
+
             var quizzes = from m in _quizRepo.GetAll()
-                select m;
+                          select m;
 
             var model = quizzes.ToViewModel(_quizCategoryRepo, _quizRatingRepo, _quizRepo, catId, searchString);
 
@@ -85,18 +85,19 @@ namespace ExpressQuiz.Controllers
         }
 
 
-       
+
         public ActionResult Details(int? id)
         {
-           
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             }
             Quiz quiz = _quizRepo.Get(id.Value);
             if (quiz == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
             var model = quiz.ToViewModel(_quizResultRepo, _quizRatingRepo);
@@ -117,14 +118,14 @@ namespace ExpressQuiz.Controllers
         //        });
         //    }
 
-            
+
 
         //    return new SelectList(filters, "Value", "Text");
         //}
-      
 
-  
-         [Authorize]
+
+
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -132,17 +133,20 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Quiz quiz = _quizRepo.Get(id.Value);
+            if (quiz == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            if (quiz.Locked)
+            {
+                if (quiz.CreatedBy != User.Identity.Name)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+            }
 
-             if (quiz.Locked)
-             {
-                 if (quiz.CreatedBy != User.Identity.Name)
-                 {
-                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-                 }
-             }
+            var vm = quiz.ToViewModel(_quizCategoryRepo);
 
-             var vm = quiz.ToViewModel(_quizCategoryRepo);
-           
             return View(vm);
         }
 
@@ -169,23 +173,24 @@ namespace ExpressQuiz.Controllers
                 }
 
 
-               
+
                 quiz.Summary = model.Quiz.Summary;
                 quiz.Name = model.Quiz.Name;
                 quiz.IsTimeable = model.Quiz.IsTimeable;
                 quiz.Locked = model.Quiz.Locked;
+                quiz.AllowPoints = model.Quiz.AllowPoints;
 
                 _quizRepo.Update(quiz);
                 _quizRepo.Save();
                 if (quiz.Questions.Count > 1)
                 {
-                   _questionRepo.SaveOrder(quiz,model.Order);
+                    _questionRepo.SaveOrder(quiz, model.Order);
                 }
 
                 model = quiz.ToViewModel(_quizCategoryRepo);
 
                 return PartialView("_EditQuizPartial", model);
-                
+
             }
             return View(model);
         }
@@ -194,11 +199,8 @@ namespace ExpressQuiz.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            
-            var vm = new CreateQuizViewModel();
-            vm.Categories = _quizCategoryRepo.GetCategoriesAsSelectList();
-            vm.Quiz = new Quiz();
-            vm.Quiz.CreatedBy = User.Identity.Name;
+            var quiz = new Quiz();
+            var vm = quiz.ToViewModel(_quizCategoryRepo, User.Identity.Name);
             return View(vm);
         }
 
@@ -218,9 +220,9 @@ namespace ExpressQuiz.Controllers
                     model.Quiz.Category = _quizCategoryRepo.Get(model.SelectedCategory);
                 }
 
-              
+
                 model.Quiz.Created = DateTime.Now;
-                
+
                 _quizRepo.Insert(model.Quiz);
                 _quizRepo.Save();
                 return RedirectToAction("Index");
@@ -230,21 +232,31 @@ namespace ExpressQuiz.Controllers
         }
 
 
-         [Authorize]
-        public ActionResult CreateQuestion(int id, int orderId)
+        [Authorize]
+        public ActionResult CreateQuestion(int? id, int orderId)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var quiz = _quizRepo.Get(id.Value);
+            if (quiz == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
             var model = new Question();
             model.Answers = new List<Answer>();
-            model.QuizId = id;
+            model.QuizId = id.Value;
             model.Text = "enter text here";
 
-            var quiz = _quizRepo.Get(id);
+
             int maxOrderId = 0;
             if (quiz.Questions.Count > 0)
             {
-                maxOrderId  = quiz.Questions.Max(x => x.Id) + 1;
+                maxOrderId = quiz.Questions.Max(x => x.Id) + 1;
             }
-          
+
             model.OrderId = maxOrderId;
 
             _questionRepo.Insert(model);
@@ -252,18 +264,28 @@ namespace ExpressQuiz.Controllers
 
 
 
-             var vm = quiz.ToViewModel(_quizCategoryRepo);
+            var vm = quiz.ToViewModel(_quizCategoryRepo);
             return PartialView("_EditQuizPartial", vm);
         }
 
-         [Authorize]
-        public ActionResult CreateAnswer(int id, int orderId)
+        [Authorize]
+        public ActionResult CreateAnswer(int? id, int orderId)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var q = _questionRepo.Get(id.Value);
+            if (q == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
             var model = new Answer();
             model.Text = "enter text here";
-            model.QuestionId = id;
+            model.QuestionId = id.Value;
 
-            var q = _questionRepo.Get(id);
             int maxOrderId = 0;
             if (q.Answers.Count > 0)
             {
@@ -275,24 +297,27 @@ namespace ExpressQuiz.Controllers
             _answerRepo.Insert(model);
             _answerRepo.Save();
 
-             var vm = q.ToViewModel();
-            
+            var vm = q.ToViewModel();
+
             return PartialView("_EditQuestionPartial", vm);
         }
 
 
-         [Authorize]
+        [Authorize]
         public ActionResult EditQuestion(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-          
+
             var question = _questionRepo.Get(id.Value);
+            if (question == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
 
-
-             var vm = question.ToViewModel();
+            var vm = question.ToViewModel();
             return PartialView("_EditQuestionPartial", vm);
 
         }
@@ -306,15 +331,16 @@ namespace ExpressQuiz.Controllers
                 var q = _questionRepo.Get(model.Question.Id);
                 q.Text = model.Question.Text;
                 q.EstimatedTime = model.Question.EstimatedTime;
+                q.Points = model.Question.Points;
                 _questionRepo.Update(q);
                 _questionRepo.Save();
 
 
                 if (q.Answers.Count > 1)
                 {
-                    _answerRepo.SaveOrder(q,model.Order);
+                    _answerRepo.SaveOrder(q, model.Order);
                 }
-                
+
                 ModelState.Clear();
 
                 model = q.ToViewModel();
@@ -324,24 +350,27 @@ namespace ExpressQuiz.Controllers
             return PartialView("_EditQuestionPartial", model);
         }
 
-         [Authorize]
+        [Authorize]
         public ActionResult EditAnswer(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (Request.IsAjaxRequest())
+            //if (Request.IsAjaxRequest())
+            //{
+            var model = _answerRepo.Get(id.Value);
+            if (model == null)
             {
-                var model = _answerRepo.Get(id.Value);
-
-
-                return PartialView("_EditAnswerPartial", model);
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            else
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
-            }
+
+            return PartialView("_EditAnswerPartial", model);
+            //}
+            //else
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
+            //}
         }
 
         [HttpPost]
@@ -361,16 +390,16 @@ namespace ExpressQuiz.Controllers
                 var vm = a.Question.ToViewModel();
 
                 ModelState.Clear();
-                return PartialView("_EditQuestionPartial",vm);
+                return PartialView("_EditQuestionPartial", vm);
             }
             return PartialView("_EditAnswerPartial", answer);
         }
 
-      
+
 
 
         // GET: Quizzes/Delete/5
-         [Authorize]
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -380,7 +409,7 @@ namespace ExpressQuiz.Controllers
             Quiz quiz = _quizRepo.Get(id.Value);
             if (quiz == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             return View(quiz);
         }
@@ -400,12 +429,12 @@ namespace ExpressQuiz.Controllers
         {
             if (disposing)
             {
-               // _quizRepo.Dispose();
+                // _quizRepo.Dispose();
             }
             base.Dispose(disposing);
         }
 
-         [Authorize]
+        [Authorize]
         public ActionResult DeleteQuestion(int? id)
         {
             if (id == null)
@@ -413,7 +442,11 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var model = _questionRepo.Get(id.Value);
-            var quiz = model.Quiz;
+
+            if (model == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
 
             _questionRepo.Delete(id.Value);
             _questionRepo.Save();
@@ -423,7 +456,7 @@ namespace ExpressQuiz.Controllers
             return PartialView("_EditQuizPartial", vm);
         }
 
-         [Authorize]
+        [Authorize]
         public ActionResult DeleteAnswer(int? id)
         {
             if (id == null)
@@ -431,16 +464,21 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var model = _answerRepo.Get(id.Value);
+            if (model == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
             var question = model.Question;
 
             _answerRepo.Delete(id.Value);
             _answerRepo.Save();
 
-             var vm = question.ToViewModel();
+            var vm = question.ToViewModel();
             return PartialView("_EditQuestionPartial", vm);
         }
 
 
-      
+
     }
 }

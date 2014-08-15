@@ -32,25 +32,15 @@ namespace ExpressQuiz.Migrations
             //{
             //    Debugger.Launch();
             //}
-            var uri = MapPath("~/bin/App_Data/seeddata.xml");
+            var uri = DataProvider.MapPath("~/bin/App_Data/seeddata.xml");
             //var uri = HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml");
-            var quizzes = DataProvider.Import(context, uri);
+            var quizzes = DataProvider.Import(uri);
 
             context.Quizzes.AddOrUpdate(i => i.Name,
                         quizzes.ToArray()
                    );
         }
 
-        private string MapPath(string seedFile)
-        {
-            if (HttpContext.Current != null)
-                return HostingEnvironment.MapPath(seedFile);
-
-            var absolutePath = new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath;
-            var directoryName = Path.GetDirectoryName(absolutePath);
-            var path = Path.Combine(directoryName, ".." + seedFile.TrimStart('~').Replace('/', '\\'));
-
-            return path;
-        }
+       
     }
 }

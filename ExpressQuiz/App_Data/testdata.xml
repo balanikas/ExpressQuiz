@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Content>
+
+
+  <Quizzes>
+    <Quiz category="C#">
+      <Name>quiz</Name>
+      <Summary>quiz summary</Summary>
+      <IsTimeable/>
+      <CreatedBy>
+        kris
+      </CreatedBy>
+      <Question>
+        <OrderId>1</OrderId>
+        <Text>q1</Text>
+        <EstimatedTime>10</EstimatedTime>
+        <Answer>
+          
+
+          <OrderId>1</OrderId>
+          <IsCorrect />
+          <Text>a1 (correct)</Text>
+         <Explanation>.</Explanation>
+        </Answer>
+        <Answer>
+          <OrderId>2</OrderId>
+          <Text>a2</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+      </Question>
+
+      <Question>
+        <OrderId>2</OrderId>
+        <Text>q2</Text>
+        <EstimatedTime>10</EstimatedTime>
+        <Answer>
+          <OrderId>1</OrderId>
+          <Text>a1</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+        <Answer>
+          <OrderId>2</OrderId>
+          <IsCorrect />
+          <Text>a2(correct)</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+
+        <Answer>
+          <OrderId>3</OrderId>
+          <Text>a3</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+      </Question>
+
+    </Quiz>
+
+   
+  </Quizzes>
+</Content>

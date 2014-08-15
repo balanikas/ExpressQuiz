@@ -14,7 +14,7 @@ namespace ExpressQuiz.Controllers
     public class ActiveQuizController : Controller
     {
         private readonly IRepo<QuizResult> _quizResultRepo;
-
+        private readonly IRepo<Question> _questionRepo;
         private readonly IRepo<Quiz> _quizRepo;
         private readonly IRepo<Answer> _answerRepo;
 
@@ -22,12 +22,14 @@ namespace ExpressQuiz.Controllers
         public ActiveQuizController(
             IRepo<QuizResult> quizResultRepo,
             IRepo<Quiz> quizRepo,
-            IRepo<Answer> answerRepo
+            IRepo<Answer> answerRepo,
+            IRepo<Question> questionRepo 
             )
         {
             _quizResultRepo = quizResultRepo;
             _quizRepo = quizRepo;
             _answerRepo = answerRepo;
+            _questionRepo = questionRepo;
         }
         
         // GET: ActiveQuiz
@@ -95,18 +97,45 @@ namespace ExpressQuiz.Controllers
 
         private int CalculateScore(QuizResult result)
         {
+            var usePoints = _quizRepo.Get(result.QuizId).AllowPoints;
+
+
 
             int count = 0;
-            foreach (var userAnswer in result.Answers)
-            {
-                var correctAnswer = _answerRepo.GetAll().FirstOrDefault(x => x.Id == userAnswer.AnswerId);
-                if (correctAnswer != null && correctAnswer.IsCorrect)
-                {
-                    count++;
-                }
 
+
+            if (usePoints)
+            {
+                var totalPoints = 0;
+                foreach (var userAnswer in result.Answers)
+                {
+                    var points = _questionRepo.Get(userAnswer.QuestionId).Points;
+                    totalPoints += points;
+                    
+                    var correctAnswer = _answerRepo.Get(userAnswer.AnswerId);
+                    if (correctAnswer != null && correctAnswer.IsCorrect)
+                    {
+                        count += points;
+                    }
+
+                }
+                return (int)(((double)count / (double)totalPoints) * 100);
             }
-            return (int) (((double) count/(double) result.Answers.Count)*100);
+            else
+            {
+                foreach (var userAnswer in result.Answers)
+                {
+                    var correctAnswer = _answerRepo.Get(userAnswer.AnswerId);
+                    if (correctAnswer != null && correctAnswer.IsCorrect)
+                    {
+                        count++;
+                    }
+
+                }
+                return (int)(((double)count / (double)result.Answers.Count) * 100);
+            }
+          
+           
         }
      
     }
