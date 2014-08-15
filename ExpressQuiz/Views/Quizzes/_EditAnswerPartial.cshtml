@@ -1,11 +1,22 @@
 ﻿@model ExpressQuiz.Models.Answer
 
-@Ajax.ActionLink("Back to question", "EditQuestion","Quizzes", new { id = Model.QuestionId }, new AjaxOptions()
-    {
-        UpdateTargetId = "content",
-        HttpMethod = "Get",
-        InsertionMode = InsertionMode.Replace
-    })
+
+<ul class="breadcrumb" style="margin-bottom: 5px;">
+    <li>
+       @Html.ActionLink("Quiz", "Edit", new { id = Model.Question.QuizId })
+    </li>
+    <li>
+        @Ajax.ActionLink("Question", "EditQuestion", "Quizzes", new { id = Model.QuestionId }, new AjaxOptions()
+        {
+            UpdateTargetId = "content",
+            HttpMethod = "Get",
+            InsertionMode = InsertionMode.Replace
+        })
+    </li>
+    <li class="active">Answer</li>
+</ul>
+
+
 
 @using (Ajax.BeginForm("EditAnswer","Quizzes", new AjaxOptions()
 {

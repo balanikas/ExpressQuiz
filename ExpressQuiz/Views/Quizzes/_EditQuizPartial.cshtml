@@ -1,6 +1,19 @@
 ﻿@using System.Data.Entity
 @model ExpressQuiz.ViewModels.EditQuizViewModel
 
+@if (Model.ModifiedByUser)
+{
+    <script>
+        showSavedAlert();
+    </script>
+}
+
+<ul class="breadcrumb" style="margin-bottom: 5px;">
+   
+
+    <li class="active">Quiz</li>
+</ul>
+
 @using (Ajax.BeginForm("Edit", "Quizzes", new AjaxOptions()
 {
     UpdateTargetId = "content",
@@ -167,4 +180,7 @@
             $("#Order").val(ids);
         }
     });
+
+
+  
 </script>

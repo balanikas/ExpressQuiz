@@ -1,7 +1,30 @@
 ﻿@using System.Data.Entity
 @model ExpressQuiz.ViewModels.EditQuestionViewModel
 
-@Html.ActionLink("Back to quiz", "Edit", new { id = Model.Question.QuizId })
+
+    @if (Model.ModifiedByUser)
+    {
+        <script>
+        showSavedAlert();
+     </script>
+    }
+
+
+
+<div>
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+        <li>
+            @Html.ActionLink("Quiz", "Edit", new { id = Model.Question.QuizId })
+        </li>
+
+        <li class="active">Question</li>
+    </ul>
+    
+   
+   
+</div>
+
+
 
 @using (Ajax.BeginForm("EditQuestion", "Quizzes", new AjaxOptions()
 {
@@ -143,8 +166,7 @@
             }
         });
     });
-
-
+   
 </script>
 
 

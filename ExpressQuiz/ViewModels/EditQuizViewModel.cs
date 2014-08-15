@@ -19,5 +19,6 @@ namespace ExpressQuiz.ViewModels
         public uint EstimatedTime { get; set; }
 
         public string NewCategory { get; set; }
+        public bool ModifiedByUser { get; set; }
     }
 }

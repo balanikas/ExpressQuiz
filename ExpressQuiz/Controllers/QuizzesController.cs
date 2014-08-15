@@ -188,7 +188,7 @@ namespace ExpressQuiz.Controllers
                 }
 
                 model = quiz.ToViewModel(_quizCategoryRepo);
-
+                model.ModifiedByUser = true;
                 return PartialView("_EditQuizPartial", model);
 
             }
@@ -344,7 +344,7 @@ namespace ExpressQuiz.Controllers
                 ModelState.Clear();
 
                 model = q.ToViewModel();
-
+                model.ModifiedByUser = true;
                 return PartialView("_EditQuestionPartial", model);
             }
             return PartialView("_EditQuestionPartial", model);
@@ -388,7 +388,7 @@ namespace ExpressQuiz.Controllers
 
                 a.Question.Answers = a.Question.Answers.OrderBy(x => x.Id).ToList();
                 var vm = a.Question.ToViewModel();
-
+                vm.ModifiedByUser = true;
                 ModelState.Clear();
                 return PartialView("_EditQuestionPartial", vm);
             }
@@ -451,7 +451,9 @@ namespace ExpressQuiz.Controllers
             _questionRepo.Delete(id.Value);
             _questionRepo.Save();
 
-            var vm = model.Quiz.ToViewModel(_quizCategoryRepo);
+
+            var quiz = _quizRepo.Get(model.QuizId);
+            var vm = quiz.ToViewModel(_quizCategoryRepo);
 
             return PartialView("_EditQuizPartial", vm);
         }
@@ -469,10 +471,10 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            var question = model.Question;
-
             _answerRepo.Delete(id.Value);
             _answerRepo.Save();
+
+            var question = _questionRepo.Get(model.QuestionId);
 
             var vm = question.ToViewModel();
             return PartialView("_EditQuestionPartial", vm);
