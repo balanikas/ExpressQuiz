@@ -24,7 +24,7 @@ namespace ExpressQuiz.Models
         [Display(Name = "Answer text")]
         public string Text { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(10000)]
         [DataType(DataType.MultilineText)]
         public string Explanation { get; set; }
 

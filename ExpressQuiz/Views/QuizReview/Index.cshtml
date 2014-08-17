@@ -32,10 +32,11 @@
                 {
                     count++;
                     <tr>
-                        <td>@Html.ActionLink(@count.ToString(), "Question", new { questionId = q.QuestionId, resultId = Model.Result.Id })</td>
+                        <td>@count.ToString()</td>
 
                         <td>@q.QuestionText</td>
                         <td>@q.IsCorrectAnswer</td>
+                        <td>@Html.ActionLink("Review", "Question", new { questionId = q.QuestionId, resultId = Model.Result.Id })</td>
                     </tr>
 
                 }
@@ -48,7 +49,7 @@
 </div>
 
 <div class="text-center">
-    <button type="button" onclick="rate()" class="btn btn-default">Exit quiz</button>
+    <button type="button" onclick="rate()" class="btn btn-primary">Exit quiz</button>
 </div>
 
 
@@ -100,7 +101,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Ok" class="btn btn-default" />
+                            <input type="submit" value="Ok" class="btn btn-primary" />
                         </div>
                     </div>
                 </div>

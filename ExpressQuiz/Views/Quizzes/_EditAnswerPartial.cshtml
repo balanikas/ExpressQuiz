@@ -10,7 +10,8 @@
         {
             UpdateTargetId = "content",
             HttpMethod = "Get",
-            InsertionMode = InsertionMode.Replace
+            InsertionMode = InsertionMode.Replace,
+            OnSuccess = "applyValidation"
         })
     </li>
     <li class="active">Answer</li>
@@ -63,7 +64,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-11 col-md-1">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
     </div>

@@ -187,6 +187,7 @@
     <Compile Include="Models\QuizFilter.cs" />
     <Compile Include="Models\QuizResult.cs" />
     <Compile Include="Models\UserAnswer.cs" />
+    <Compile Include="ViewModels\SocialSettingsViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Repos\IRepo.cs" />
     <Compile Include="Repos\Repo.cs" />
@@ -232,7 +233,6 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -675,8 +675,11 @@
     <Content Include="Views\UserProfile\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_QuizUsersPartial.cshtml" />
+    <Content Include="Views\UserProfile\_SocialPartial.cshtml" />
+    <Content Include="Views\UserProfile\_QuizzesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\imports\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>

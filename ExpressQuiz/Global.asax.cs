@@ -4,6 +4,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using ExpressQuiz.Controllers;
 using ExpressQuiz.Models;
 using ExpressQuiz.Repos;
 
@@ -34,7 +35,7 @@ namespace ExpressQuiz
             cb.RegisterType<Repo<QuizResult>>().As<IRepo<QuizResult>>().InstancePerRequest();
 
             cb.RegisterControllers(typeof(MvcApplication).Assembly).InstancePerRequest();
-
+            cb.RegisterType<AccountController>().InstancePerDependency();
             cb.RegisterAssemblyModules(typeof(MvcApplication).Assembly);
            
             var container = cb.Build();

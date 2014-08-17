@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ExpressQuiz.Models;
 using ExpressQuiz.Repos;
+using ExpressQuiz.ViewModels;
 
 namespace ExpressQuiz.Controllers
 {
@@ -15,22 +16,35 @@ namespace ExpressQuiz.Controllers
     {
         private readonly IRepo<Quiz> _quizRepo;
 
-        public UserProfileController(
-            IRepo<Quiz> quizRepo
-            )
+        public UserProfileController(IRepo<Quiz> quizRepo)
         {
-
             _quizRepo = quizRepo;
         }
-    
-        public ActionResult Index()
+
+        public ActionResult Index(int? profileView)
         {
-            var quizzes = _quizRepo.GetAll().Where(x => x.CreatedBy == User.Identity.Name);
+            var vm = new UserProfileViewModel();
+            vm.Quizzes = _quizRepo.GetAll().Where(x => x.CreatedBy == User.Identity.Name);
+            vm.ProfileView = profileView.HasValue ? profileView.Value : 0;
+
+            var socialSettings = new SocialSettingsViewModel();
+
+            vm.SocialSettings = socialSettings;
 
 
-            return View(quizzes.ToList());
+            return View(vm);
         }
 
+        [HttpPost]
+        public ActionResult EditSocialSettings(SocialSettingsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+            }
 
+            return PartialView("_SocialPartial",model);
+
+        }
     }
 }

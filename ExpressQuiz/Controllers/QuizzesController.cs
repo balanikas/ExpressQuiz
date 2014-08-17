@@ -60,7 +60,7 @@ namespace ExpressQuiz.Controllers
 
             if (selectedCategory.HasValue && selectedCategory.Value != -1)
             {
-                quizzes = quizzes.Where(s => s.QuizCategoryId == selectedCategory.Value);
+                quizzes = quizzes.Where(s => s.Category.Id== selectedCategory.Value);
             }
 
             if (!String.IsNullOrEmpty(searchTerm))
@@ -156,20 +156,21 @@ namespace ExpressQuiz.Controllers
         [Authorize]
         public ActionResult Edit(EditQuizViewModel model)
         {
+            
             if (ModelState.IsValid)
             {
-
+                
                 var quiz = _quizRepo.Get(model.Quiz.Id);
 
                 if (!String.IsNullOrEmpty(model.NewCategory))
                 {
                     quiz.Category = _quizCategoryRepo.Insert(model.NewCategory);
-                    quiz.QuizCategoryId = quiz.Category.Id;
+                    quiz.Category.Id = quiz.Category.Id;
                 }
                 else
                 {
                     quiz.Category = _quizCategoryRepo.Get(model.SelectedCategory);
-                    quiz.QuizCategoryId = model.SelectedCategory;
+                    quiz.Category.Id = model.SelectedCategory;
                 }
 
 
@@ -187,11 +188,14 @@ namespace ExpressQuiz.Controllers
                     _questionRepo.SaveOrder(quiz, model.Order);
                 }
 
-                model = quiz.ToViewModel(_quizCategoryRepo);
+                ModelState.Clear();
+
+                model = _quizRepo.Get(quiz.Id).ToViewModel(_quizCategoryRepo);
                 model.ModifiedByUser = true;
                 return PartialView("_EditQuizPartial", model);
 
             }
+       
             return View(model);
         }
 
@@ -343,7 +347,7 @@ namespace ExpressQuiz.Controllers
 
                 ModelState.Clear();
 
-                model = q.ToViewModel();
+                model = _questionRepo.Get(q.Id).ToViewModel();
                 model.ModifiedByUser = true;
                 return PartialView("_EditQuestionPartial", model);
             }
@@ -387,7 +391,7 @@ namespace ExpressQuiz.Controllers
                 _answerRepo.Save();
 
                 a.Question.Answers = a.Question.Answers.OrderBy(x => x.Id).ToList();
-                var vm = a.Question.ToViewModel();
+                var vm = _questionRepo.Get(a.QuestionId).ToViewModel();
                 vm.ModifiedByUser = true;
                 ModelState.Clear();
                 return PartialView("_EditQuestionPartial", vm);

@@ -30,7 +30,8 @@
 {
     UpdateTargetId = "content",
     HttpMethod = "Post",
-    InsertionMode = InsertionMode.Replace
+    InsertionMode = InsertionMode.Replace,
+    OnSuccess = "applyValidation"
 }))
 {
     <div class="form-horizontal">
@@ -78,7 +79,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-11 col-md-1">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
 
@@ -87,9 +88,10 @@
                                     {
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",
-                                        UpdateTargetId = "content"
+                                        UpdateTargetId = "content",
+                                        OnSuccess = "applyValidation"
 
-                                    }, htmlAttributes: new { @class = "btn btn-default btn-block" })
+                                    }, htmlAttributes: new { @class = "btn btn-primary btn-block" })
 
 
         <table id="answersTbl" class="table table-striped table-hover table-bordered">
@@ -118,7 +120,8 @@
                                    {
                                        InsertionMode = InsertionMode.Replace,
                                        HttpMethod = "Get",
-                                       UpdateTargetId = "content"
+                                       UpdateTargetId = "content",
+                                       OnSuccess = "applyValidation"
 
                                    })
 
@@ -128,7 +131,8 @@
                                 {
                                     InsertionMode = InsertionMode.Replace,
                                     HttpMethod = "Get",
-                                    UpdateTargetId = "content"
+                                    UpdateTargetId = "content",
+                                    OnSuccess = "applyValidation"
 
                                 })
 

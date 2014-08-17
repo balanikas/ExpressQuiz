@@ -119,7 +119,8 @@ namespace ExpressQuiz.Controllers
                     }
 
                 }
-                return (int)(((double)count / (double)totalPoints) * 100);
+                //return (int)(((double)count / (double)totalPoints) * 100);
+                return count;
             }
             else
             {
@@ -132,7 +133,7 @@ namespace ExpressQuiz.Controllers
                     }
 
                 }
-                return (int)(((double)count / (double)result.Answers.Count) * 100);
+                return count;
             }
           
            

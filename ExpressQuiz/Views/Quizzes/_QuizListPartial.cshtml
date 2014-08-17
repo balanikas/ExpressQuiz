@@ -3,17 +3,29 @@
 @model IEnumerable<ExpressQuiz.Models.Quiz>
 
 <div id="quizList" class="list-group">
-
-    @foreach (var item in Model)
-    {
-        <a href="/Quizzes/Details/@item.Id" class="list-group-item">
-            <h4 class="list-group-item-heading">@item.Name</h4>
-         
-            <p class="list-group-item-text">@item.Summary</p>
+    
+  
 
 
-        </a>
-    }
 
+        @foreach (var item in Model)
+        {
+
+
+            <a href="/Quizzes/Details/@item.Id" class="list-group-item">
+                <div class="row">
+                    <h4 class="list-group-item-heading col-md-8">@item.Name</h4>
+                    <div class="pull-right">by @item.CreatedBy</div>
+                </div>
+                <div class="row">
+                    <p class="list-group-item-text">@item.Summary</p>
+                </div>
+                   
+                   
+
+
+</a>
+        }
+  
 
 </div>

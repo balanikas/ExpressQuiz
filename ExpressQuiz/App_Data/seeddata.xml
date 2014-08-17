@@ -15,6 +15,7 @@
         <OrderId>1</OrderId>
         <Text>q1</Text>
         <EstimatedTime>10</EstimatedTime>
+        <Points>10</Points>
         <Answer>
           
 
@@ -34,6 +35,7 @@
         <OrderId>2</OrderId>
         <Text>q2</Text>
         <EstimatedTime>10</EstimatedTime>
+        <Points>10</Points>
         <Answer>
           <OrderId>1</OrderId>
           <Text>a1</Text>
@@ -55,7 +57,7 @@
 
     </Quiz>
 
-    <Quiz category="Java">
+    <Quiz category="C#">
       <Name>ORACLE JAVA QUIZ 1</Name>
       <Summary>
         This practice test contains 15 java questions with answer explanations to help you test your Java
@@ -80,7 +82,8 @@
 
           What is the result?
         </Text>
-        <EstimatedTime>1</EstimatedTime>
+        <EstimatedTime>10</EstimatedTime>
+        <Points>10</Points>
         <Answer>
           <OrderId>1</OrderId>
           <Text>123456</Text>
@@ -123,7 +126,8 @@
       <Question>
         <OrderId>2</OrderId>
         <Text>Choose the three legal identifiers.</Text>
-        <EstimatedTime>1</EstimatedTime>
+        <EstimatedTime>10</EstimatedTime>
+        <Points>10</Points>
         <Answer>
           <OrderId>1</OrderId>
           <Text>1stName</Text>

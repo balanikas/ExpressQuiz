@@ -77,14 +77,18 @@ namespace ExpressQuiz.Migrations
                         Answers = answers,
                         Text = q.Element("Text").Value.Trim(charsToTrim),
                         OrderId = int.Parse(q.Element("OrderId").Value.Trim(charsToTrim)),
-                        EstimatedTime = int.Parse(q.Element("EstimatedTime").Value.Trim(charsToTrim))
+                        EstimatedTime = int.Parse(q.Element("EstimatedTime").Value.Trim(charsToTrim)),
+                        Points = int.Parse(q.Element("Points").Value.Trim(charsToTrim)),
 
                     });
                 }
 
                 quizzes.Add(new Quiz()
                 {
-                    Category = new QuizCategory() { Name = ((string)quiz.Attribute("category")).Trim(charsToTrim) },
+                    Category = new QuizCategory()
+                    {
+                        Name =  ((string)quiz.Attribute("category")).Trim(charsToTrim)
+                    } ,
                     Name = quiz.Element("Name").Value.Trim(charsToTrim),
                     Summary = quiz.Element("Summary").Value.Trim(charsToTrim),
                     Questions = questions,
@@ -100,7 +104,18 @@ namespace ExpressQuiz.Migrations
 
         }
 
-        internal static void Export(IRepo<Quiz> repo, string fileName)
+
+        private static QuizCategory GetCategory(List<Quiz> quizzes, string name)
+        {
+         
+            return new QuizCategory()
+            {
+                Name = name
+            };
+        }
+
+
+        public static void Export(List<Quiz> quizzes , string fileName)
         {
             var doc = new XDocument();
             var root = new XElement("Content");
@@ -108,8 +123,7 @@ namespace ExpressQuiz.Migrations
             var quizzesEl = new XElement("Quizzes");
             root.Add(quizzesEl);
 
-            var quizzes = from m in repo.GetAll()
-                          select m;
+          
 
             foreach (var quiz in quizzes.ToList())
             {
@@ -127,6 +141,7 @@ namespace ExpressQuiz.Migrations
                     qEl.Add(new XElement("OrderId", q.OrderId));
                     qEl.Add(new XElement("Text", q.Text));
                     qEl.Add(new XElement("EstimatedTime", q.EstimatedTime));
+                    qEl.Add(new XElement("Points", q.Points));
                     foreach (var a in q.Answers.ToList())
                     {
                         var aEl = new XElement("Answer");

@@ -1,33 +1,37 @@
 ﻿@model IEnumerable<ExpressQuiz.Models.QuizResult>
 
+@if (Model.Any())
+{
+    <br/>
+    <h4>Latest attempts</h4>
+    <table class="table table-striped table-hover ">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Score</th>
 
-<table class="table table-striped table-hover ">
-    <thead>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @{
+
+    foreach (var r in Model)
+    {
+
         <tr>
-            <th>User</th>
-            <th>Score</th>
-          
 
+
+            <td>@r.UserId</td>
+            <td>@r.Score</td>
         </tr>
-    </thead>
 
-    <tbody>
-
-        @{
-
-            foreach (var r in Model)
-            {
-       
-                <tr>
-                 
-
-                    <td>@r.UserId</td>
-                    <td>@r.Score</td>
-                </tr>
-
+    }
             }
-        }
 
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}

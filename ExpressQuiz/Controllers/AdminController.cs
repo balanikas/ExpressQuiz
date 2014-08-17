@@ -24,7 +24,9 @@ namespace ExpressQuiz.Controllers
         public ActionResult Export()
         {
             var quizRepo = new Repo<Quiz>(new QuizDbContext());
-            DataProvider.Export(quizRepo, System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
+            var quizzes = from m in quizRepo.GetAll()
+                          select m;
+            DataProvider.Export(quizzes.ToList(), System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
             return View("Index");
         }
 

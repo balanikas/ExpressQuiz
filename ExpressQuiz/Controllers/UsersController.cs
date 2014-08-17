@@ -38,7 +38,7 @@ namespace ExpressQuiz.Controllers
            
                 var results =_quizResultRepo.GetAll().Where(x => x.QuizId == quizId);
                 
-                return View("_QuizUsersPartial", results.ToList());
+                return PartialView("_QuizUsersPartial", results.ToList());
               
             
         }

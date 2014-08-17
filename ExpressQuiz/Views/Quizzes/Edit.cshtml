@@ -1,7 +1,14 @@
 ﻿@model ExpressQuiz.ViewModels.EditQuizViewModel
 
-@Scripts.Render("~/Scripts/jquery.tablednd.js")
-@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+@section Scripts {
+   
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.tablednd.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+   
+}
+
+
 
 
 <h2>Edit</h2> 
@@ -14,13 +21,9 @@
         Html.RenderPartial("_EditQuizPartial", Model);
     }
 </div>
-  <hr/>
 
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
 
 
 
@@ -36,5 +39,11 @@
                 $(this).remove();
             });
         }, 500);
+    }
+
+    function applyValidation() {
+        $("form").removeData("validator");
+        $("form").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("form");
     }
 </script>

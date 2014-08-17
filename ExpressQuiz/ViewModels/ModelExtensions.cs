@@ -18,19 +18,31 @@ namespace ExpressQuiz.ViewModels
             var ratings = quizRatings.GetAll().Where(x => x.QuizId == quiz.Id);
             if (ratings.Any())
             {
-                vm.AvgLevel = (int)ratings.Average(x => x.Level);
-                vm.AvgRating = (int)ratings.Average(x => x.Rating);
+                vm.AvgLevel = (int)ratings.Average(x => x.Level) * 20;
+                
+                vm.AvgRating = (int)ratings.Average(x => x.Rating) * 20;
             }
 
             var results = quizResults.GetAll().Where(x => x.QuizId == quiz.Id);
             if (results.Any())
             {
-                vm.AvgScore = (int)results.Average(x => x.Score);
+                if (quiz.AllowPoints)
+                {
+                    vm.AvgScore = (int)results.Average(x => x.Score);
+                    vm.AvgScorePercent = (vm.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
+                }
+                else
+                {
+                    vm.AvgScore = ((int)results.Average(x => x.Score)*100) / quiz.Questions.Count;
+                    vm.AvgScorePercent = vm.AvgScore;
+                }
+                
                 vm.AvgTime = (int)results.Average(x => x.EllapsedTime);
+                vm.AvgTimePercent = (vm.AvgTime*100)/quiz.Questions.Sum(x => x.EstimatedTime);
                 vm.Sessions = results.Count();
             }
 
-           
+            
           
             vm.Quiz = quiz;
 
