@@ -1,13 +1,13 @@
 ﻿@model ExpressQuiz.ViewModels.QuizzesViewModel
 @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
-<div style="min-width: 1000px">
+<div style="width: 1280px">
 
     <br />
 
-    <div id="leftSideBar" style="float:left;width:15%; margin:5px">
+    <div id="leftSideBar" style="float:left;width:20%; margin:5px">
         @Html.Partial("_QuizCategoriesPartial", Model.QuizCategories)
     </div>
-    <div id="content" style="float:left;width:60%;margin:5px">
+    <div id="content" style="float:left;width:50%;margin:5px">
 
         @using (Ajax.BeginForm("GetQuizzes", "Quizzes", new AjaxOptions()
         {
@@ -17,11 +17,11 @@
         }))
         {
             @Html.HiddenFor(m=>m.SelectedCategory)
-            @Html.TextBox("searchTerm", null, new { @class = "form-control" , placeholder="search here" })
+            @Html.TextBox("searchTerm", null, new { @class = "form-control input-lg" , placeholder="search here" })
              <br />
             <div class="form-group">
-                @Html.EnumDropDownListFor(m => m.Filter, htmlAttributes: new { @class = "form-control input-sm col-md-2", id = "filterList" })
-                <div class="col-md-2">
+                @Html.EnumDropDownListFor(m => m.Filter, htmlAttributes: new { @class = "form-control input-sm col-md-offset-5 col-md-2", id = "filterList" })
+                <div class="col-md-1">
                     <input type="submit" value="Sort" class="btn btn-primary btn-sm" />
                 </div>
             </div>
@@ -30,7 +30,7 @@
         }
 
         <br/>
-            @Html.ActionLink("Create New", "Create", "Quizzes", htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block" })
+            @Html.ActionLink("Create New", "Create", "Quizzes", routeValues: null,  htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block" })
      
             <div id="quizList" class="list-group">
                 @Html.Partial("_QuizListPartial", Model.Quizzes)
@@ -38,7 +38,7 @@
             </div>
 
         </div>
-    <div id="rightSideBar" style="float:left;width:15%;height:200px;margin:5px">
+    <div id="rightSideBar" style="float:left;width:20%;margin:5px">
         @Html.Partial("_TopListPartial", Model.TopQuizzes)
     </div>
 </div>

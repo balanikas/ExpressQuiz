@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ExpressQuiz.Models;
 using ExpressQuiz.Repos;
 using ExpressQuiz.ViewModels;
+using Microsoft.Ajax.Utilities;
 
 namespace ExpressQuiz.Controllers
 {
@@ -36,7 +37,7 @@ namespace ExpressQuiz.Controllers
         public ActionResult Index(int quizId)
         {
            
-                var results =_quizResultRepo.GetAll().Where(x => x.QuizId == quizId);
+                var results =_quizResultRepo.GetAll().Where(x => x.QuizId == quizId).DistinctBy(x=> x.UserId).OrderByDescending(x=>x.Score);
                 
                 return PartialView("_QuizUsersPartial", results.ToList());
               

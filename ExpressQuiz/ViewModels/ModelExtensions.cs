@@ -29,12 +29,12 @@ namespace ExpressQuiz.ViewModels
                 if (quiz.AllowPoints)
                 {
                     vm.AvgScore = (int)results.Average(x => x.Score);
-                    vm.AvgScorePercent = (vm.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
+                    //vm.AvgScorePercent = (vm.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
                 }
                 else
                 {
                     vm.AvgScore = ((int)results.Average(x => x.Score)*100) / quiz.Questions.Count;
-                    vm.AvgScorePercent = vm.AvgScore;
+                    //vm.AvgScorePercent = vm.AvgScore;
                 }
                 
                 vm.AvgTime = (int)results.Average(x => x.EllapsedTime);
@@ -77,6 +77,15 @@ namespace ExpressQuiz.ViewModels
                 IsSelected = catId.HasValue ? (-1 == catId.Value) : true,
                 QuizCount = quizzes.Count()
             });
+
+
+            quizzes = quizzes.Where(x => !x.Locked);
+
+
+            quizzes = from q in quizzes
+                where q.Questions.Count > 0 && 
+                (from que in q.Questions where que.Answers.Count > 0 select que).Any()
+                select q;
 
             if (!String.IsNullOrEmpty(searchTerm))
             {
@@ -137,31 +146,53 @@ namespace ExpressQuiz.ViewModels
             return vm;
         }
 
-        public static QuestionReviewViewModel ToViewModel(this Question question, int resultId)
+        public static QuestionReviewViewModel ToViewModel(this Question question,int resultId, int userAnswerId )
         {
             var vm = new QuestionReviewViewModel();
             vm.Question = question;
             vm.QuizResultId = resultId;
+            vm.UserAnswerId = userAnswerId;
             return vm;
         }
 
-        public static QuizReviewViewModel ToViewModel(this QuizResult quizResult, IRepo<Question> questions, IRepo<Answer> answers  )
+        public static QuizReviewViewModel ToViewModel(this QuizResult quizResult, IRepo<Quiz> quizzes, IRepo<Answer> answers  )
         {
             var vm = new QuizReviewViewModel();
+            var quiz = quizzes.Get(quizResult.QuizId);
+            var questions = quiz.Questions.Where(x => x.QuizId == quizResult.QuizId);
+
+
 
             var qDetails = new List<QuizReviewItem>();
             foreach (var userAnswer in quizResult.Answers)
             {
                 var answer = answers.GetAll().FirstOrDefault(x => x.Id == userAnswer.AnswerId);
                 var isAnswerCorrect = answer != null ? answer.IsCorrect : false;
-                var questionText = questions.GetAll().First(x => x.Id == userAnswer.QuestionId).Text;
+                var questionText = questions.First(x => x.Id == userAnswer.QuestionId).Text;
 
                 qDetails.Add(new QuizReviewItem(isAnswerCorrect, questionText, userAnswer.QuestionId));
 
 
             }
+
+           
+            var allowPoints = quiz.AllowPoints;
+            string scoreText;
+            if (allowPoints)
+            {
+                var totalPoints = questions.Sum(x => x.Points);
+                var scoredPoints = quizResult.Score*totalPoints/100;
+                scoreText = scoredPoints + " / " + totalPoints + " points";
+            }
+            else
+            {
+                scoreText = quizResult.Score + "%";
+            }
+
             vm.Items = qDetails;
             vm.Result = quizResult;
+            vm.ScoreText = scoreText;
+            vm.EllapsedTimePercent = (int)((double)quizResult.EllapsedTime/(double)questions.Sum(x => x.EstimatedTime)*100);
             vm.QuizId = quizResult.QuizId;
 
             return vm;

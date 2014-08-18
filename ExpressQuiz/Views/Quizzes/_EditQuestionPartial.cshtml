@@ -1,4 +1,5 @@
 ﻿@using System.Data.Entity
+@using ExpressQuiz.Extensions
 @model ExpressQuiz.ViewModels.EditQuestionViewModel
 
 
@@ -40,6 +41,7 @@
         @Html.HiddenFor(model => model.Question.Id)
         @Html.HiddenFor(model => model.Order)
         @Html.HiddenFor(model => model.Question.QuizId)
+        @Html.HiddenFor(model => model.Question.Points)
         <div class="form-group">
             @Html.LabelFor(model => model.Question.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -68,8 +70,10 @@
             {
                 @Html.LabelFor(model => model.Question.Points, htmlAttributes: new { @class = "control-label col-md-2" });
                 <div class="col-md-2">
-                    @Html.EditorFor(model => model.Question.Points, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Question.Points, "", new { @class = "text-danger" })
+                    <input id="questionPoints" class="form-control" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10"
+                           data-slider-step="0.1" data-slider-value="@Model.Question.Points" />
+                    
+                  
                 </div>
 
             }
@@ -97,7 +101,8 @@
         <table id="answersTbl" class="table table-striped table-hover table-bordered">
             <thead>
                 <tr>
-                    <td>Text</td>
+                    <td></td>
+                    <td>Answer</td>
                     <td>Is correct</td>
                 </tr>
 
@@ -109,6 +114,7 @@
     {
 
         <tr id="@a.Id">
+            <td class="dragHandle"></td>
             <td>
                 @a.Text
             </td>
@@ -117,24 +123,24 @@
             </td>
             <td>
                 @Ajax.ActionLink("Edit", "EditAnswer", "Quizzes", new { id = a.Id }, new AjaxOptions()
-                                   {
-                                       InsertionMode = InsertionMode.Replace,
-                                       HttpMethod = "Get",
-                                       UpdateTargetId = "content",
-                                       OnSuccess = "applyValidation"
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "Get",
+                    UpdateTargetId = "content",
+                    OnSuccess = "applyValidation"
 
-                                   })
+                })
 
             </td>
             <td>
                 @Ajax.ActionLink("Delete", "DeleteAnswer", "Quizzes", new { id = a.Id, orderId = Model.Question.Answers.Count }, new AjaxOptions()
-                                {
-                                    InsertionMode = InsertionMode.Replace,
-                                    HttpMethod = "Get",
-                                    UpdateTargetId = "content",
-                                    OnSuccess = "applyValidation"
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "Get",
+                    UpdateTargetId = "content",
+                    OnSuccess = "applyValidation"
 
-                                })
+                })
 
             </td>
         </tr>
@@ -168,6 +174,24 @@
                 }
                 $("#Order").val(ids);
             }
+        });
+
+        $("#answersTbl tr").hover(function () {
+            $(this.cells[0]).addClass('showDragHandle');
+        }, function () {
+            $(this.cells[0]).removeClass('showDragHandle');
+        });
+
+
+
+        $('#questionPoints').slider({
+            formater: function (value) {
+                return Math.round(value);
+            }
+        });
+
+        $("#questionPoints").on('slide', function (slideEvt) {
+            $("#Question_Points").attr("value", Math.round(slideEvt.value));
         });
     });
    

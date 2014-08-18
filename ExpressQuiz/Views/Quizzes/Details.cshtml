@@ -4,99 +4,104 @@
     <h2>
         @Model.Quiz.Name  (@Model.Quiz.Questions.Count questions)</h2>
     }
-    <div>
+<div>
       
-        <hr />
+    <hr />
         
         
-        @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)
-        {
-            <div>@Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.Id }, new { @class="btn btn-primary btn-sm col-md-offset-10 col-md-1"})</div>
+    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Quiz.Id }, new { @class = "btn btn-lg btn-success" })</div>
 
-
-            <div> @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.Id }, new { @class = "btn btn-danger btn-sm col-md-1" })</div>
-        }
         
-        
+        <br/>
        
-        <dl class="dl-horizontal">
-            <dt>
+    <dl class="dl-horizontal">
+        @*<dt>
                 @Html.DisplayNameFor(model => model.Quiz.Name)
             </dt>
 
             <dd>
                 @Html.DisplayFor(model => model.Quiz.Name)
-            </dd>
+            </dd>*@
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Quiz.Summary)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Quiz.Summary)
-            </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Quiz.Summary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Quiz.Summary)
+        </dd>
 
-            <dt>
+        @*<dt>
                 Questions
             </dt>
             <dd>
                
                 @Model.Quiz.Questions.Count
-            </dd>
+            </dd>*@
             
-            <dt>
-                @Html.DisplayNameFor(model => model.AvgTime)
-            </dt>
-            <dd>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgTimePercent%;">
-                        @Model.AvgTime seconds
-                    </div>
+        <dt>
+            @Html.DisplayNameFor(model => model.AvgTime)
+        </dt>
+        <dd>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgTimePercent%;">
+                    @Model.AvgTime seconds
                 </div>
-            </dd>
+            </div>
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.AvgLevel)
-            </dt>
-            <dd>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgLevel%;">
-                        @Model.AvgLevel
-                    </div>
+        <dt>
+            @Html.DisplayNameFor(model => model.AvgLevel)
+        </dt>
+        <dd>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgLevel%;">
+                    @Model.AvgLevel
                 </div>
-            </dd>
+            </div>
+        </dd>
             
-            <dt>
-                @Html.DisplayNameFor(model => model.AvgRating)
-            </dt>
-            <dd>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgRating%;">
-                        @Model.AvgRating
-                    </div>
+        <dt>
+            @Html.DisplayNameFor(model => model.AvgRating)
+        </dt>
+        <dd>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgRating%;">
+                    @Model.AvgRating
                 </div>
-            </dd>
+            </div>
+        </dd>
             
-            <dt>
-                @Html.DisplayNameFor(model => model.AvgScore)
-            </dt>
-            <dd>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgScorePercent%;">
-                        @Model.AvgScore
-                    </div>
+        <dt>
+            @Html.DisplayNameFor(model => model.AvgScore)
+        </dt>
+        <dd>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgScore%;">
+                    @Model.AvgScore%
                 </div>
-            </dd>
+            </div>
+        </dd>
             
           
             
           
-        </dl>
+    </dl>
         
     
         
 
-        <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Quiz.Id }, new { @class = "btn btn-lg btn-success" })</div>
-    </div>
+      
+</div>
+
+@if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)
+{
+    <div>@Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.Id }, new { @class = "btn btn-primary btn-sm  col-md-1" })</div>
+
+
+    <div> @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.Id }, new { @class = "btn btn-danger btn-sm  col-md-1" })</div>
+}
+<br/>
+
 <div>
   
     

@@ -7,40 +7,57 @@
 <script src="~/Scripts/expressquiz/main.js"></script>
 
 <div>
+    <br />
+    @Html.ActionLink("Back", "Index", new { id = @Model.QuizResultId }, new { @class = "btn btn-primary " })
 
-
-    @Html.ActionLink("Back to List", "Index", new { id = @Model.QuizResultId })
 </div>
 <div>
 
-  
+
     <div id="page-selection"></div>
     <div id="content">
 
         <h4>Question</h4>
-        <p style="white-space: pre" >
-            @Model.Question.Text 
+        <p style="white-space: pre">
+            @Model.Question.Text
         </p>
 
         <h4>Answers</h4>
         <p>
             <div id="answers" class="col-lg-10">
                 @{
-                    foreach(var a in Model.Question.Answers)
+                    foreach (var a in Model.Question.Answers)
                     {
-                        <div class="radio" >
+
+                        <div class="radio">
                             <label>
                                 @{
-                                    if (a.IsCorrect)
-                                    {
-                                        <input type="radio" checked name="optionsRadios" disabled />
-                                    }
-                                    else
-                                    {
-                                        <input type="radio" name="optionsRadios" disabled />
-                                    }
-                                }
-                                @a.Text
+
+
+                                    <input type="radio"
+                                           @(a.IsCorrect ? "checked" : "")
+                                           name="optionsRadios" disabled />
+
+
+
+
+
+                        if (Model.UserAnswerId == a.Id)
+                        {
+                            if (a.IsCorrect)
+                            {
+                                <div style="background: lightgreen">@a.Text</div>
+                            }
+                            else
+                            {
+                                <div style="background: lightcoral">@a.Text</div>
+                            }
+                        }
+                        else
+                        {
+                            <div>@a.Text</div>
+                        }
+}
                             </label>
                         </div>
                         <div style="color: green">
@@ -59,5 +76,5 @@
 
 </div>
 
-<br/>
+<br />
 

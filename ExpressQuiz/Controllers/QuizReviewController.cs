@@ -14,13 +14,14 @@ namespace ExpressQuiz.Controllers
     {
 
         private readonly IRepo<QuizResult> _quizResultRepo;
-
+        private readonly IRepo<Quiz> _quizRepo;
         private readonly IRepo<Question> _questionRepo;
         private readonly IRepo<Answer> _answerRepo;
         private readonly IRepo<QuizRating> _quizRatingRepo;
 
         public QuizReviewController(
             IRepo<QuizResult> quizResultRepo,
+            IRepo<Quiz> quizRepo,
             IRepo<Question> questionRepo,
             IRepo<Answer> answerRepo,
             IRepo<QuizRating> quizRatingRepo
@@ -28,6 +29,7 @@ namespace ExpressQuiz.Controllers
             )
         {
             _quizResultRepo = quizResultRepo;
+            _quizRepo = quizRepo;
             _questionRepo = questionRepo;
             _answerRepo = answerRepo;
             _quizRatingRepo = quizRatingRepo;
@@ -44,7 +46,7 @@ namespace ExpressQuiz.Controllers
             if (result != null)
             {
 
-                var vm = result.ToViewModel(_questionRepo, _answerRepo);
+                var vm = result.ToViewModel(_quizRepo, _answerRepo);
                 return View(vm);
             }
 
@@ -65,7 +67,7 @@ namespace ExpressQuiz.Controllers
             return RedirectToAction("Index", "Quizzes");
         }
 
-        public ActionResult Question(int? questionId, int resultId )
+        public ActionResult Question(int? questionId, int resultId, int userAnswerId )
         {
             if (questionId == null)
             {
@@ -75,7 +77,7 @@ namespace ExpressQuiz.Controllers
             var q = _questionRepo.Get(questionId.Value);
             if (q != null)
             {
-                var vm = q.ToViewModel(resultId);
+                var vm = q.ToViewModel(resultId, userAnswerId);
                 return View(vm);
             }
 

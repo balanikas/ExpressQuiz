@@ -12,7 +12,8 @@ using ExpressQuiz.Repos;
 
 namespace ExpressQuiz.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+   // [Authorize(Roles = "Administrator")]
+    [Authorize]
     public class AdminController : Controller
     {
         // GET: Admin
@@ -21,15 +22,16 @@ namespace ExpressQuiz.Controllers
             return View();
         }
 
-        public ActionResult Export()
+        public FileResult Export()
         {
             var quizRepo = new Repo<Quiz>(new QuizDbContext());
-            var quizzes = from m in quizRepo.GetAll()
+            var quizzes = from m in quizRepo.GetAll().OrderByDescending(x=> x.Created)
                           select m;
             DataProvider.Export(quizzes.ToList(), System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
-            return View("Index");
+            return File(System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"), "text/xml");
         }
 
+     
         public ActionResult Import()
         {
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,8 @@ namespace ExpressQuiz.Models
 
         public int QuizId { get; set; }
         public virtual Quiz Quiz { get; set; }
+
+        [DisplayName("Time")]
         public int EllapsedTime { get; set; }
         public int Score { get; set; }
         public string UserId { get; set; }

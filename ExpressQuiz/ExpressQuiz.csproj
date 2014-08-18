@@ -177,6 +177,7 @@
     <Compile Include="Controllers\QuizReviewController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Logic\JsonNetResult.cs" />
     <Compile Include="Migrations\201408111339009_init.cs" />
     <Compile Include="Migrations\201408111339009_init.Designer.cs">
@@ -611,7 +612,12 @@
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.dataTables.rowReordering.js" />
     <Content Include="Scripts\jquery.sortable.min.js" />
-    <Content Include="Scripts\jquery.tablednd.js" />
+    <Content Include="Scripts\slider\bootstrap-slider.min.js" />
+    <Content Include="Scripts\slider\css\bootstrap-slider.css" />
+    <Content Include="Scripts\slider\css\bootstrap-slider.min.css" />
+    <Content Include="Scripts\tablednd\css\tablednd.css" />
+    <Content Include="Scripts\tablednd\images\updown2.gif" />
+    <Content Include="Scripts\tablednd\jquery.tablednd.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />

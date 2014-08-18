@@ -13,9 +13,15 @@ namespace ExpressQuiz.ViewModels
         
         [DisplayName("Average score")]
         public int AvgScore { get; set; }
+
+        [DisplayName("Difficulty")]
         public int AvgLevel { get; set; }
+        [DisplayName("Rating")]
         public int AvgRating { get; set; }
+        [DisplayName("Average time taken")]
         public int AvgTime { get; set; }
+
+        [DisplayName("Attempts")]
         public int Sessions { get; set; }
         public int AvgScorePercent { get; set; }
         public int AvgTimePercent { get; set; }

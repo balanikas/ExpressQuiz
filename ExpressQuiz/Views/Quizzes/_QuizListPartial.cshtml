@@ -18,6 +18,13 @@
                     <div class="pull-right">by @item.CreatedBy</div>
                 </div>
                 <div class="row">
+                    @{
+                        if (item.Summary.Length > 200)
+                        {
+                            item.Summary = item.Summary.Substring(0, 197) + "...";
+                        }
+                        
+                    }
                     <p class="list-group-item-text">@item.Summary</p>
                 </div>
                    

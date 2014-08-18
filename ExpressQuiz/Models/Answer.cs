@@ -21,13 +21,14 @@ namespace ExpressQuiz.Models
         [Required]
         [StringLength(500)]
         [DataType(DataType.MultilineText)]
-        [Display(Name = "Answer text")]
+        [Display(Name = "Answer")]
         public string Text { get; set; }
 
         [StringLength(10000)]
         [DataType(DataType.MultilineText)]
         public string Explanation { get; set; }
 
+        [DisplayName("Is it correct?")]
         public bool IsCorrect { get; set; }
 
 

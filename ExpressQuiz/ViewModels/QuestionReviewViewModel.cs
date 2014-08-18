@@ -14,6 +14,6 @@ namespace ExpressQuiz.ViewModels
        
         public Question Question { get;  set; }
         public int QuizResultId { get;  set; }
-       
+        public int UserAnswerId { get; set; }
     }
 }

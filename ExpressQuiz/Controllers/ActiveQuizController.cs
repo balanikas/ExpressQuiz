@@ -97,16 +97,17 @@ namespace ExpressQuiz.Controllers
 
         private int CalculateScore(QuizResult result)
         {
-            var usePoints = _quizRepo.Get(result.QuizId).AllowPoints;
+            var quiz = _quizRepo.Get(result.QuizId);
+            var usePoints = quiz.AllowPoints;
 
 
 
             int count = 0;
-
+            var totalPoints = 0;
 
             if (usePoints)
             {
-                var totalPoints = 0;
+                
                 foreach (var userAnswer in result.Answers)
                 {
                     var points = _questionRepo.Get(userAnswer.QuestionId).Points;
@@ -119,11 +120,12 @@ namespace ExpressQuiz.Controllers
                     }
 
                 }
-                //return (int)(((double)count / (double)totalPoints) * 100);
-                return count;
+                return (int)(((double)count / (double)totalPoints) * 100);
+                
             }
             else
             {
+                totalPoints = quiz.Questions.Count;
                 foreach (var userAnswer in result.Answers)
                 {
                     var correctAnswer = _answerRepo.Get(userAnswer.AnswerId);
@@ -133,7 +135,7 @@ namespace ExpressQuiz.Controllers
                     }
 
                 }
-                return count;
+                return (int) (((double)count / (double)totalPoints) * 100);
             }
           
            

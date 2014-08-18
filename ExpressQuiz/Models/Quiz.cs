@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -23,10 +24,10 @@ namespace ExpressQuiz.Models
         [StringLength(1000)]
         public string Summary { get; set; }
 
-
+         [DisplayName("Use timer")]
         public bool IsTimeable { get; set; }
 
-
+         [DisplayName("Allow question points")]
         public bool AllowPoints { get; set; }
 
         //[DataType(DataType.DateTime)]
@@ -36,7 +37,7 @@ namespace ExpressQuiz.Models
         [Required]
         public string CreatedBy { get; set; }
 
-        
+         [DisplayName("Locked")]
         public bool Locked { get; set; }
 
         public int QuizCategoryId { get; set; }

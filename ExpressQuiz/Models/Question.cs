@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
@@ -17,17 +18,19 @@ namespace ExpressQuiz.Models
         [Required]
         [StringLength(1000)]
         [DataType(DataType.MultilineText)]
-        [Display(Name = "Question text")]
+        [Display(Name = "Question")]
         public string Text { get; set; }
 
         [Required]
         public int OrderId { get; set; }
 
-        //[Range(typeof(int),"1", "600")]
+        [Range(1, 600)]
         [Column(TypeName = "int")]
+        [DisplayName("How many seconds should it take?")]
         public int EstimatedTime { get; set; }
 
         [Range(0,1000)]
+        [DisplayName("Assign points")]
         public int Points { get; set; }
 
         public int QuizId { get; set; }

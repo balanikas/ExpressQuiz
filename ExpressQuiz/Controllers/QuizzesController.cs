@@ -224,12 +224,13 @@ namespace ExpressQuiz.Controllers
                     model.Quiz.Category = _quizCategoryRepo.Get(model.SelectedCategory);
                 }
 
+                model.Quiz.Locked = true;
 
                 model.Quiz.Created = DateTime.Now;
 
                 _quizRepo.Insert(model.Quiz);
                 _quizRepo.Save();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit",new {id= model.Quiz.Id});
             }
 
             return View(model);
@@ -253,7 +254,7 @@ namespace ExpressQuiz.Controllers
             model.Answers = new List<Answer>();
             model.QuizId = id.Value;
             model.Text = "enter text here";
-
+            model.EstimatedTime = 10;
 
             int maxOrderId = 0;
             if (quiz.Questions.Count > 0)
