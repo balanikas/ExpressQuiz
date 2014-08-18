@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.UI.WebControls;
 using Autofac;
 using Autofac.Integration.Mvc;
 using ExpressQuiz.Controllers;
@@ -47,8 +48,13 @@ namespace ExpressQuiz
         protected void Application_Error(object sender, EventArgs e)
         {
             Exception exception = Server.GetLastError();
+            if (exception == null)
+            {
+                return;
+            }
+                
             Response.Clear();
-            Response.Redirect(String.Format("~/Views/Shared/Error/?message={0}", exception.Message));
+            Response.Redirect(String.Format("~/Home/Error/?message={0}", exception.Message));
 
         }
     }

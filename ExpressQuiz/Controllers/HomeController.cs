@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ExpressQuiz.Controllers
 {
+   
     [RequireHttps]
     public class HomeController : Controller
     {
@@ -34,6 +35,12 @@ namespace ExpressQuiz.Controllers
 
 
             return View("Index");
+        }
+
+        public ActionResult Error(string message)
+        {
+            HandleErrorInfo info = new HandleErrorInfo(new Exception("APPLICATION ERROR: " + message), "Home", "Error");
+            return View("Error",info );
         }
     }
 }

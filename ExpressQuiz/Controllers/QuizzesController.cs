@@ -18,7 +18,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ExpressQuiz.Controllers
 {
-    [HandleError]
+
     public class QuizzesController : Controller
     {
         private readonly IRepo<Answer> _answerRepo;
