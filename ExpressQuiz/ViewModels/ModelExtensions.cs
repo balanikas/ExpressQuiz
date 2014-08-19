@@ -11,40 +11,16 @@ namespace ExpressQuiz.ViewModels
 {
     public static class ModelExtensions
     {
-        public static QuizDetailsViewModel ToViewModel(this Quiz quiz, IRepo<QuizResult> quizResults,
-            IRepo<QuizRating> quizRatings )
+        public static QuizDetailsViewModel ToViewModel(this Quiz quiz, IService<Quiz> quizService, IRepo<QuizResult> quizResults, IRepo<QuizRating> quizRatings)
         {
             var vm = new QuizDetailsViewModel();
 
-            var ratings = quizRatings.GetAll().Where(x => x.QuizId == quiz.Id);
-            if (ratings.Any())
-            {
-                vm.AvgLevel = (int)ratings.Average(x => x.Level) * 20;
-                
-                vm.AvgRating = (int)ratings.Average(x => x.Rating) * 20;
-            }
-
-            var results = quizResults.GetAll().Where(x => x.QuizId == quiz.Id);
-            if (results.Any())
-            {
-                if (quiz.AllowPoints)
-                {
-                    vm.AvgScore = (int)results.Average(x => x.Score);
-                    //vm.AvgScorePercent = (vm.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
-                }
-                else
-                {
-                    vm.AvgScore = ((int)results.Average(x => x.Score)*100) / quiz.Questions.Count;
-                    //vm.AvgScorePercent = vm.AvgScore;
-                }
-                
-                vm.AvgTime = (int)results.Average(x => x.EllapsedTime);
-                vm.AvgTimePercent = (vm.AvgTime*100)/quiz.Questions.Sum(x => x.EstimatedTime);
-                vm.Sessions = results.Count();
-            }
-
+            vm.AvgLevel = quizService.GetAverageLevel(quiz);
+            vm.AvgRating = quizService.GetAverageRating(quiz);
+            vm.AvgScore = quizService.GetAverageScore(quiz);
+            vm.AvgTime = quizService.GetAverageTime(quiz);
+            vm.AvgTimePercent = quizService.GetAverageTimePercent(quiz);
             
-          
             vm.Quiz = quiz;
 
             return vm;
@@ -80,7 +56,7 @@ namespace ExpressQuiz.ViewModels
         {
             var vm = new QuizzesViewModel();
 
-            vm.QuizCategories = categories.GetAll().ToViewModel(quizzes, catId);
+            vm.QuizCategories = categories.GetAll().ToViewModel(quizService.GetPublicQuizzes(), catId);
 
             vm.Filter = QuizFilter.Newest;
             vm.Quizzes = quizzes.ToList();

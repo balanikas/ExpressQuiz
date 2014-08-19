@@ -4,7 +4,6 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using ExpressQuiz.Migrations;
-using ExpressQuiz.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.Owin;
 using Owin;

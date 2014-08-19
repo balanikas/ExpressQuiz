@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
+using ExpressQuiz.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
-using ExpressQuiz.Models;
 
 namespace ExpressQuiz.Controllers
 {

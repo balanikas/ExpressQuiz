@@ -64,7 +64,7 @@ namespace ExpressQuiz.Core.Services
         public void Delete(int id)
         {
             _quizRepo.Delete(id);
-
+            _quizRepo.Save();
         }
 
         public int GetAverageLevel(Quiz quiz)

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using ExpressQuiz.Core.Models;
-using ExpressQuiz.Models;
 
 namespace ExpressQuiz.ViewModels
 {
@@ -22,9 +21,9 @@ namespace ExpressQuiz.ViewModels
         [DisplayName("Average time taken")]
         public int AvgTime { get; set; }
 
-        [DisplayName("Attempts")]
-        public int Sessions { get; set; }
-        public int AvgScorePercent { get; set; }
+        //[DisplayName("Attempts")]
+        //public int Sessions { get; set; }
+
         public int AvgTimePercent { get; set; }
     }
 }

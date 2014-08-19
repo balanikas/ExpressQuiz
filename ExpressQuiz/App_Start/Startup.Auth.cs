@@ -1,13 +1,10 @@
 ﻿using ExpressQuiz.Core.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.DataProtection;
 using Owin;
 using System;
-using ExpressQuiz.Models;
 
 namespace ExpressQuiz
 {

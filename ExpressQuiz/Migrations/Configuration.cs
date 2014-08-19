@@ -3,7 +3,6 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using ExpressQuiz.Core.Models;
-using ExpressQuiz.Models;
 using Microsoft.Ajax.Utilities;
 
 namespace ExpressQuiz.Migrations

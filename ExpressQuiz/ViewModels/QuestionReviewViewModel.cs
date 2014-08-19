@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
 using ExpressQuiz.Core.Models;
-using ExpressQuiz.Models;
 
 namespace ExpressQuiz.ViewModels
 {

@@ -5,8 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
-using ExpressQuiz.Models;
-
 using ExpressQuiz.ViewModels;
 using Microsoft.Ajax.Utilities;
 

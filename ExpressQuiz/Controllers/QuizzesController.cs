@@ -100,7 +100,7 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            var model = quiz.ToViewModel(_quizResultRepo, _quizRatingRepo);
+            var model = quiz.ToViewModel(_quizService, _quizResultRepo, _quizRatingRepo);
 
             return View(model);
         }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ExpressQuiz.Core.Models;
-using ExpressQuiz.Models;
+using ExpressQuiz.Core.Services;
 using ExpressQuiz.Tests.Repos;
 using ExpressQuiz.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -77,9 +77,10 @@ namespace ExpressQuiz.Tests.ViewModels
                 QuizId = 1
             });
             var quiz = _repoProvider.QuizRepo.Get(1);
-           
-            
-            var vm = quiz.ToViewModel(new InMemRepo<QuizResult>(quizResults), new InMemRepo<QuizRating>(quizRatings));
+
+            var quizService = new QuizService(_repoProvider.QuizRepo, _repoProvider.QuizResultRepo,
+                _repoProvider.QuizRatingRepo);
+            var vm = quiz.ToViewModel(quizService,new InMemRepo<QuizResult>(quizResults), new InMemRepo<QuizRating>(quizRatings));
 
         }
     }

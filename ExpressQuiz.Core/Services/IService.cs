@@ -18,6 +18,8 @@ namespace ExpressQuiz.Core.Services
 
         int GetAverageTime(Quiz quiz);
 
+        int GetAverageTimePercent(Quiz quiz);
+
         IQueryable<Quiz> GetPublicQuizzes();
 
         IQueryable<Quiz> GetBySearchTerm(string searchTerm, IQueryable<Quiz> quizzes = null);

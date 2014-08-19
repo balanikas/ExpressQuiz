@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
-using ExpressQuiz.Models;
 using ExpressQuiz.ViewModels;
 
 namespace ExpressQuiz.Controllers

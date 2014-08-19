@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ExpressQuiz.Models
+namespace ExpressQuiz.ViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {
