@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
-using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
+using ExpressQuiz.Core.Models;
+using ExpressQuiz.Core.Services;
+
 using ExpressQuiz.ViewModels;
 
 namespace ExpressQuiz.Controllers
 {
     public class UserProfileController : Controller
     {
-        private readonly IRepo<Quiz> _quizRepo;
+        private readonly IService<Quiz> _quizRepo;
 
-        public UserProfileController(IRepo<Quiz> quizRepo)
+        public UserProfileController(IService<Quiz> quizRepo)
         {
             _quizRepo = quizRepo;
         }

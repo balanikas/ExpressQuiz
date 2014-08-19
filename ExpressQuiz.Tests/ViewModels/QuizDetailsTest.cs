@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExpressQuiz.Core.Models;
 using ExpressQuiz.Models;
 using ExpressQuiz.Tests.Repos;
 using ExpressQuiz.ViewModels;

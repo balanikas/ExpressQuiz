@@ -1,4 +1,4 @@
-﻿namespace ExpressQuiz.Models
+﻿namespace ExpressQuiz.Core.Models
 {
     public class UserAnswer : Entity
     {

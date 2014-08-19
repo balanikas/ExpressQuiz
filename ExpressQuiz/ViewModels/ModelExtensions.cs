@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
-using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
+using ExpressQuiz.Core.Models;
+using ExpressQuiz.Core.Repos;
+using ExpressQuiz.Core.Services;
+using ExpressQuiz.Extensions;
+
 
 namespace ExpressQuiz.ViewModels
 {
@@ -49,28 +50,19 @@ namespace ExpressQuiz.ViewModels
             return vm;
         }
 
-      
-
-        public static QuizzesViewModel ToViewModel(this IQueryable<Quiz> quizzes, 
-            IRepo<QuizCategory> categories, 
-            IRepo<QuizRating> ratings,
-            IRepo<Quiz> quizRepo,  
-            int? catId, 
-            string searchTerm)
+        public static List<QuizCategoryViewModel> ToViewModel(this IQueryable<QuizCategory> categories,IQueryable<Quiz> quizzes, int? catId)
         {
-            var vm = new QuizzesViewModel();
-
-            vm.QuizCategories = (from c in categories.GetAll()
+            var cats = (from c in categories
                                  orderby c.Name
                                  select new QuizCategoryViewModel()
                                  {
                                      Id = c.Id,
                                      Name = c.Name,
-                                     IsSelected = catId.HasValue ?  (c.Id == catId.Value) : false,
+                                     IsSelected = catId.HasValue ? (c.Id == catId.Value) : false,
                                      QuizCount = quizzes.Count(x => x.Category.Id == c.Id)
                                  }).ToList();
 
-            vm.QuizCategories.Insert(0, new QuizCategoryViewModel()
+            cats.Insert(0, new QuizCategoryViewModel()
             {
                 Id = -1,
                 Name = "All",
@@ -78,29 +70,22 @@ namespace ExpressQuiz.ViewModels
                 QuizCount = quizzes.Count()
             });
 
+            return cats;
+        }
 
-            quizzes = quizzes.Where(x => !x.Locked);
+        public static QuizzesViewModel ToViewModel(this IQueryable<Quiz> quizzes, 
+            IService<Quiz> quizService,
+            IRepo<QuizCategory> categories, 
+            int? catId)
+        {
+            var vm = new QuizzesViewModel();
 
-
-            quizzes = from q in quizzes
-                where q.Questions.Count > 0 && 
-                (from que in q.Questions where que.Answers.Count > 0 select que).Any()
-                select q;
-
-            if (!String.IsNullOrEmpty(searchTerm))
-            {
-                quizzes = quizzes.Where(s => s.Name.Contains(searchTerm));
-            }
-
-            if (catId.HasValue && catId != -1)
-            {
-                quizzes = quizzes.Where(x => x.Category.Id == catId);
-            }
-
-            vm.Quizzes = quizzes.OrderByDescending(x => x.Created).ToList();
+            vm.QuizCategories = categories.GetAll().ToViewModel(quizzes, catId);
 
             vm.Filter = QuizFilter.Newest;
-            vm.TopQuizzes = quizRepo.GetTopListByRating(ratings, 10).Select(x => new TopListItem()
+            vm.Quizzes = quizzes.ToList();
+
+            vm.TopQuizzes = quizService.GetBy(QuizFilter.Rating, descending: true, count: 10).Select(x => new TopListItem()
             {
                 Id = x.Id,
                 Name = x.Name
@@ -155,7 +140,7 @@ namespace ExpressQuiz.ViewModels
             return vm;
         }
 
-        public static QuizReviewViewModel ToViewModel(this QuizResult quizResult, IRepo<Quiz> quizzes, IRepo<Answer> answers  )
+        public static QuizReviewViewModel ToViewModel(this QuizResult quizResult, IService<Quiz> quizzes, IRepo<Answer> answers  )
         {
             var vm = new QuizReviewViewModel();
             var quiz = quizzes.Get(quizResult.QuizId);

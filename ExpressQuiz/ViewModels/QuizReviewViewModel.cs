@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Web;
-using System.Web.UI.WebControls.Expressions;
-using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
+
+using ExpressQuiz.Core.Models;
+
 
 namespace ExpressQuiz.ViewModels
 {

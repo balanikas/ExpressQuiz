@@ -1,11 +1,11 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ExpressQuiz.Core.Models;
+using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Migrations;
-using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
+
 using ExpressQuiz.Tests.Repos;
 
 namespace ExpressQuiz.Tests

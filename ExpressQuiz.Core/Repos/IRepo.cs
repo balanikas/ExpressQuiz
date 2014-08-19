@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpressQuiz.Repos
+namespace ExpressQuiz.Core.Repos
 {
     public interface IRepo<T> :  IDisposable
     {

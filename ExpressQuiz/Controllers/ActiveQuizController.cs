@@ -3,9 +3,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using ExpressQuiz.Core.Models;
+using ExpressQuiz.Core.Repos;
+using ExpressQuiz.Core.Services;
 using ExpressQuiz.Logic;
-using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
+
 using ExpressQuiz.ViewModels;
 using Newtonsoft.Json;
 
@@ -13,21 +15,22 @@ namespace ExpressQuiz.Controllers
 {
     public class ActiveQuizController : Controller
     {
+        private readonly IService<Quiz> _quizService;
         private readonly IRepo<QuizResult> _quizResultRepo;
         private readonly IRepo<Question> _questionRepo;
-        private readonly IRepo<Quiz> _quizRepo;
+        //private readonly IRepo<Quiz> _quizRepo;
         private readonly IRepo<Answer> _answerRepo;
 
 
         public ActiveQuizController(
+            IService<Quiz> quizService,
             IRepo<QuizResult> quizResultRepo,
-            IRepo<Quiz> quizRepo,
             IRepo<Answer> answerRepo,
             IRepo<Question> questionRepo 
             )
         {
+            _quizService = quizService;
             _quizResultRepo = quizResultRepo;
-            _quizRepo = quizRepo;
             _answerRepo = answerRepo;
             _questionRepo = questionRepo;
         }
@@ -39,7 +42,7 @@ namespace ExpressQuiz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Quiz quiz = _quizRepo.Get(id.Value);
+            Quiz quiz = _quizService.Get(id.Value);
             if (quiz == null)
             {
                 return HttpNotFound();
@@ -63,7 +66,7 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Quiz quiz = _quizRepo.Get(id.Value);
+            Quiz quiz = _quizService.Get(id.Value);
             if (quiz == null)
             {
                 return HttpNotFound();
@@ -97,7 +100,7 @@ namespace ExpressQuiz.Controllers
 
         private int CalculateScore(QuizResult result)
         {
-            var quiz = _quizRepo.Get(result.QuizId);
+            var quiz = _quizService.Get(result.QuizId);
             var usePoints = quiz.AllowPoints;
 
 

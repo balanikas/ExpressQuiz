@@ -6,8 +6,10 @@ using System.Web.UI.WebControls;
 using Autofac;
 using Autofac.Integration.Mvc;
 using ExpressQuiz.Controllers;
-using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
+using ExpressQuiz.Core.Models;
+using ExpressQuiz.Core.Repos;
+using ExpressQuiz.Core.Services;
+
 
 namespace ExpressQuiz
 {
@@ -34,6 +36,8 @@ namespace ExpressQuiz
             cb.RegisterType<Repo<QuizCategory>>().As<IRepo<QuizCategory>>().InstancePerRequest();
             cb.RegisterType<Repo<QuizRating>>().As<IRepo<QuizRating>>().InstancePerRequest();
             cb.RegisterType<Repo<QuizResult>>().As<IRepo<QuizResult>>().InstancePerRequest();
+
+            cb.RegisterType<QuizService>().As<IService<Quiz>>().InstancePerRequest();
 
             cb.RegisterControllers(typeof(MvcApplication).Assembly).InstancePerRequest();
             cb.RegisterType<AccountController>().InstancePerDependency();

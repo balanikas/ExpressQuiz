@@ -1,6 +1,4 @@
-﻿using System.Data.Entity;
-
-namespace ExpressQuiz.Models
+﻿namespace ExpressQuiz.Core.Models
 {
     public class QuestionType : Entity
     {

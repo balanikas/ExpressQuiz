@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using ExpressQuiz.Core.Models;
 using ExpressQuiz.Migrations;
 using ExpressQuiz.Models;
 using HtmlAgilityPack;

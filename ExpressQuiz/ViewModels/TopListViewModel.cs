@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
+﻿using System.Collections.Generic;
+
 
 namespace ExpressQuiz.ViewModels
 {

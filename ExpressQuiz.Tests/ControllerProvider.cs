@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ExpressQuiz.Controllers;
+using ExpressQuiz.Core.Services;
 
 namespace ExpressQuiz.Tests
 {
     public class ControllerProvider
     {
-        private RepoProvider _repoProvider;
+        private readonly RepoProvider _repoProvider;
 
         public ControllerProvider(RepoProvider repoProvider)
         {
@@ -21,13 +22,17 @@ namespace ExpressQuiz.Tests
 
         public QuizzesController CreateQuizzesController()
         {
+            var quizService = new QuizService(_repoProvider.QuizRepo, _repoProvider.QuizResultRepo,
+                _repoProvider.QuizRatingRepo);
+
             var c = new QuizzesController(
+               
              _repoProvider.AnswerRepo,
              _repoProvider.QuestionRepo,
               _repoProvider.QuizCategoryRepo,
-              _repoProvider.QuizRepo,
              _repoProvider.QuizRatingRepo,
-             _repoProvider.QuizResultRepo
+             _repoProvider.QuizResultRepo,
+              quizService
                 );
             return c;
         }

@@ -109,6 +109,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExpressQuiz.Core\ExpressQuiz.Core.csproj">
+      <Project>{a48518d6-036b-48ce-a045-1119586fb21a}</Project>
+      <Name>ExpressQuiz.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExpressQuiz\ExpressQuiz.csproj">
       <Project>{87E3EBB8-5DDD-4730-971B-3F1904C090A1}</Project>
       <Name>ExpressQuiz</Name>

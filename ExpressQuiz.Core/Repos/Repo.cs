@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
-using ExpressQuiz.Models;
+using ExpressQuiz.Core.Models;
 
-namespace ExpressQuiz.Repos
+namespace ExpressQuiz.Core.Repos
 {
     public class Repo<T>: IRepo<T> where T: Entity,new()
     {

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ExpressQuiz.Core.Models;
+using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Models;
 using ExpressQuiz.ViewModels;
 
-namespace ExpressQuiz.Repos
+namespace ExpressQuiz.Extensions
 {
     public static class RepoExtensions
     {

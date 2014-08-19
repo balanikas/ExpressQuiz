@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Hosting;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
-using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
+using ExpressQuiz.Core.Models;
 
 namespace ExpressQuiz.Migrations
 {

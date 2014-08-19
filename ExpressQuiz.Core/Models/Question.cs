@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using System.Web.Script.Serialization;
 
-namespace ExpressQuiz.Models
+namespace ExpressQuiz.Core.Models
 {
     public class Question : Entity
     {

@@ -4,32 +4,34 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ExpressQuiz.Core.Models;
+using ExpressQuiz.Core.Repos;
+using ExpressQuiz.Core.Services;
 using ExpressQuiz.Models;
-using ExpressQuiz.Repos;
 using ExpressQuiz.ViewModels;
 
 namespace ExpressQuiz.Controllers
 {
     public class QuizReviewController : Controller
     {
-
+        private readonly IService<Quiz> _quizService;
         private readonly IRepo<QuizResult> _quizResultRepo;
-        private readonly IRepo<Quiz> _quizRepo;
+        //private readonly IRepo<Quiz> _quizRepo;
         private readonly IRepo<Question> _questionRepo;
         private readonly IRepo<Answer> _answerRepo;
         private readonly IRepo<QuizRating> _quizRatingRepo;
 
         public QuizReviewController(
+            IService<Quiz> quizService,
             IRepo<QuizResult> quizResultRepo,
-            IRepo<Quiz> quizRepo,
             IRepo<Question> questionRepo,
             IRepo<Answer> answerRepo,
             IRepo<QuizRating> quizRatingRepo
 
             )
         {
+            _quizService = quizService;
             _quizResultRepo = quizResultRepo;
-            _quizRepo = quizRepo;
             _questionRepo = questionRepo;
             _answerRepo = answerRepo;
             _quizRatingRepo = quizRatingRepo;
@@ -46,7 +48,7 @@ namespace ExpressQuiz.Controllers
             if (result != null)
             {
 
-                var vm = result.ToViewModel(_quizRepo, _answerRepo);
+                var vm = result.ToViewModel(_quizService, _answerRepo);
                 return View(vm);
             }
 
@@ -60,7 +62,7 @@ namespace ExpressQuiz.Controllers
         {
             var quizRating = new QuizRating();
             quizRating.Rating = model.Rating;
-            quizRating.Level = model.Level;
+            quizRating.Level = model.Level * 20;
             quizRating.QuizId = model.QuizId;
             _quizRatingRepo.Insert(quizRating);
             _quizRatingRepo.Save();
