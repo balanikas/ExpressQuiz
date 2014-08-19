@@ -42,6 +42,7 @@
         @Html.HiddenFor(model => model.Order)
         @Html.HiddenFor(model => model.Question.QuizId)
         @Html.HiddenFor(model => model.Question.Points)
+        @Html.HiddenFor(model => model.Question.EstimatedTime)
         <div class="form-group">
             @Html.LabelFor(model => model.Question.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

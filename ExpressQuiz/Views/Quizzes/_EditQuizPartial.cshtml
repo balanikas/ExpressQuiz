@@ -17,7 +17,8 @@
     UpdateTargetId = "content",
     HttpMethod = "Post",
     InsertionMode = InsertionMode.Replace,
-    OnSuccess = "applyValidation"
+    OnSuccess = "applyValidation",
+    OnFailure = "handleError"
 }))
 {
     @Html.AntiForgeryToken()
@@ -205,4 +206,12 @@
         });
 
     });
+
+    function handleError(ajaxContext) {
+
+       
+        $("#content").empty();
+        $("#content").append(ajaxContext.responseText);
+       // alert(statusCode);
+    }
 </script>

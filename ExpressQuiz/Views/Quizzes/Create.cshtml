@@ -40,6 +40,12 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Quiz.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Quiz.Name, "", new { @class = "text-danger" })
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <span class="field-validation-error text-danger">
+                        @ViewData.ModelState["Name"].Errors[0].ErrorMessage
+                    </span>
+                }  
             </div>
         </div>
 

@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
-using ExpressQuiz.Migrations;
 using ExpressQuiz.Models;
 using ExpressQuiz.Repos;
 using ExpressQuiz.ViewModels;
-using System.IO;
-using System.Web.Script.Serialization;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.Identity;
 
 namespace ExpressQuiz.Controllers
 {
@@ -71,10 +62,10 @@ namespace ExpressQuiz.Controllers
             return PartialView("_QuizListPartial", quizzes.ToList());
         }
 
-        // GET: Quizzes
+   
         public ActionResult Index(int? catId, string searchString)
         {
-
+            
 
             var quizzes = from m in _quizRepo.GetAll()
                           select m;
@@ -88,7 +79,7 @@ namespace ExpressQuiz.Controllers
 
         public ActionResult Details(int? id)
         {
-
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -128,6 +119,7 @@ namespace ExpressQuiz.Controllers
         [Authorize]
         public ActionResult Edit(int? id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -156,10 +148,11 @@ namespace ExpressQuiz.Controllers
         [Authorize]
         public ActionResult Edit(EditQuizViewModel model)
         {
-            
             if (ModelState.IsValid)
             {
-                
+
+               
+
                 var quiz = _quizRepo.Get(model.Quiz.Id);
 
                 if (!String.IsNullOrEmpty(model.NewCategory))
@@ -190,13 +183,13 @@ namespace ExpressQuiz.Controllers
 
                 ModelState.Clear();
 
-                model = _quizRepo.Get(quiz.Id).ToViewModel(_quizCategoryRepo);
-                model.ModifiedByUser = true;
-                return PartialView("_EditQuizPartial", model);
+                var vm = _quizRepo.Get(quiz.Id).ToViewModel(_quizCategoryRepo);
+                vm.ModifiedByUser = true;
+                return PartialView("_EditQuizPartial", vm);
 
             }
-       
-            return View(model);
+            
+            return PartialView("_EditQuizPartial", model);
         }
 
         // GET: Quizzes/Create
@@ -215,6 +208,15 @@ namespace ExpressQuiz.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (_quizRepo.GetAll().Any(x => x.Name == model.Quiz.Name))
+                {
+                    ModelState.AddModelError("Name", "Name already exists");
+                    var quiz = new Quiz();
+                    var vm = quiz.ToViewModel(_quizCategoryRepo, User.Identity.Name);
+                    return View(vm);
+                }
+
                 if (!String.IsNullOrEmpty(model.NewCategory))
                 {
                     model.Quiz.Category = _quizCategoryRepo.Insert(model.NewCategory);
@@ -311,6 +313,7 @@ namespace ExpressQuiz.Controllers
         [Authorize]
         public ActionResult EditQuestion(int? id)
         {
+           
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -352,6 +355,7 @@ namespace ExpressQuiz.Controllers
                 model.ModifiedByUser = true;
                 return PartialView("_EditQuestionPartial", model);
             }
+          
             return PartialView("_EditQuestionPartial", model);
         }
 
@@ -362,8 +366,7 @@ namespace ExpressQuiz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //if (Request.IsAjaxRequest())
-            //{
+            
             var model = _answerRepo.Get(id.Value);
             if (model == null)
             {
@@ -371,33 +374,28 @@ namespace ExpressQuiz.Controllers
             }
 
             return PartialView("_EditAnswerPartial", model);
-            //}
-            //else
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
-            //}
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult EditAnswer(Answer answer)
+        public ActionResult EditAnswer(Answer model)
         {
             if (ModelState.IsValid)
             {
-                var a = _answerRepo.Get(answer.Id);
-                a.Explanation = answer.Explanation;
-                a.IsCorrect = answer.IsCorrect;
-                a.Text = answer.Text;
+                var a = _answerRepo.Get(model.Id);
+                a.Explanation = model.Explanation;
+                a.IsCorrect = model.IsCorrect;
+                a.Text = model.Text;
                 _answerRepo.Update(a);
                 _answerRepo.Save();
 
-                a.Question.Answers = a.Question.Answers.OrderBy(x => x.Id).ToList();
+                //a.Question.Answers = a.Question.Answers.OrderBy(x => x.Id).ToList();
                 var vm = _questionRepo.Get(a.QuestionId).ToViewModel();
                 vm.ModifiedByUser = true;
                 ModelState.Clear();
                 return PartialView("_EditQuestionPartial", vm);
             }
-            return PartialView("_EditAnswerPartial", answer);
+            return PartialView("_EditAnswerPartial", model);
         }
 
 
