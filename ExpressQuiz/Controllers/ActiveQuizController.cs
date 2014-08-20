@@ -15,24 +15,23 @@ namespace ExpressQuiz.Controllers
 {
     public class ActiveQuizController : Controller
     {
-        private readonly IService<Quiz> _quizService;
+        private readonly IQuizService _quizService;
         private readonly IRepo<QuizResult> _quizResultRepo;
-        private readonly IRepo<Question> _questionRepo;
-        //private readonly IRepo<Quiz> _quizRepo;
-        private readonly IRepo<Answer> _answerRepo;
+        private readonly IQuestionService _questionService;
+        private readonly IAnswerService _answerService;
 
 
         public ActiveQuizController(
-            IService<Quiz> quizService,
+            IQuizService quizService,
             IRepo<QuizResult> quizResultRepo,
-            IRepo<Answer> answerRepo,
-            IRepo<Question> questionRepo 
+            IAnswerService answerService,
+            IQuestionService questionService 
             )
         {
             _quizService = quizService;
             _quizResultRepo = quizResultRepo;
-            _answerRepo = answerRepo;
-            _questionRepo = questionRepo;
+            _answerService = answerService;
+            _questionService = questionService;
         }
         
         // GET: ActiveQuiz
@@ -113,10 +112,10 @@ namespace ExpressQuiz.Controllers
                 
                 foreach (var userAnswer in result.Answers)
                 {
-                    var points = _questionRepo.Get(userAnswer.QuestionId).Points;
+                    var points = _questionService.Get(userAnswer.QuestionId).Points;
                     totalPoints += points;
                     
-                    var correctAnswer = _answerRepo.Get(userAnswer.AnswerId);
+                    var correctAnswer = _answerService.Get(userAnswer.AnswerId);
                     if (correctAnswer != null && correctAnswer.IsCorrect)
                     {
                         count += points;
@@ -131,7 +130,7 @@ namespace ExpressQuiz.Controllers
                 totalPoints = quiz.Questions.Count;
                 foreach (var userAnswer in result.Answers)
                 {
-                    var correctAnswer = _answerRepo.Get(userAnswer.AnswerId);
+                    var correctAnswer = _answerService.Get(userAnswer.AnswerId);
                     if (correctAnswer != null && correctAnswer.IsCorrect)
                     {
                         count++;

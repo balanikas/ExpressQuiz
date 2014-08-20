@@ -5,7 +5,7 @@ using ExpressQuiz.Core.Repos;
 
 namespace ExpressQuiz.Core.Services
 {
-    public class QuizService :IService<Quiz>
+    public class QuizService :  IQuizService
     {
         private readonly IRepo<Quiz> _quizRepo;
         private readonly IRepo<QuizResult> _quizResultRepo;

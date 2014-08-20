@@ -99,6 +99,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="RepoProvider.cs" />
     <Compile Include="Repos\InMemRepo.cs" />
+    <Compile Include="ServiceProvider.cs" />
     <Compile Include="ViewModels\QuizDetailsTest.cs" />
     <Compile Include="ViewModels\ViewModelTest.cs" />
   </ItemGroup>

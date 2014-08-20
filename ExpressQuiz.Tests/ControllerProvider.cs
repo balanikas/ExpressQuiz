@@ -12,27 +12,27 @@ namespace ExpressQuiz.Tests
     public class ControllerProvider
     {
         private readonly RepoProvider _repoProvider;
+        private readonly ServiceProvider _serviceProvider;
 
-        public ControllerProvider(RepoProvider repoProvider)
+        public ControllerProvider(RepoProvider repoProvider, ServiceProvider serviceProvider)
         {
             _repoProvider = repoProvider;
+            _serviceProvider = serviceProvider;
         }
 
-      
 
         public QuizzesController CreateQuizzesController()
         {
-            var quizService = new QuizService(_repoProvider.QuizRepo, _repoProvider.QuizResultRepo,
-                _repoProvider.QuizRatingRepo);
+            
 
             var c = new QuizzesController(
-               
-             _repoProvider.AnswerRepo,
-             _repoProvider.QuestionRepo,
-              _repoProvider.QuizCategoryRepo,
-             _repoProvider.QuizRatingRepo,
-             _repoProvider.QuizResultRepo,
-              quizService
+
+            _serviceProvider.AnswerService,
+            _serviceProvider.QuestionService,
+            _serviceProvider.QuizCategoryService,
+            _repoProvider.QuizRatingRepo,
+            _repoProvider.QuizResultRepo,
+            _serviceProvider.QuizService
                 );
             return c;
         }

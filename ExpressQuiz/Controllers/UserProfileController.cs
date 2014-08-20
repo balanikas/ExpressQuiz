@@ -9,9 +9,9 @@ namespace ExpressQuiz.Controllers
 {
     public class UserProfileController : Controller
     {
-        private readonly IService<Quiz> _quizRepo;
+        private readonly IQuizService _quizRepo;
 
-        public UserProfileController(IService<Quiz> quizRepo)
+        public UserProfileController(IQuizService quizRepo)
         {
             _quizRepo = quizRepo;
         }

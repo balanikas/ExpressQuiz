@@ -11,10 +11,10 @@ namespace ExpressQuiz.ViewModels
 {
     public static class ModelExtensions
     {
-        public static QuizDetailsViewModel ToViewModel(this Quiz quiz, IService<Quiz> quizService, IRepo<QuizResult> quizResults, IRepo<QuizRating> quizRatings)
+        public static QuizDetailsViewModel ToViewModel(this Quiz quiz, IQuizService quizService, IRepo<QuizResult> quizResults, IRepo<QuizRating> quizRatings)
         {
             var vm = new QuizDetailsViewModel();
-
+            
             vm.AvgLevel = quizService.GetAverageLevel(quiz);
             vm.AvgRating = quizService.GetAverageRating(quiz);
             vm.AvgScore = quizService.GetAverageScore(quiz);
@@ -50,12 +50,12 @@ namespace ExpressQuiz.ViewModels
         }
 
         public static QuizzesViewModel ToViewModel(this IQueryable<Quiz> quizzes, 
-            IService<Quiz> quizService,
-            IRepo<QuizCategory> categories, 
+            IQuizService quizService,
+            IQuizCategoryService categories, 
             int? catId)
         {
             var vm = new QuizzesViewModel();
-
+            
             vm.QuizCategories = categories.GetAll().ToViewModel(quizService.GetPublicQuizzes(), catId);
 
             vm.Filter = QuizFilter.Newest;
@@ -72,7 +72,7 @@ namespace ExpressQuiz.ViewModels
             return vm;
         }
 
-        public static EditQuizViewModel ToViewModel(this Quiz quiz, IRepo<QuizCategory> categories)
+        public static EditQuizViewModel ToViewModel(this Quiz quiz, IQuizCategoryService categories)
         {
             var vm = new EditQuizViewModel();
 
@@ -118,7 +118,7 @@ namespace ExpressQuiz.ViewModels
             return vm;
         }
 
-        public static QuizReviewViewModel ToViewModel(this QuizResult quizResult, IService<Quiz> quizzes, IRepo<Answer> answers  )
+        public static QuizReviewViewModel ToViewModel(this QuizResult quizResult, IService<Quiz> quizzes, IAnswerService answers  )
         {
             var vm = new QuizReviewViewModel();
             var quiz = quizzes.Get(quizResult.QuizId);
@@ -162,7 +162,7 @@ namespace ExpressQuiz.ViewModels
         }
 
 
-        public static CreateQuizViewModel ToViewModel(this Quiz quiz, IRepo<QuizCategory> categories, string userName)
+        public static CreateQuizViewModel ToViewModel(this Quiz quiz, IQuizCategoryService categories, string userName)
         {
             var vm = new CreateQuizViewModel();
             vm.Categories = categories.GetCategoriesAsSelectList();

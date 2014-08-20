@@ -67,7 +67,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\IRepo.cs" />
     <Compile Include="Repos\Repo.cs" />
+    <Compile Include="Services\QuizCategoryService.cs" />
+    <Compile Include="Services\IQuizCategoryService.cs" />
+    <Compile Include="Services\IAnswerService.cs" />
+    <Compile Include="Services\IQuestionService.cs" />
+    <Compile Include="Services\IQuizService.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\AnswerService.cs" />
+    <Compile Include="Services\QuestionService.cs" />
     <Compile Include="Services\QuizService.cs" />
   </ItemGroup>
   <ItemGroup>

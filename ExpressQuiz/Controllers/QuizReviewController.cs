@@ -13,29 +13,28 @@ namespace ExpressQuiz.Controllers
 {
     public class QuizReviewController : Controller
     {
-        private readonly IService<Quiz> _quizService;
+        private readonly IQuizService _quizService;
         private readonly IRepo<QuizResult> _quizResultRepo;
-        //private readonly IRepo<Quiz> _quizRepo;
-        private readonly IRepo<Question> _questionRepo;
-        private readonly IRepo<Answer> _answerRepo;
+        private readonly IQuestionService _questionService;
+        private readonly IAnswerService _answerService;
         private readonly IRepo<QuizRating> _quizRatingRepo;
 
         public QuizReviewController(
-            IService<Quiz> quizService,
+            IQuizService quizService,
             IRepo<QuizResult> quizResultRepo,
-            IRepo<Question> questionRepo,
-            IRepo<Answer> answerRepo,
+            IQuestionService questionService,
+            IAnswerService answerService,
             IRepo<QuizRating> quizRatingRepo
 
             )
         {
             _quizService = quizService;
             _quizResultRepo = quizResultRepo;
-            _questionRepo = questionRepo;
-            _answerRepo = answerRepo;
+            _questionService = questionService;
+            _answerService = answerService;
             _quizRatingRepo = quizRatingRepo;
         }
-        // GET: QuizReview
+
         public ActionResult Index(int? id)
         {
             if (id == null)
@@ -47,7 +46,7 @@ namespace ExpressQuiz.Controllers
             if (result != null)
             {
 
-                var vm = result.ToViewModel(_quizService, _answerRepo);
+                var vm = result.ToViewModel(_quizService, _answerService);
                 return View(vm);
             }
 
@@ -75,7 +74,7 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var q = _questionRepo.Get(questionId.Value);
+            var q = _questionService.Get(questionId.Value);
             if (q != null)
             {
                 var vm = q.ToViewModel(resultId, userAnswerId);

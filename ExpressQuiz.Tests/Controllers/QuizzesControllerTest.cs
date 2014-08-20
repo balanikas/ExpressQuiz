@@ -113,7 +113,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void Edit_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuizViewModel model = _repoProvider.QuizRepo.Get(1).ToViewModel(_repoProvider.QuizCategoryRepo);
+            EditQuizViewModel model = _serviceProvider.QuizService.Get(1).ToViewModel(_serviceProvider.QuizCategoryService);
 
             var result = c.Edit(model) as PartialViewResult;
             model = result.Model as EditQuizViewModel;

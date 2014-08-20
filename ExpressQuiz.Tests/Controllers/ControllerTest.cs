@@ -11,6 +11,7 @@ namespace ExpressQuiz.Tests.Controllers
     public abstract class ControllerTest
     {
         protected RepoProvider _repoProvider;
+        protected ServiceProvider _serviceProvider;
         protected ControllerProvider _controllerProvider;
         [TestInitialize()]
         public void Initialize()
@@ -21,8 +22,8 @@ namespace ExpressQuiz.Tests.Controllers
                @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\bin\App_Data\testdata.xml";
             _repoProvider.Load(uri);
 
-
-            _controllerProvider = new ControllerProvider(_repoProvider);
+            _serviceProvider = new ServiceProvider(_repoProvider);
+            _controllerProvider = new ControllerProvider(_repoProvider, _serviceProvider);
         }
     }
 }
