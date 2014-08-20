@@ -73,27 +73,7 @@ namespace ExpressQuiz.Extensions
             }
         }
 
-        public static IEnumerable<Quiz> AsOrdered(this IRepo<Quiz> repo, IRepo<QuizRating> quizRatingRepo, QuizFilter filter)
-        {
-
-            switch (filter)
-            {
-                case QuizFilter.Rating:
-                    return repo.GetTopListByRating(quizRatingRepo, null);
-                    break;
-                case QuizFilter.Newest:
-                    return repo.GetAll().OrderByDescending(x => x.Created);
-                    break;
-
-                case QuizFilter.Level:
-                    return repo.GetTopListByLevel(quizRatingRepo, null);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            
-        }
+       
 
 
         public static void SaveOrder(this IRepo<Answer> repo, Question question, string order)

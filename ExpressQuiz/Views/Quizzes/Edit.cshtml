@@ -28,11 +28,7 @@
 
 
 <script>
-    $(function() {
-       
-
-        
-    });
+    
     function showSavedAlert() {
         $('.body-content').prepend('<div class="alert alert-success affix col-md-4">' +
             ' <button type="button" class="close" data-dismiss="alert"></button>Saved' +
@@ -55,6 +51,7 @@
         $("#content").empty();
         $("#content").append(ajaxContext.responseText);
     }
+
 </script>
 
 @Scripts.Render("~/Scripts/tablednd/jquery.tablednd.js")

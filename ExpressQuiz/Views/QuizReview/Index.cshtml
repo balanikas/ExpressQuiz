@@ -152,7 +152,22 @@
 @Scripts.Render("~/Scripts/starrating/star-rating.min.js")
 <script>
 
+
+
+
     $(function () {
+
+        $("#levelStar").rating({
+            showClear: false,
+            showCaption: false,
+            stars: 5
+        });
+        $("#ratingStar").rating({
+            showClear: false,
+            showCaption: false,
+            stars: 5
+        });
+
         $('#levelStar').on('rating.change', function (event, value, caption) {
             $("#Level").attr('value',value);
         });
@@ -166,16 +181,7 @@
         $("#rateQuiz").modal("show");
        
     }
-    $("#levelStar").rating({
-        showClear: false,
-        showCaption: false,
-        stars: 5
-    });
-    $("#ratingStar").rating({
-        showClear: false,
-        showCaption: false,
-        stars: 5
-    });
+   
    
 </script>
 

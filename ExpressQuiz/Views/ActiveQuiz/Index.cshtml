@@ -52,7 +52,7 @@
 
     <script>
        
-
+        var runtime = undefined;
         var counter = new ExpressQuiz.CountDown({
             seconds: "@Model.EstimatedTime",
             onUpdateStatus: function(sec) {
@@ -64,35 +64,9 @@
             }
         });
 
-        $(document).ready(function () {
+      
 
-            ExpressQuiz.Utils.togglePreventLeavingPage(true);
-           // togglePreventLeavingPage(true);
-
-            $.ajax({
-                url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
-                type: "GET",
-
-            })
-                .done(function (results) {
-                    load(results);
-                   
-                  
-                });
-
-
-            $("#pTimeLeft").text("Time left: " + '@Model.EstimatedTime');
-            counter.start();
-
-           
-        });
-
-
-
-        $("#done").click(function () {
-            sendResults();
-
-        });
+      
 
         function sendResults() {
             var result = {};
@@ -155,9 +129,9 @@
            
         }
 
-        var runtime = undefined;
+       
 
-        function load(quiz) {
+        function init(quiz) {
 
             runtime = new ExpressQuiz.Runtime(quiz);
 
@@ -167,7 +141,9 @@
                 maxVisible: 5,
                 next: "next",
                 prev: "previous",
-            }).on("page", function(event, num) {
+            });
+
+            $('#page-selection').on("page", function (event, num) {
                 var a = $('input[name=optionsRadios]:checked', '#answers').val();
 
                 runtime.setAnswer(runtime.currentQuestionIndex, a);
@@ -175,13 +151,9 @@
                 runtime.setActiveQuestion(num - 1);
                 var question = runtime.getActiveQuestion(num - 1);
                 loadQuestion(question, runtime.getAnswer(runtime.currentQuestionIndex));
-               
 
             });
 
-            loadQuestion(quiz.Questions[0]);
-           
-          
         }
 
 
@@ -190,18 +162,28 @@
             $('.progress-bar').css('width', value + '%').attr('aria-valuenow', value);
         }
 
+        $(document).ready(function () {
 
-        //function togglePreventLeavingPage(enable) {
-        //    if (enable) {
-        //        $(window).on('beforeunload', function () {
+            ExpressQuiz.Utils.togglePreventLeavingPage(true);
 
-        //            return 'All progress will be lost if you leave or refresh the page.';
-        //        });
-        //    } else {
-        //        $(window).off('beforeunload');
-        //    }
-        //}
-        
+            $.ajax({
+                url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
+                type: "GET",
+            }).done(function (results) {
+                init(results);
+                loadQuestion(results.Questions[0]);
+
+                $("#pTimeLeft").text("Time left: " + '@Model.EstimatedTime');
+                counter.start();
+            });
+
+            $("#done").click(function () {
+                sendResults();
+            });
+
+            
+        });
+
     </script>
 
 </div>
