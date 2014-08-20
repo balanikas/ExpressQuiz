@@ -3,12 +3,12 @@
 @model ExpressQuiz.ViewModels.EditQuestionViewModel
 
 
-    @if (Model.ModifiedByUser)
-    {
-        <script>
+@if (Model.ModifiedByUser)
+{
+    <script>
         showSavedAlert();
-     </script>
-    }
+    </script>
+}
 
 
 
@@ -20,9 +20,9 @@
 
         <li class="active">Question</li>
     </ul>
-    
-   
-   
+
+
+
 </div>
 
 
@@ -32,7 +32,8 @@
     UpdateTargetId = "content",
     HttpMethod = "Post",
     InsertionMode = InsertionMode.Replace,
-    OnSuccess = "applyValidation"
+    OnSuccess = "applyValidation",
+    OnFailure = "handleError"
 }))
 {
     <div class="form-horizontal">
@@ -42,46 +43,59 @@
         @Html.HiddenFor(model => model.Order)
         @Html.HiddenFor(model => model.Question.QuizId)
         @Html.HiddenFor(model => model.Question.Points)
-        @Html.HiddenFor(model => model.Question.EstimatedTime)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Question.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Question.Text, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
+                @Html.EditorFor(model => model.Question.Text, new { htmlAttributes = new { @class = "form-control pagedown", @rows = 10 } })
                 @Html.ValidationMessageFor(model => model.Question.Text, "", new { @class = "text-danger" })
+
+
+
             </div>
         </div>
 
+        @if (Model.Question.Quiz.IsTimeable)
+        {
+            <div class="form-group">
 
-        <div class="form-group">
-            @if (Model.Question.Quiz.IsTimeable)
-            {
-                @Html.LabelFor(model => model.Question.EstimatedTime, htmlAttributes: new { @class = "control-label col-md-2" });
+                @Html.LabelFor(model => model.Question.EstimatedTime, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.Question.EstimatedTime, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Question.EstimatedTime, "", new { @class = "text-danger" })
                 </div>
 
-            }
 
 
-        </div>
-        
-        <div class="form-group">
-            @if (Model.Question.Quiz.AllowPoints)
-            {
-                @Html.LabelFor(model => model.Question.Points, htmlAttributes: new { @class = "control-label col-md-2" });
+
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(model => model.Question.EstimatedTime)
+        }
+
+        @if (Model.Question.Quiz.AllowPoints)
+        {
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.Question.Points, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-2">
-                    <input id="questionPoints" class="form-control" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10"
+                    <input id="points" class="form-control" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10"
                            data-slider-step="0.1" data-slider-value="@Model.Question.Points" />
-                    
-                  
+
+
                 </div>
 
-            }
 
 
-        </div>
 
+            </div>
+        }
+        else
+        {
+           
+        }
         <div class="form-group">
             <div class="col-md-offset-11 col-md-1">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -94,7 +108,8 @@
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",
                                         UpdateTargetId = "content",
-                                        OnSuccess = "applyValidation"
+                                        OnSuccess = "applyValidation",
+                                        OnFailure = "handleError"
 
                                     }, htmlAttributes: new { @class = "btn btn-primary btn-block" })
 
@@ -128,7 +143,8 @@
                     InsertionMode = InsertionMode.Replace,
                     HttpMethod = "Get",
                     UpdateTargetId = "content",
-                    OnSuccess = "applyValidation"
+                    OnSuccess = "applyValidation",
+                    OnFailure = "handleError"
 
                 })
 
@@ -139,7 +155,8 @@
                     InsertionMode = InsertionMode.Replace,
                     HttpMethod = "Get",
                     UpdateTargetId = "content",
-                    OnSuccess = "applyValidation"
+                    OnSuccess = "applyValidation",
+                    OnFailure = "handleError"
 
                 })
 
@@ -163,6 +180,10 @@
 <script>
     $(function () {
 
+        $("textarea.pagedown").pagedownBootstrap({
+            'sanatize': true
+        });
+        $('.wmd-preview').addClass('well');
 
         $("#answersTbl").tableDnD({
             onDrop: function (table, row) {
@@ -185,17 +206,18 @@
 
 
 
-        $('#questionPoints').slider({
+        $('#points').slider({
             formater: function (value) {
                 return Math.round(value);
             }
         });
 
-        $("#questionPoints").on('slide', function (slideEvt) {
-            $("#Question_Points").attr("value", Math.round(slideEvt.value));
+        $('#points').on('slide', function (slideEvt) {
+           
+            $('#' + '@Html.IdFor(m=>m.Question.Points)').attr("value", Math.round(slideEvt.value));
         });
     });
-   
+
 </script>
 
 

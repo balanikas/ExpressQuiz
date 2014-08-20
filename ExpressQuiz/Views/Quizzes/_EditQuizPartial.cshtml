@@ -119,7 +119,8 @@
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",
                                         UpdateTargetId = "content",
-                                        OnSuccess = "applyValidation"
+                                        OnSuccess = "applyValidation",
+                                        OnFailure = "handleError"
 
                                     }, htmlAttributes: new { @class = "btn btn-primary btn-block" } )
 
@@ -152,7 +153,8 @@
                     InsertionMode = InsertionMode.Replace,
                     HttpMethod = "Get",
                     UpdateTargetId = "content",
-                    OnSuccess = "applyValidation"
+                    OnSuccess = "applyValidation",
+                    OnFailure = "handleError"
 
                 })
 
@@ -163,7 +165,8 @@
                     InsertionMode = InsertionMode.Replace,
                     HttpMethod = "Get",
                     UpdateTargetId = "content",
-                    OnSuccess = "applyValidation"
+                    OnSuccess = "applyValidation",
+                    OnFailure = "handleError"
 
                 })
 
@@ -183,6 +186,8 @@
 <script>
     
     $(function () {
+
+        
 
         $("#questionsTbl").tableDnD({
             onDrop: function (table, row) {
@@ -207,11 +212,5 @@
 
     });
 
-    function handleError(ajaxContext) {
-
-       
-        $("#content").empty();
-        $("#content").append(ajaxContext.responseText);
-       // alert(statusCode);
-    }
+   
 </script>

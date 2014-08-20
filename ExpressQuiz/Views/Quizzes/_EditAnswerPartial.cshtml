@@ -11,7 +11,8 @@
             UpdateTargetId = "content",
             HttpMethod = "Get",
             InsertionMode = InsertionMode.Replace,
-            OnSuccess = "applyValidation"
+            OnSuccess = "applyValidation",
+            OnFailure = "handleError"
         })
     </li>
     <li class="active">Answer</li>
@@ -39,7 +40,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
+                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control pagedown", @rows = 5 } })
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -69,3 +70,17 @@
         </div>
     </div>
 }
+
+
+<script>
+    $(function () {
+
+        //$("textarea.pagedown").pagedownBootstrap({
+        //    'sanatize': true
+        //});
+        //$('.wmd-preview').addClass('well');
+
+      
+    });
+
+</script>

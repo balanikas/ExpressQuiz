@@ -10,12 +10,20 @@
 
     @Scripts.Render("~/Scripts/slider/bootstrap-slider.min.js")
     @Styles.Render("~/Scripts/slider/css/bootstrap-slider.min.css")
+
+
 }
 
-
-
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js"></script>
 
 <h2>Edit</h2> 
+
+
+
+
+
 
 
 
@@ -32,7 +40,11 @@
 
 
 <script>
-    
+    $(function() {
+       
+
+        
+    });
     function showSavedAlert() {
         $('.body-content').prepend('<div class="alert alert-success affix col-md-4">' +
           ' <button type="button" class="close" data-dismiss="alert"></button>Saved' +
@@ -49,5 +61,13 @@
         $("form").removeData("validator");
         $("form").removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse("form");
+    }
+
+    function handleError(ajaxContext) {
+
+
+        $("#content").empty();
+        $("#content").append(ajaxContext.responseText);
+        // alert(statusCode);
     }
 </script>

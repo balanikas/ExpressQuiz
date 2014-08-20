@@ -188,9 +188,14 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -202,6 +207,15 @@
     <None Include="App_Data\seeddata.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\expressquiz.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.af-ZA.js" />
@@ -566,6 +580,13 @@
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.dataTables.rowReordering.js" />
     <Content Include="Scripts\jquery.sortable.min.js" />
+    <Content Include="Scripts\pagedown\css\jquery.pagedown-bootstrap.css" />
+    <Content Include="Scripts\pagedown\js\jquery.pagedown-bootstrap.combined.js" />
+    <Content Include="Scripts\pagedown\js\jquery.pagedown-bootstrap.combined.min.js" />
+    <Content Include="Scripts\pagedown\js\jquery.pagedown-bootstrap.js" />
+    <Content Include="Scripts\pagedown\js\Markdown.Converter.js" />
+    <Content Include="Scripts\pagedown\js\Markdown.Editor.js" />
+    <Content Include="Scripts\pagedown\js\Markdown.Sanitizer.js" />
     <Content Include="Scripts\slider\bootstrap-slider.min.js" />
     <Content Include="Scripts\slider\css\bootstrap-slider.css" />
     <Content Include="Scripts\slider\css\bootstrap-slider.min.css" />
@@ -643,9 +664,6 @@
     <Folder Include="Repos\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

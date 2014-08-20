@@ -95,6 +95,8 @@ namespace ExpressQuiz.ViewModels
 
             vm.Question = question;
             vm.Order = string.Join(",", question.Answers.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId).Select(x => x.Id));
+       
+
             return vm;
         }
 

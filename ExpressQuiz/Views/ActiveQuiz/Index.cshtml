@@ -9,6 +9,10 @@
 @Scripts.Render("~/Scripts/expressquiz/main.js")
 @Scripts.Render("~/Scripts/expressquiz/countdown.js")
 
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js"></script>
+
 <div>
     <br />
 
@@ -29,8 +33,11 @@
     <div id="content">
 
         <h4>Question</h4>
-        <p style="white-space: pre" id="qDesc"> </p>
-
+        <textarea class="pagedown hidden"  >
+           
+          
+        </textarea>
+      
         <h4>Answers</h4>
         <p>
             <div id="answers" class="col-lg-10">
@@ -63,11 +70,15 @@
             })
                 .done(function (results) {
                     load(results);
+                   
+                  
                 });
 
 
             $("#pTimeLeft").text("Time left: " + @Model.EstimatedTime);
             counter.start();
+
+          
         });
 
 
@@ -103,8 +114,6 @@
 
         function loadQuestion(question, answerId) {
 
-
-            $("#qDesc").text(question.Text);
             $("#answers").empty();
 
             for (var i = 0; i < question.Answers.length; i++) {
@@ -117,6 +126,7 @@
 
                 label.append(input);
                 label.append(question.Answers[i].Text);
+
                 div.append(label);
                 $("#answers").append(div);
             }
@@ -126,6 +136,16 @@
                 runtime.setAnswer(runtime.currentQuestionIndex, a);
                 updateProgress();
             });
+
+            $("#content").append($("<textarea class='pagedown hidden' />"));
+
+            $("textarea.pagedown").empty();
+            $("textarea.pagedown").pagedownBootstrap({
+                'sanatize': true
+            });
+            $("#wmd-input-0").text(question.Text);
+            $(".wmd-button-bar").hide();
+           
         }
 
         var runtime = undefined;
@@ -148,11 +168,13 @@
                 runtime.setActiveQuestion(num - 1);
                 var question = runtime.getActiveQuestion(num - 1);
                 loadQuestion(question, runtime.getAnswer(runtime.currentQuestionIndex));
+               
 
             });
 
             loadQuestion(quiz.Questions[0]);
-
+           
+          
         }
 
 

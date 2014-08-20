@@ -41,7 +41,7 @@ namespace ExpressQuiz.Core.Services
 
             quizzes = from q in quizzes
                       where q.Questions.Count > 0 &&
-                      (from que in q.Questions where que.Answers.Count > 0 select que).Any()
+                      (from que in q.Questions where que.Answers.Count > 1 select que).Any()
                       select q;
 
 
