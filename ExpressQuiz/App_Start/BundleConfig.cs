@@ -23,13 +23,22 @@ namespace ExpressQuiz
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/expressquiz").Include(
+                      "~/Scripts/expressquiz/utils.js",
+                      "~/Scripts/expressquiz/answer.js",
+                      "~/Scripts/expressquiz/question.js",
+                      "~/Scripts/expressquiz/quiz.js",
+                      "~/Scripts/expressquiz/runtime.js",
+                      "~/Scripts/expressquiz/useranswer.js",
+                      "~/Scripts/expressquiz/countdown.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

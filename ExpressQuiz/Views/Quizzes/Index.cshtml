@@ -1,5 +1,7 @@
 ﻿@model ExpressQuiz.ViewModels.QuizzesViewModel
-@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+
+
+
 <div style="width: 1280px">
 
     <br />
@@ -42,4 +44,6 @@
         @Html.Partial("_TopListPartial", Model.TopQuizzes)
     </div>
 </div>
+
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 

@@ -3,7 +3,14 @@
     var Utils = (function () {
         function Utils() {
         }
-        Utils.prototype.createQuestion = function (question, answer) {
+        Utils.togglePreventLeavingPage = function (enable) {
+            if (enable) {
+                $(window).on('beforeunload', function () {
+                    return 'All unsaved changes will be lost if you leave or refresh the page.';
+                });
+            } else {
+                $(window).off('beforeunload');
+            }
         };
         return Utils;
     })();

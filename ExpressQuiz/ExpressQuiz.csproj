@@ -575,10 +575,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui-1.10.4.custom.min.js" />
     <Content Include="Scripts\jquery.bootpag.min.js" />
-    <Content Include="Scripts\jquery.dataTables.js" />
-    <Content Include="Scripts\jquery.dataTables.rowReordering.js" />
     <Content Include="Scripts\jquery.sortable.min.js" />
     <Content Include="Scripts\pagedown\css\jquery.pagedown-bootstrap.css" />
     <Content Include="Scripts\pagedown\js\jquery.pagedown-bootstrap.combined.js" />
@@ -667,8 +664,12 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\expressquiz\answer.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\countdown.ts" />
-    <TypeScriptCompile Include="Scripts\expressquiz\main.ts" />
+    <TypeScriptCompile Include="Scripts\expressquiz\question.ts" />
+    <TypeScriptCompile Include="Scripts\expressquiz\quiz.ts" />
+    <TypeScriptCompile Include="Scripts\expressquiz\runtime.ts" />
+    <TypeScriptCompile Include="Scripts\expressquiz\useranswer.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\utils.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>

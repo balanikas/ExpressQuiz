@@ -1,13 +1,15 @@
 ﻿@model ExpressQuiz.ViewModels.ActiveQuizViewModel
 
-@{
+@*@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+}*@
 
 
 @Scripts.Render("~/Scripts/jquery.bootpag.min.js")
-@Scripts.Render("~/Scripts/expressquiz/main.js")
-@Scripts.Render("~/Scripts/expressquiz/countdown.js")
+
+@Scripts.Render("~/bundles/expressquiz")
+
+
 
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <link href="~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css" rel="stylesheet" />
@@ -49,6 +51,7 @@
     <br />
 
     <script>
+       
 
         var counter = new ExpressQuiz.CountDown({
             seconds: "@Model.EstimatedTime",
@@ -63,6 +66,9 @@
 
         $(document).ready(function () {
 
+            ExpressQuiz.Utils.togglePreventLeavingPage(true);
+           // togglePreventLeavingPage(true);
+
             $.ajax({
                 url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
                 type: "GET",
@@ -75,10 +81,10 @@
                 });
 
 
-            $("#pTimeLeft").text("Time left: " + @Model.EstimatedTime);
+            $("#pTimeLeft").text("Time left: " + '@Model.EstimatedTime');
             counter.start();
 
-          
+           
         });
 
 
@@ -106,6 +112,7 @@
                 },
                 success: function (data, textStatus, jqXHR) {
                     var url = '/QuizReview/Index/' + data;
+                    ExpressQuiz.Utils.togglePreventLeavingPage(false);
                     window.location.href = url;
                 }
 
@@ -184,7 +191,17 @@
         }
 
 
-    </script>
+        //function togglePreventLeavingPage(enable) {
+        //    if (enable) {
+        //        $(window).on('beforeunload', function () {
 
+        //            return 'All progress will be lost if you leave or refresh the page.';
+        //        });
+        //    } else {
+        //        $(window).off('beforeunload');
+        //    }
+        //}
+        
+    </script>
 
 </div>

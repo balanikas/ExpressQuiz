@@ -1,12 +1,11 @@
 ﻿@using System.Web.UI.WebControls
 @model ExpressQuiz.ViewModels.CreateQuizViewModel
 
-@{
-    ViewBag.Title = "Create";
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
 
 <h2>Create</h2>
-
 
 @using (Html.BeginForm()) 
 {
@@ -68,6 +67,4 @@
 
 <div> @Html.ActionLink("Back", "Index",routeValues:null, htmlAttributes: new { @class = "btn btn-primary" })</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+

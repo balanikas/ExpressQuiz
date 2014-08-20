@@ -1,19 +1,20 @@
 ﻿@model ExpressQuiz.ViewModels.QuizDetailsViewModel
 
-@{
-    <h2>
-        @Model.Quiz.Name  (@Model.Quiz.Questions.Count questions)</h2>
-    }
-<div>
-      
-    <hr />
-        
-        
-    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Quiz.Id }, new { @class = "btn btn-lg btn-success" })</div>
 
-        
-        <br/>
-       
+<h2>
+    @Model.Quiz.Name  (@Model.Quiz.Questions.Count questions)
+</h2>
+
+<div>
+
+    <hr />
+
+
+    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new {id = Model.Quiz.Id}, new {@class = "btn btn-lg btn-success"})</div>
+
+
+    <br />
+
     <dl class="dl-horizontal">
         @*<dt>
                 @Html.DisplayNameFor(model => model.Quiz.Name)
@@ -34,10 +35,10 @@
                 Questions
             </dt>
             <dd>
-               
+
                 @Model.Quiz.Questions.Count
             </dd>*@
-            <br/>
+        <br />
         <dt>
             @Html.DisplayNameFor(model => model.AvgTime)
         </dt>
@@ -54,57 +55,57 @@
         </dt>
         <dd>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgLevel%;">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgLevel%;">
                     @Model.AvgLevel
                 </div>
             </div>
         </dd>
-            
+
         <dt>
             @Html.DisplayNameFor(model => model.AvgRating)
         </dt>
         <dd>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgRating%;">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgRating%;">
                     @Model.AvgRating
                 </div>
             </div>
         </dd>
-            
+
         <dt>
             @Html.DisplayNameFor(model => model.AvgScore)
         </dt>
         <dd>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:  @Model.AvgScore%;">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgScore%;">
                     @Model.AvgScore%
                 </div>
             </div>
         </dd>
-            
-          
-            
-          
-    </dl>
-        
-    
-        
 
-      
+
+
+
+    </dl>
+
+
+
+
+
 </div>
 
 @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)
 {
-    <div>@Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.Id }, new { @class = "btn btn-primary btn-sm  col-md-1" })</div>
+    <div>@Html.ActionLink("Edit", "Edit", new {id = Model.Quiz.Id}, new {@class = "btn btn-primary btn-sm  col-md-1"})</div>
 
 
-    <div> @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.Id }, new { @class = "btn btn-danger btn-sm  col-md-1" })</div>
+    <div> @Html.ActionLink("Delete", "Delete", new {id = Model.Quiz.Id}, new {@class = "btn btn-danger btn-sm  col-md-1"})</div>
 }
-<br/>
+<br />
 
 <div>
-  
-    
-   
-    @Html.Action("Index", "Users",new { quizId = @Model.Quiz.Id})
+
+
+
+    @Html.Action("Index", "Users", new {quizId = @Model.Quiz.Id})
 </div>

@@ -3,14 +3,6 @@
 @model ExpressQuiz.ViewModels.EditQuestionViewModel
 
 
-@if (Model.ModifiedByUser)
-{
-    <script>
-        showSavedAlert();
-    </script>
-}
-
-
 
 <div>
     <ul class="breadcrumb" style="margin-bottom: 5px;">
@@ -21,11 +13,7 @@
         <li class="active">Question</li>
     </ul>
 
-
-
 </div>
-
-
 
 @using (Ajax.BeginForm("EditQuestion", "Quizzes", new AjaxOptions()
 {
@@ -65,9 +53,6 @@
                     @Html.ValidationMessageFor(model => model.Question.EstimatedTime, "", new { @class = "text-danger" })
                 </div>
 
-
-
-
             </div>
         }
         else
@@ -86,9 +71,6 @@
 
 
                 </div>
-
-
-
 
             </div>
         }
@@ -183,6 +165,7 @@
         $("textarea.pagedown").pagedownBootstrap({
             'sanatize': true
         });
+
         $('.wmd-preview').addClass('well');
 
         $("#answersTbl").tableDnD({
@@ -221,3 +204,9 @@
 </script>
 
 
+@if (Model.ModifiedByUser)
+{
+    <script>
+        showSavedAlert();
+    </script>
+}

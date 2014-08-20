@@ -1,38 +1,26 @@
 ﻿
-@using Microsoft.AspNet.Identity
 @model IEnumerable<ExpressQuiz.Core.Models.Quiz>
 
 <div id="quizList" class="list-group">
-    
-  
 
-
-
-        @foreach (var item in Model)
-        {
-
-
-            <a href="/Quizzes/Details/@item.Id" class="list-group-item">
-                <div class="row">
-                    <h4 class="list-group-item-heading col-md-8">@item.Name</h4>
-                    <div class="pull-right">by @item.CreatedBy</div>
-                </div>
-                <div class="row">
-                    @{
-                        if (item.Summary.Length > 200)
-                        {
-                            item.Summary = item.Summary.Substring(0, 197) + "...";
-                        }
-                        
+    @foreach (var item in Model)
+    {
+        <a href="/Quizzes/Details/@item.Id" class="list-group-item">
+            <div class="row">
+                <h4 class="list-group-item-heading col-md-8">@item.Name</h4>
+                <div class="pull-right">by @item.CreatedBy</div>
+            </div>
+            <div class="row">
+                @{
+                    if (item.Summary.Length > 200)
+                    {
+                        item.Summary = item.Summary.Substring(0, 197) + "...";
                     }
-                    <p class="list-group-item-text">@item.Summary</p>
-                </div>
-                   
-                   
 
-
-</a>
-        }
-  
+                }
+                <p class="list-group-item-text">@item.Summary</p>
+            </div>
+        </a>
+    }
 
 </div>

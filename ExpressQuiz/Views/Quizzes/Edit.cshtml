@@ -1,31 +1,23 @@
-﻿@model ExpressQuiz.ViewModels.EditQuizViewModel
+﻿@using System.Web.UI.WebControls
+@model ExpressQuiz.ViewModels.EditQuizViewModel
 
-@section Scripts {
-   
-    @Scripts.Render("~/bundles/jqueryval")
-  
-    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
-    @Scripts.Render("~/Scripts/tablednd/jquery.tablednd.js")
+@section Styles {
     @Styles.Render("~/Scripts/tablednd/css/tablednd.css")
-
-    @Scripts.Render("~/Scripts/slider/bootstrap-slider.min.js")
     @Styles.Render("~/Scripts/slider/css/bootstrap-slider.min.css")
-
-
+    @Styles.Render("~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css")
+    @Styles.Render("~/Content/font-awesome.min.css")
 }
 
-<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-<link href="~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css" rel="stylesheet" />
-<script src="~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}
+
+
+
+
 
 <h2>Edit</h2> 
-
-
-
-
-
-
-
 
 <hr/>
 <div id="content">
@@ -33,10 +25,6 @@
         Html.RenderPartial("_EditQuizPartial", Model);
     }
 </div>
-
-
-
-
 
 
 <script>
@@ -47,8 +35,8 @@
     });
     function showSavedAlert() {
         $('.body-content').prepend('<div class="alert alert-success affix col-md-4">' +
-          ' <button type="button" class="close" data-dismiss="alert"></button>Saved' +
-          '</div>');
+            ' <button type="button" class="close" data-dismiss="alert"></button>Saved' +
+            '</div>');
 
         window.setTimeout(function () {
             $(".alert").fadeTo(500, 0.2).slideUp(100, function () {
@@ -64,10 +52,12 @@
     }
 
     function handleError(ajaxContext) {
-
-
         $("#content").empty();
         $("#content").append(ajaxContext.responseText);
-        // alert(statusCode);
     }
 </script>
+
+@Scripts.Render("~/Scripts/tablednd/jquery.tablednd.js")
+@Scripts.Render("~/Scripts/slider/bootstrap-slider.min.js")
+@Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
+
