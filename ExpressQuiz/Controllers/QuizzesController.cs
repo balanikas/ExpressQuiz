@@ -45,7 +45,7 @@ namespace ExpressQuiz.Controllers
             if (filter.HasValue)
             {
                 quizzes = _quizService.GetBy((QuizFilter)filter, quizzes);
-            }
+            }           
 
             if (selectedCategory.HasValue && selectedCategory.Value != -1)
             {
@@ -56,6 +56,7 @@ namespace ExpressQuiz.Controllers
             {
                 quizzes = _quizService.GetBySearchTerm(searchTerm, quizzes);
             }
+
 
             return PartialView("_QuizListPartial", quizzes.ToList());
         }
@@ -74,7 +75,7 @@ namespace ExpressQuiz.Controllers
                 quizzes = _quizService.GetByCategory(catId.Value, quizzes);
             }
 
-            quizzes = _quizService.GetBy(QuizFilter.Newest, quizzes, true);
+            quizzes = _quizService.GetBy(QuizFilter.Newest, quizzes, true);    
             var model = quizzes.ToViewModel(_quizService,_quizCategoryService,  catId);
             
 
@@ -162,6 +163,9 @@ namespace ExpressQuiz.Controllers
         public ActionResult Create()
         {
             var quiz = new Quiz();
+            quiz.IsTimeable = true;
+            quiz.AllowPoints = true;
+
             var vm = quiz.ToViewModel(_quizCategoryService, User.Identity.Name);
             return View("Create",vm);
         }

@@ -48,13 +48,13 @@ namespace ExpressQuiz.Extensions
 
         public static void SetDefaultValues(this Question question)
         {
-            question.Text = "enter text here";
+            question.Text = "enter question here";
             question.EstimatedTime = 10;
         }
 
         public static void SetDefaultValues(this Answer answer)
         {
-            answer.Text = "enter text here";
+            answer.Text = "enter answer here";
         }
     }
 }

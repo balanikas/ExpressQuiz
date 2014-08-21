@@ -8,18 +8,8 @@
 
 
 
-@*@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}*@
-
 <div>
-    <h3>
-        Your score is: @Model.Result.Score/100
-    </h3>
-    <h3>
-        Your time is: @Model.Result.EllapsedTime seconds
-    </h3>
-    
+   
     <dl>
         <dt>
             @Html.DisplayNameFor(model => model.Result.Score)
