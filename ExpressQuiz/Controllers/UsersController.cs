@@ -22,17 +22,7 @@ namespace ExpressQuiz.Controllers
 
             _quizResultRepo = quizResultRepo;
         }
-        //public ActionResult Index()
-        //{
-          
-        //    var users = new ApplicationDbContext().Users.Select(x => new UserViewModel
-        //    {
-        //        Name = x.NickName
-        //    });
-        //    return View(users.ToList());
-           
-            
-        //}
+       
 
         public ActionResult Index(int quizId)
         {

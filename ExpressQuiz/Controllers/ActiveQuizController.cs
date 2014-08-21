@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
+using ExpressQuiz.Extensions;
 using ExpressQuiz.Logic;
 
 using ExpressQuiz.ViewModels;
@@ -34,7 +35,7 @@ namespace ExpressQuiz.Controllers
             _questionService = questionService;
         }
         
-        // GET: ActiveQuiz
+
         public ActionResult Index(int? id)
         {
             if (id == null)
@@ -47,7 +48,7 @@ namespace ExpressQuiz.Controllers
                 return HttpNotFound();
             }
             var vm = quiz.ToViewModel();
-            return View(vm);
+            return View("Index",vm);
 
         }
 
@@ -55,7 +56,7 @@ namespace ExpressQuiz.Controllers
         public ActionResult Index(ActiveQuizViewModel vm)
         {
 
-            return View(vm);
+            return View("Index",vm);
         }
 
         public ActionResult GetQuiz(int? id)

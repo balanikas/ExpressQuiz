@@ -27,7 +27,7 @@ namespace ExpressQuiz.Controllers
             vm.SocialSettings = socialSettings;
 
 
-            return View(vm);
+            return View("Index",vm);
         }
 
         [HttpPost]

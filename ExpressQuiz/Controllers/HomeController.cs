@@ -12,24 +12,24 @@ namespace ExpressQuiz.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
         public ActionResult About()
         {
             
 
-            return View();
+            return View("About");
         }
 
         public ActionResult Contact()
         {
             
 
-            return View();
+            return View("Contact");
         }
         
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public ActionResult Admin()
         {
 

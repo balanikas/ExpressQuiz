@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
+using ExpressQuiz.Extensions;
 using ExpressQuiz.ViewModels;
 
 namespace ExpressQuiz.Controllers
@@ -47,7 +48,7 @@ namespace ExpressQuiz.Controllers
             {
 
                 var vm = result.ToViewModel(_quizService, _answerService);
-                return View(vm);
+                return View("Index",vm);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
@@ -78,7 +79,7 @@ namespace ExpressQuiz.Controllers
             if (q != null)
             {
                 var vm = q.ToViewModel(resultId, userAnswerId);
-                return View(vm);
+                return View("Question",vm);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

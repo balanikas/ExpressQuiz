@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
+using ExpressQuiz.Extensions;
 using ExpressQuiz.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

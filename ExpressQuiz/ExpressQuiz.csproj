@@ -146,6 +146,7 @@
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Extensions\ViewModelExtensions.cs" />
     <Compile Include="Logic\JsonNetResult.cs" />
     <Compile Include="Migrations\201408111339009_init.cs" />
     <Compile Include="Migrations\201408111339009_init.Designer.cs">
@@ -158,7 +159,7 @@
     <Compile Include="ViewModels\CreateQuizViewModel.cs" />
     <Compile Include="ViewModels\EditQuestionViewModel.cs" />
     <Compile Include="ViewModels\EditQuizViewModel.cs" />
-    <Compile Include="ViewModels\ModelExtensions.cs" />
+    <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="ViewModels\QuestionReviewViewModel.cs" />
     <Compile Include="ViewModels\QuizCategoriesViewModel.cs" />
     <Compile Include="ViewModels\QuizDetailsViewModel.cs" />

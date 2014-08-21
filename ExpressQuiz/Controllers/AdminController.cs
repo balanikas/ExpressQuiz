@@ -16,7 +16,7 @@ namespace ExpressQuiz.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
         public FileResult Export()

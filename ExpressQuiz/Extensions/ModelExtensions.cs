@@ -5,9 +5,10 @@ using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
 using ExpressQuiz.Extensions;
+using ExpressQuiz.ViewModels;
 
 
-namespace ExpressQuiz.ViewModels
+namespace ExpressQuiz.Extensions
 {
     public static class ModelExtensions
     {

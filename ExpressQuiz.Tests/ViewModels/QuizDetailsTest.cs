@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Services;
+using ExpressQuiz.Extensions;
 using ExpressQuiz.Tests.Repos;
 using ExpressQuiz.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
