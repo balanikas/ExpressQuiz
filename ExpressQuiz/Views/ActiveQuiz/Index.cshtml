@@ -1,24 +1,29 @@
 ﻿@model ExpressQuiz.ViewModels.ActiveQuizViewModel
 
-@Scripts.Render("~/Scripts/jquery.bootpag.min.js")
+@section scripts
+{
+    @Scripts.Render("~/Scripts/jquery.bootpag.min.js")
+    @Scripts.Render("~/bundles/expressquiz")
+    @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
+}
 
-@Scripts.Render("~/bundles/expressquiz")
+@section styles
+{
+    @Styles.Render("~/Content/font-awesome.min.css")
+    @Styles.Render("~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css")
+
+}
 
 
-
-<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-<link href="~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css" rel="stylesheet" />
-<script src="~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js"></script>
 
 <div>
     <br />
 
-    <div class="text-center" >
+    <div class="text-center">
 
         <button id="done" type="button" class="btn btn-lg btn-primary">Finish</button>
-        <h4 id="pTimeLeft">
-        </h4>
-    
+        <h4 id="pTimeLeft"></h4>
+
 
     </div>
     <br />
@@ -30,11 +35,8 @@
     <div id="content">
 
         <h4>Question</h4>
-        <textarea class="pagedown hidden"  >
-           
-          
-        </textarea>
-      
+        <textarea class="pagedown hidden"></textarea>
+
         <h4>Answers</h4>
         <p>
             <div id="answers" class="col-lg-10">
@@ -46,22 +48,35 @@
     <br />
 
     <script>
-       
+
+        $(document).ready(function () {
+
+            ExpressQuiz.Utils.togglePreventLeavingPage(true);
+
+            $.ajax({
+                url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
+                type: "GET",
+                error: OnGetQuizError,
+                success: OnGetQuizSuccess
+            });
+
+            $("#done").click(function () {
+                sendResults();
+            });
+
+        });
+
         var runtime = undefined;
         var counter = new ExpressQuiz.CountDown({
             seconds: "@Model.EstimatedTime",
-            onUpdateStatus: function(sec) {
+            onUpdateStatus: function (sec) {
                 $("#pTimeLeft").text("Time left: " + sec);
             },
-            onCounterEnd: function() {
-                
+            onCounterEnd: function () {
                 sendResults();
             }
         });
 
-      
-
-      
 
         function sendResults() {
             var result = {};
@@ -76,16 +91,21 @@
                 data: JSON.stringify(result),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert(jqXHR + "-" + textStatus + "-" + errorThrown);
-                },
-                success: function (data, textStatus, jqXHR) {
-                    var url = '/QuizReview/Index/' + data;
-                    ExpressQuiz.Utils.togglePreventLeavingPage(false);
-                    window.location.href = url;
-                }
+                error: OnPostResultsError,
+                success: OnPostResultsSucces
 
-            });
+        });
+        }
+
+        function OnPostResultsSucces(data, textStatus, jqXHR) {
+            var url = '/QuizReview/Index/' + data;
+            ExpressQuiz.Utils.togglePreventLeavingPage(false);
+            window.location.href = url;
+        }
+
+        function OnPostResultsError(jqXHR, textStatus, errorThrown) {
+            ExpressQuiz.Utils.togglePreventLeavingPage(false);
+            location.href = "/Home/Error/?message=" + errorThrown;
         }
 
         function loadQuestion(question, answerId) {
@@ -107,7 +127,7 @@
                 $("#answers").append(div);
             }
 
-            $('input[type=radio][name=optionsRadios]').on('change', function() {
+            $('input[type=radio][name=optionsRadios]').on('change', function () {
                 var a = $('input[name=optionsRadios]:checked', '#answers').val();
                 runtime.setAnswer(runtime.currentQuestionIndex, a);
                 updateProgress();
@@ -121,10 +141,10 @@
             });
             $("#wmd-input-0").text(question.Text);
             $(".wmd-button-bar").hide();
-           
+
         }
 
-       
+
 
         function init(quiz) {
 
@@ -133,7 +153,8 @@
             $('#page-selection').bootpag({
                 total: runtime.quiz.Questions.length,
                 page: 1,
-                maxVisible: 5,
+                leaps: false,
+                maxVisible: 10,
                 next: "next",
                 prev: "previous",
             });
@@ -157,27 +178,23 @@
             $('.progress-bar').css('width', value + '%').attr('aria-valuenow', value);
         }
 
-        $(document).ready(function () {
+       
 
-            ExpressQuiz.Utils.togglePreventLeavingPage(true);
+        function OnGetQuizSuccess(data, textStatus, jqXHR) {
+            init(data);
+            loadQuestion(data.Questions[0]);
 
-            $.ajax({
-                url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
-                type: "GET",
-            }).done(function (results) {
-                init(results);
-                loadQuestion(results.Questions[0]);
+            $("#pTimeLeft").text("Time left: " + '@Model.EstimatedTime');
+            counter.start();
 
-                $("#pTimeLeft").text("Time left: " + '@Model.EstimatedTime');
-                counter.start();
-            });
+        }
 
-            $("#done").click(function () {
-                sendResults();
-            });
+        function OnGetQuizError(jqXHR, textStatus, errorThrown) {
 
-            
-        });
+            ExpressQuiz.Utils.togglePreventLeavingPage(false);
+            location.href = "/Home/Error/?message=" + errorThrown;
+        }
+        
 
     </script>
 

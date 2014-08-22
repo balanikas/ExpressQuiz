@@ -38,6 +38,12 @@
             @Html.LabelFor(model => model.NewCategory, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NewCategory, new { htmlAttributes = new { @class = "form-control" } })
+                @if (ViewData.ModelState["NewCategory"] != null && ViewData.ModelState["NewCategory"].Errors.Any())
+                {
+                    <span class="field-validation-error text-danger">
+                        @ViewData.ModelState["NewCategory"].Errors[0].ErrorMessage
+                    </span>
+                }  
             </div>
 
         </div>
@@ -48,6 +54,12 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Quiz.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Quiz.Name, "", new { @class = "text-danger" })
+                @if (ViewData.ModelState["Name"] != null && ViewData.ModelState["Name"].Errors.Any())
+                {
+                    <span class="field-validation-error text-danger">
+                        @ViewData.ModelState["Name"].Errors[0].ErrorMessage
+                    </span>
+                }  
             </div>
         </div>
 

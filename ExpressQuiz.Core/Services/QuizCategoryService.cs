@@ -64,6 +64,9 @@ namespace ExpressQuiz.Core.Services
             }
         }
 
-
+        public bool Exists(string name)
+        {
+            return _quizCategoryRepo.GetAll().Any(x => x.Name == name);
+        }
     }
 }

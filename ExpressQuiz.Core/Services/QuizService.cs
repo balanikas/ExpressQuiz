@@ -120,19 +120,19 @@ namespace ExpressQuiz.Core.Services
 
         public IQueryable<Quiz> GetBySearchTerm(string searchTerm,IQueryable<Quiz> quizzes = null )
         {
-            var list = quizzes ?? _quizRepo.GetAll();
+            var list = quizzes ?? GetPublicQuizzes();
             return list.Where(s => s.Name.ToLower().Contains(searchTerm.ToLower()));
         }
 
         public IQueryable<Quiz> GetByCategory(int categoryId, IQueryable<Quiz> quizzes = null)
         {
-            var list = quizzes ?? _quizRepo.GetAll();
+            var list = quizzes ?? GetPublicQuizzes();
             return list.Where(x => x.Category.Id == categoryId);
         }
 
         public IQueryable<Quiz> GetBy( QuizFilter filter,IQueryable<Quiz> quizzes = null,bool? descending = null,int? count = null)
         {
-            var list = quizzes ?? _quizRepo.GetAll();
+            var list = quizzes ?? GetPublicQuizzes();
             var descendingValue = descending.HasValue ? descending.Value : true;
             IQueryable<Quiz> topList;
             switch (filter)
@@ -150,12 +150,6 @@ namespace ExpressQuiz.Core.Services
                     throw new ArgumentOutOfRangeException();
             }
            
-
-            if (!topList.Any())
-            {
-                return list.OrderByDescending(x => x.Created);
-            }
-
             if (count.HasValue)
             {
                 return topList.Take(count.Value);
@@ -166,7 +160,7 @@ namespace ExpressQuiz.Core.Services
 
         public IQueryable<Quiz> GetByRating(bool descending, IQueryable<Quiz> quizzes = null)
         {
-            var list = quizzes ?? _quizRepo.GetAll();
+            var list = quizzes ?? GetPublicQuizzes();
             var avgRatings = _quizRatingRepo.GetAll().GroupBy(x => x.QuizId).Select(
              group => new
              {
@@ -199,7 +193,7 @@ namespace ExpressQuiz.Core.Services
 
         public IQueryable<Quiz> GetByLevel(bool descending, IQueryable<Quiz> quizzes=null)
         {
-            var list = quizzes ?? _quizRepo.GetAll();
+            var list = quizzes ?? GetPublicQuizzes();
             var avgLevels = _quizRatingRepo.GetAll().GroupBy(x => x.QuizId).Select(
              group => new
              {
@@ -230,7 +224,7 @@ namespace ExpressQuiz.Core.Services
 
         public IQueryable<Quiz> GetByCreationDate(bool descending, IQueryable<Quiz> quizzes= null)
         {
-            var list = quizzes ?? _quizRepo.GetAll();
+            var list = quizzes ?? GetPublicQuizzes();
             if (descending)
             {
                 return list.OrderByDescending(x => x.Created);
@@ -241,7 +235,7 @@ namespace ExpressQuiz.Core.Services
             }
         }
 
-        public bool QuizExists(string name)
+        public bool Exists(string name)
         {
             return _quizRepo.GetAll().Any(x => x.Name == name);
 

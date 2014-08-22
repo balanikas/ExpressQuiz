@@ -15,7 +15,8 @@
         {
             UpdateTargetId = "quizList",
             HttpMethod = "Post",
-            InsertionMode = InsertionMode.Replace
+            InsertionMode = InsertionMode.Replace,
+            OnFailure = "handleError"
         }))
         {
             @Html.HiddenFor(m=>m.SelectedCategory)
@@ -47,3 +48,9 @@
 
 @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 
+<script>
+    function handleError(ajaxContext) {
+        $("#quizList").empty();
+        $("#quizList").append(ajaxContext.responseText);
+    }
+</script>

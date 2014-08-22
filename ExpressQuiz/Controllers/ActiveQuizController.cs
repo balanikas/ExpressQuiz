@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -61,6 +62,7 @@ namespace ExpressQuiz.Controllers
 
         public ActionResult GetQuiz(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -89,6 +91,7 @@ namespace ExpressQuiz.Controllers
         [HttpPost]
         public JsonResult PostResult(QuizResult result)
         {
+
             result.UserId = User.Identity.Name;
             result.Score = CalculateScore(result);
             _quizResultRepo.Insert(result);

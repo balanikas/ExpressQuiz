@@ -141,8 +141,29 @@ namespace ExpressQuiz.Controllers
         {
             if (ModelState.IsValid)
             {
+                Quiz quiz;
+                if (_quizService.Exists(vm.Quiz.Name))
+                {
+                    ModelState.AddModelError("Name", "Name already exists");
+                    quiz = _quizService.Get(vm.Quiz.Id);
+                    vm = quiz.ToViewModel(_quizCategoryService);
+                    return PartialView("_EditQuizPartial", vm);
+                }
+                if (!String.IsNullOrEmpty(vm.NewCategory))
+                {
+                    if (_quizCategoryService.Exists(vm.NewCategory))
+                    {
+                        ModelState.AddModelError("NewCategory", "Category already exists");
+                        quiz = _quizService.Get(vm.Quiz.Id);
+                        vm = quiz.ToViewModel(_quizCategoryService);
+                        return PartialView("_EditQuizPartial", vm);
+                    }
+                    vm.Quiz.Category = _quizCategoryService.InsertByName(vm.NewCategory);
+                }
 
-                var quiz = vm.ToModel(_quizService, _quizCategoryService);
+
+
+                quiz = vm.ToModel(_quizService, _quizCategoryService);
 
                 _quizService.Update(quiz);
                 
@@ -183,7 +204,7 @@ namespace ExpressQuiz.Controllers
             if (ModelState.IsValid)
             {
 
-                if (_quizService.GetAll().Any(x => x.Name == vm.Quiz.Name))
+                if (_quizService.Exists(vm.Quiz.Name))
                 {
                     ModelState.AddModelError("Name", "Name already exists");
                     var quiz = new Quiz();
@@ -193,6 +214,13 @@ namespace ExpressQuiz.Controllers
 
                 if (!String.IsNullOrEmpty(vm.NewCategory))
                 {
+                    if (_quizCategoryService.Exists( vm.NewCategory))
+                    {
+                        ModelState.AddModelError("NewCategory", "Category already exists");
+                        var quiz = new Quiz();
+                        vm = quiz.ToViewModel(_quizCategoryService, User.Identity.Name);
+                        return View("Create", vm);
+                    }
                     vm.Quiz.Category = _quizCategoryService.InsertByName(vm.NewCategory);
                 }
                 else

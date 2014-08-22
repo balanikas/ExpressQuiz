@@ -29,6 +29,6 @@ namespace ExpressQuiz.Core.Services
 
         IQueryable<Quiz> GetByCreationDate(bool descending, IQueryable<Quiz> quizzes = null);
 
-        bool QuizExists(string name);
+        bool Exists(string name);
     }
 }
