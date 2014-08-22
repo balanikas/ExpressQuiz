@@ -154,6 +154,7 @@
     </Compile>
     <Compile Include="Migrations\DataProvider.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
+    <Compile Include="ViewModels\PublicUserProfileViewModel.cs" />
     <Compile Include="ViewModels\SocialSettingsViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Extensions\RepoExtensions.cs" />
@@ -657,6 +658,7 @@
     <Content Include="Views\Users\_QuizUsersPartial.cshtml" />
     <Content Include="Views\UserProfile\_SocialPartial.cshtml" />
     <Content Include="Views\UserProfile\_QuizzesPartial.cshtml" />
+    <Content Include="Views\UserProfile\Public.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\imports\" />

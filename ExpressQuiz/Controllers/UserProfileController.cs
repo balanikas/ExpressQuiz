@@ -30,6 +30,14 @@ namespace ExpressQuiz.Controllers
             return View("Index",vm);
         }
 
+
+        public ActionResult Public(string id)
+        {
+            var vm = new PublicUserProfileViewModel();
+            vm.UserName = id;
+            return View("Public", vm);
+        }
+
         [HttpPost]
         public ActionResult EditSocialSettings(SocialSettingsViewModel model)
         {

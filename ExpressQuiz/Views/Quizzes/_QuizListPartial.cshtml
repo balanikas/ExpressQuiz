@@ -28,10 +28,13 @@ else
 
 
                         @{
-            var link = "http://graph.facebook.com/" + @item.CreatedBy + "/picture?type=square";
+                            var link = "http://graph.facebook.com/" + @item.CreatedBy + "/picture?type=square";
+                            var profileLink = "UserProfile/Public/" + @item.CreatedBy ;
                         }
-                        <img src="@link" width="25px" class="img-responsive img-circle pull-right"
-                             data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="" />
+                        <a href="@profileLink">
+                            <img src="@link" width="25px" class="img-responsive img-circle pull-right"
+                                 data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="" />
+                        </a>
 
 
                     </div>
