@@ -1,26 +1,49 @@
-﻿
-@model IEnumerable<ExpressQuiz.Core.Models.Quiz>
+﻿@model IEnumerable<ExpressQuiz.Core.Models.Quiz>
 
-<div id="quizList" class="list-group">
+@if (!Model.Any())
+{
+    <br/>
+    <p class="text-center"><i>no quizzes found</i></p>
+}
+else
+{
+    <ul id="quizList" class="list-group">
 
-    @foreach (var item in Model)
-    {
-        <a href="/Quizzes/Details/@item.Id" class="list-group-item">
-            <div class="row">
-                <h4 class="list-group-item-heading col-md-8">@item.Name</h4>
-                <div class="pull-right">by @item.CreatedBy</div>
-            </div>
-            <div class="row">
-                @{
-                    if (item.Summary.Length > 200)
-                    {
-                        item.Summary = item.Summary.Substring(0, 197) + "...";
-                    }
+        @foreach (var item in Model)
+        {
+            <li class="list-group-item">
+                <div class="row">
 
-                }
-                <p class="list-group-item-text">@item.Summary</p>
-            </div>
-        </a>
-    }
+                    <div class="col-sm-10">
+                        <h4 class="list-group-item-heading">@item.Name</h4>
+                        <p class="list-group-item-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@item.Summary</p>
+                        <br />
+                        @Html.ActionLink(item.Category.Name, "Index", new { catId = item.Category.Id }, htmlAttributes: new { @class = "btn btn-default btn-xs" })
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-center">
+                            @Html.ActionLink("View", "Details", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-default btn-lg " })
+                        </div>
+                        <br />
 
-</div>
+
+                        @{
+            var link = "http://graph.facebook.com/" + @item.CreatedBy + "/picture?type=square";
+                        }
+                        <img src="@link" width="25px" class="img-responsive img-circle pull-right"
+                             data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="" />
+
+
+                    </div>
+                </div>
+
+            </li>
+        }
+
+    </ul>
+}
+
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+</script>

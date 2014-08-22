@@ -409,7 +409,7 @@ namespace ExpressQuiz.Controllers
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser() {
-                    UserName = model.NickName,
+                    UserName = info.DefaultUserName,
                     Email = model.Email};
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)

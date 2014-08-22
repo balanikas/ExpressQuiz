@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
 using ExpressQuiz.Extensions;
 using ExpressQuiz.ViewModels;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace ExpressQuiz.Controllers
 {
@@ -165,6 +169,7 @@ namespace ExpressQuiz.Controllers
             var quiz = new Quiz();
             quiz.IsTimeable = true;
             quiz.AllowPoints = true;
+
 
             var vm = quiz.ToViewModel(_quizCategoryService, User.Identity.Name);
             return View("Create",vm);
