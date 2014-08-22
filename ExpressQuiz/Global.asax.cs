@@ -36,7 +36,7 @@ namespace ExpressQuiz
             cb.RegisterType<Repo<QuizCategory>>().As<IRepo<QuizCategory>>().InstancePerRequest();
             cb.RegisterType<Repo<QuizRating>>().As<IRepo<QuizRating>>().InstancePerRequest();
             cb.RegisterType<Repo<QuizResult>>().As<IRepo<QuizResult>>().InstancePerRequest();
-
+            cb.RegisterType<Repo<ContactInfo>>().As<IRepo<ContactInfo>>().InstancePerRequest();
 
             cb.RegisterType<QuizService>().As<IQuizService>().InstancePerRequest();
             cb.RegisterType<QuestionService>().As<IQuestionService>().InstancePerRequest();

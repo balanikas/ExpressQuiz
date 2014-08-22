@@ -153,6 +153,7 @@
       <DependentUpon>201408111339009_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DataProvider.cs" />
+    <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\SocialSettingsViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Extensions\RepoExtensions.cs" />

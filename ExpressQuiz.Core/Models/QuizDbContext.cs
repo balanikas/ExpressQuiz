@@ -20,7 +20,7 @@ namespace ExpressQuiz.Core.Models
         public DbSet<QuizRating> QuizRatings { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<QuizResult> QuizResults { get; set; }
-       
+        public DbSet<ContactInfo> ContactInfos { get; set; }
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
         //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

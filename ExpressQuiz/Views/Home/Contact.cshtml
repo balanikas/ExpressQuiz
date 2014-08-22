@@ -1,6 +1,48 @@
-﻿
-<h2>Contact</h2>
+﻿@model ExpressQuiz.ViewModels.ContactViewModel
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:info@coderentals.com">info@coderentals.com</a><br />
-</address>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<br/>
+<div class="container">
+    <div class="row">
+        @if (Model.WasSent)
+        {
+            <div class="col-md-12">
+                <div class="alert alert-success"><strong>Thank you!</strong></div>
+            </div>
+        }
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-lg-6">
+              
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactInfo.Name)
+                    @Html.EditorFor(model => model.ContactInfo.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContactInfo.Name, "", new { @class = "text-danger" })
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactInfo.Email)
+                    @Html.EditorFor(model => model.ContactInfo.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter email" } })
+                    @Html.ValidationMessageFor(model => model.ContactInfo.Email, "", new { @class = "text-danger" })
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ContactInfo.Message)
+                    @Html.EditorFor(model => model.ContactInfo.Message, new { htmlAttributes = new { @class = "form-control", rows = "5" } })
+                    @Html.ValidationMessageFor(model => model.ContactInfo.Message, "", new { @class = "text-danger" })
+                </div>
+
+                <input type="submit" name="submit" id="submit" value="Send" class="btn btn-primary pull-right">
+            </div>
+        }
+
+    </div>
+
+</div>
