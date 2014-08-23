@@ -50,9 +50,15 @@ namespace ExpressQuiz.Core.Services
         }
 
 
-        public void SaveOrder(List<Answer> answers, string answersOrder)
+        public void SaveOrder(List<Answer> answers, string order)
         {
-            var orders = answersOrder.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var orders = order.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (orders.Length == 0 || orders.Length != answers.Count())
+            {
+                throw new ArgumentException("order");
+            }
+
             int orderCount = 0;
             foreach (var o in orders)
             {

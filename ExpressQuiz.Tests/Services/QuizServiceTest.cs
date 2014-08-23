@@ -12,11 +12,7 @@ namespace ExpressQuiz.Tests.Services
     public class QuizServiceTest :ServiceTest
     {
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _mockRepo.Reload();
-        }
+       
 
         [TestMethod]
         public void QuizService_NotExisting_ShouldReturnFalse()
@@ -35,7 +31,7 @@ namespace ExpressQuiz.Tests.Services
         }
 
         [TestMethod]
-        public void QuizService_DeleteQuiz()
+        public void QuizService_Delete()
         {
             var service = _mockRepo.QuizService;
             Assert.IsNotNull(service.Get(1));

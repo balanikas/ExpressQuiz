@@ -52,7 +52,14 @@ namespace ExpressQuiz.Core.Services
 
         public void SaveOrder(List<Question> questions, string order)
         {
+
             var orders = order.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (orders.Length == 0 || orders.Length != questions.Count())
+            {
+                throw new ArgumentException("order");
+            }
+
             int orderCount = 0;
             foreach (var o in orders)
             {
