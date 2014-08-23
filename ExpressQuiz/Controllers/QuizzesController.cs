@@ -142,7 +142,7 @@ namespace ExpressQuiz.Controllers
             if (ModelState.IsValid)
             {
                 Quiz quiz;
-                if (_quizService.Exists(vm.Quiz.Name))
+                if (_quizService.GetAll().Any(x=>x.Name == vm.Quiz.Name && x.Id != vm.Quiz.Id))
                 {
                     ModelState.AddModelError("Name", "Name already exists");
                     quiz = _quizService.Get(vm.Quiz.Id);

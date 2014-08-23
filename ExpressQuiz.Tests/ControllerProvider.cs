@@ -11,30 +11,58 @@ namespace ExpressQuiz.Tests
 {
     public class ControllerProvider
     {
-        private readonly RepoProvider _repoProvider;
-        private readonly ServiceProvider _serviceProvider;
+        private readonly MockRepository _mockRepo;
+        
 
-        public ControllerProvider(RepoProvider repoProvider, ServiceProvider serviceProvider)
+        public ControllerProvider(MockRepository mockRepo)
         {
-            _repoProvider = repoProvider;
-            _serviceProvider = serviceProvider;
+            _mockRepo = mockRepo;
+            
         }
-
 
         public QuizzesController CreateQuizzesController()
         {
             
-
             var c = new QuizzesController(
+            _mockRepo.AnswerService,
+            _mockRepo.QuestionService,
+            _mockRepo.QuizCategoryService,
+            _mockRepo.QuizRatingRepo,
+            _mockRepo.QuizResultRepo,
+            _mockRepo.QuizService);
 
-            _serviceProvider.AnswerService,
-            _serviceProvider.QuestionService,
-            _serviceProvider.QuizCategoryService,
-            _repoProvider.QuizRatingRepo,
-            _repoProvider.QuizResultRepo,
-            _serviceProvider.QuizService
-                );
             return c;
         }
+
+        public HomeController CreateHomeController()
+        {
+            var c = new HomeController(_mockRepo.ContactInfoRepo);
+            return c;
+        }
+
+        public ActiveQuizController CreateActiveQuizzController()
+        {
+            var c = new ActiveQuizController(
+                _mockRepo.QuizService, 
+                _mockRepo.QuizResultRepo, 
+                _mockRepo.AnswerService,
+                _mockRepo.QuestionService);
+
+            return c;
+        }
+
+        public QuizReviewController CreateQuizReviewController()
+        {
+            var c = new QuizReviewController(
+                _mockRepo.QuizService,
+                _mockRepo.QuizResultRepo,
+                _mockRepo.QuestionService,
+                _mockRepo.AnswerService,
+                _mockRepo.QuizRatingRepo);
+
+            return c;
+        }
+
+         
     }
 }

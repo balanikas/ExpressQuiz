@@ -10,16 +10,17 @@ namespace ExpressQuiz.Tests.ViewModels
     [TestClass]
     public abstract class ViewModelTest
     {
-        protected RepoProvider _repoProvider;
+        protected MockRepository _mockRepository;
 
         [TestInitialize()]
         public void Initialize()
         {
-            _repoProvider = new RepoProvider();
+            
 
             var uri =
-               @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\bin\App_Data\testdata.xml";
-            _repoProvider.Load(uri);
+               @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\bin\App_Data\seeddata.xml";
+            _mockRepository = new MockRepository(uri);
+           
 
 
         }

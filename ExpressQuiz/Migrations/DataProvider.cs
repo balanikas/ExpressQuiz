@@ -89,9 +89,10 @@ namespace ExpressQuiz.Migrations
                     Questions = questions,
                     Created = DateTime.Now,
                     IsTimeable = quiz.Descendants("IsTimeable").Any(),
-                    CreatedBy = quiz.Element("CreatedBy").Value.Trim(charsToTrim)
+                    CreatedBy = quiz.Element("CreatedBy").Value.Trim(charsToTrim),
+                    Locked = quiz.Descendants("Locked").Any(),
+                    AllowPoints = quiz.Descendants("AllowPoints").Any(),
                     
-
                 });
 
             }
@@ -129,6 +130,14 @@ namespace ExpressQuiz.Migrations
                 if (quiz.IsTimeable)
                 {
                     quizEl.Add(new XElement("IsTimeable"));
+                }
+                if (quiz.Locked)
+                {
+                    quizEl.Add(new XElement("Locked"));
+                }
+                if (quiz.AllowPoints)
+                {
+                    quizEl.Add(new XElement("AllowPoints"));
                 }
                 foreach (var q in quiz.Questions.ToList())
                 {

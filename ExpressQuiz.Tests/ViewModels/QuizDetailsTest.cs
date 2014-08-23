@@ -77,10 +77,10 @@ namespace ExpressQuiz.Tests.ViewModels
                 Rating = 50,
                 QuizId = 1
             });
-            var quiz = _repoProvider.QuizRepo.Get(1);
+            var quiz = _mockRepository.QuizRepo.Get(1);
 
-            var quizService = new QuizService(_repoProvider.QuizRepo, _repoProvider.QuizResultRepo,
-                _repoProvider.QuizRatingRepo);
+            var quizService = new QuizService(_mockRepository.QuizRepo, _mockRepository.QuizResultRepo,
+                _mockRepository.QuizRatingRepo);
             var vm = quiz.ToViewModel(quizService,new InMemRepo<QuizResult>(quizResults), new InMemRepo<QuizRating>(quizRatings));
 
         }

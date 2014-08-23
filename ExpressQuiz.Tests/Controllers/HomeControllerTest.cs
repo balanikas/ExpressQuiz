@@ -10,13 +10,13 @@ using ExpressQuiz.Controllers;
 namespace ExpressQuiz.Tests.Controllers
 {
     [TestClass]
-    public class HomeControllerTest
+    public class HomeControllerTest : ControllerTest
     {
         [TestMethod]
         public void Index()
         {
-    
-            HomeController controller = new HomeController();
+
+            HomeController controller = _controllerProvider.CreateHomeController();
 
           
             ViewResult result = controller.Index() as ViewResult;
@@ -28,8 +28,8 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void About()
         {
-   
-            HomeController controller = new HomeController();
+
+            HomeController controller = _controllerProvider.CreateHomeController();
 
       
             ViewResult result = controller.About() as ViewResult;
@@ -41,8 +41,8 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Contact()
         {
-    
-            HomeController controller = new HomeController();
+
+            HomeController controller = _controllerProvider.CreateHomeController();
 
 
             ViewResult result = controller.Contact() as ViewResult;

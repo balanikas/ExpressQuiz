@@ -61,8 +61,9 @@ namespace QuizTool
             quiz.Name = quizName;
             quiz.Summary = quizSummary;
             quiz.Created = DateTime.Now;
-            quiz.CreatedBy = "kris";
+            quiz.CreatedBy = "ChristopherBalanikas";
             quiz.AllowPoints = true;
+            quiz.Locked = false;
             quiz.Category = new QuizCategory()
             {
                 Name = quizCat

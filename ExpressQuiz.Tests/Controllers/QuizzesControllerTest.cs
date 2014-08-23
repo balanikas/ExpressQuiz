@@ -24,8 +24,8 @@ namespace ExpressQuiz.Tests.Controllers
             model = result.Model as QuizzesViewModel;
 
             Assert.IsNotNull(model);
-            Assert.AreEqual(1,model.Quizzes.Count);
-            Assert.AreEqual(2,model.QuizCategories.Count);
+            Assert.AreEqual(2,model.Quizzes.Count);
+            Assert.AreEqual(3,model.QuizCategories.Count);
 
             result = c.Index(null, "__") as ViewResult;
             model = result.Model as QuizzesViewModel;
@@ -33,7 +33,7 @@ namespace ExpressQuiz.Tests.Controllers
 
             result = c.Index(null, "qui") as ViewResult;
             model = result.Model as QuizzesViewModel;
-            Assert.AreEqual(1, model.Quizzes.Count);
+            Assert.AreEqual(2, model.Quizzes.Count);
         }
 
       
@@ -114,7 +114,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void Edit_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuizViewModel model = _serviceProvider.QuizService.Get(1).ToViewModel(_serviceProvider.QuizCategoryService);
+            EditQuizViewModel model = _mockRepository.QuizService.Get(1).ToViewModel(_mockRepository.QuizCategoryService);
 
             var result = c.Edit(model) as PartialViewResult;
             model = result.Model as EditQuizViewModel;
@@ -161,7 +161,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void EditQuestion_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuestionViewModel model = _repoProvider.QuestionRepo.Get(1).ToViewModel();
+            EditQuestionViewModel model = _mockRepository.QuestionRepo.Get(1).ToViewModel();
 
             PartialViewResult result;
 
@@ -213,7 +213,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void EditAnswer_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            Answer model = _repoProvider.AnswerRepo.Get(1);
+            Answer model = _mockRepository.AnswerRepo.Get(1);
 
             PartialViewResult result;
 
@@ -240,7 +240,7 @@ namespace ExpressQuiz.Tests.Controllers
         //{
         //    var c = _controllerProvider.CreateQuizzesController();
 
-        //    CreateQuizViewModel model = _repoProvider.QuizRepo.Get(1).ToViewModel(_repoProvider.QuizCategoryRepo, "username");
+        //    CreateQuizViewModel model = _mockRepository.QuizRepo.Get(1).ToViewModel(_mockRepository.QuizCategoryRepo, "username");
 
 
         //    var result = c.Create(model) as ViewResult;

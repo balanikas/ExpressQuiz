@@ -102,7 +102,7 @@ namespace ExpressQuiz.Core.Services
             var results = _quizResultRepo.GetAll().Where(x => x.QuizId == quiz.Id);
             if (results.Any())
             {
-                return (int)results.Average(x => x.Score);
+                return (int)results.Average(x => x.EllapsedTime);
             }
             return -1;
         }
