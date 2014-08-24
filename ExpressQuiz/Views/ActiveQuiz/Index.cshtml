@@ -22,14 +22,19 @@
     <div class="text-center">
 
         <button id="done" type="button" class="btn btn-lg btn-primary">Finish</button>
-        <h4 id="pTimeLeft"></h4>
-
+        <br/>
+        <br />
+        <div class="progress">
+            <div id="pTimeLeft" class="progress-bar progress-bar-warning" style="width: 100%;"></div>
+        </div>
 
     </div>
     <br />
     <div class="progress">
         <div id="prgCompleted" class="progress-bar" style="width: 0%;"></div>
     </div>
+    
+  
 
     <div id="page-selection"></div>
     <div id="content">
@@ -66,11 +71,15 @@
 
         });
 
+        var totalTime = '@Model.EstimatedTime';
         var runtime = undefined;
         var counter = new ExpressQuiz.CountDown({
             seconds: "@Model.EstimatedTime",
             onUpdateStatus: function (sec) {
-                $("#pTimeLeft").text("Time left: " + sec);
+                $("#pTimeLeft").text(sec + " seconds left");
+
+                var timeLeftPercent = (sec / totalTime) * 100;
+                $("#pTimeLeft").width(timeLeftPercent + "%");
             },
             onCounterEnd: function () {
                 sendResults();
@@ -175,7 +184,7 @@
 
         function updateProgress() {
             var value = runtime.getProgress();
-            $('.progress-bar').css('width', value + '%').attr('aria-valuenow', value);
+            $('#prgCompleted').css('width', value + '%').attr('aria-valuenow', value);
         }
 
        
@@ -184,9 +193,7 @@
             init(data);
             loadQuestion(data.Questions[0]);
 
-            $("#pTimeLeft").text("Time left: " + '@Model.EstimatedTime');
             counter.start();
-
         }
 
         function OnGetQuizError(jqXHR, textStatus, errorThrown) {

@@ -165,7 +165,7 @@
     <Compile Include="ViewModels\QuestionReviewViewModel.cs" />
     <Compile Include="ViewModels\QuizCategoriesViewModel.cs" />
     <Compile Include="ViewModels\QuizDetailsViewModel.cs" />
-    <Compile Include="ViewModels\QuizReviewItem.cs" />
+    <Compile Include="ViewModels\QuizReviewItemViewModel.cs" />
     <Compile Include="ViewModels\QuizReviewViewModel.cs" />
     <Compile Include="Controllers\QuizzesController.cs" />
     <Compile Include="Global.asax.cs">

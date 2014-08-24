@@ -12,7 +12,7 @@ namespace ExpressQuiz.ViewModels
     public class QuizReviewViewModel
     {
 
-        public List<QuizReviewItem> Items { get; set; }
+        public List<QuizReviewItemViewModel> Items { get; set; }
 
         [DisplayName("Difficulty")]
         public int Level { get; set; }
@@ -22,5 +22,7 @@ namespace ExpressQuiz.ViewModels
         public int QuizId { get; set; }
         public string ScoreText { get; set; }
         public int EllapsedTimePercent { get; set; }
+
+        
     }
 }

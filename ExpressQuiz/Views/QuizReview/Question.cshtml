@@ -1,14 +1,21 @@
 ﻿@model ExpressQuiz.ViewModels.QuestionReviewViewModel
-@*@{
 
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}*@
+@section scripts
+{
+    @Scripts.Render("~/Scripts/jquery.bootpag.min.js")
+    @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
+}
 
+@section styles
+{
+    @Styles.Render("~/Content/font-awesome.min.css")
+    @Styles.Render("~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css")
 
+}
 
-<div>
+<div class="text-center">
     <br />
-    @Html.ActionLink("Back", "Index", new { id = @Model.QuizResultId }, new { @class = "btn btn-primary " })
+    @Html.ActionLink("Back", "Index", new { id = @Model.QuizResultId }, new { @class = "btn btn-primary" })
 
 </div>
 <div>
@@ -18,9 +25,13 @@
     <div id="content">
 
         <h4>Question</h4>
-        <p style="white-space: pre">
+        @*<p style="white-space: pre">
             @Model.Question.Text
-        </p>
+        </p>*@
+        <div id="hiddenText" class ="hidden" >
+            @Model.Question.Text
+        </div>
+        <textarea class="pagedown hidden"></textarea>
 
         <h4>Answers</h4>
         <p>
@@ -80,4 +91,19 @@
 
 
 
-@Scripts.Render("~/Scripts/jquery.bootpag.min.js")
+
+
+<script>
+
+
+    $(document).ready(function() {
+
+        var text = $("#hiddenText").text();
+
+        $("textarea.pagedown").pagedownBootstrap({
+            'sanatize': true
+        });
+        $("#wmd-input-0").text(text);
+        $(".wmd-button-bar").hide();
+    });
+</script>

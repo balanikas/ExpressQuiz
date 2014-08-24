@@ -127,16 +127,22 @@ namespace ExpressQuiz.Extensions
 
 
 
-            var qDetails = new List<QuizReviewItem>();
+            var qDetails = new List<QuizReviewItemViewModel>();
             foreach (var userAnswer in quizResult.Answers)
             {
                 var answer = answers.GetAll().FirstOrDefault(x => x.Id == userAnswer.AnswerId);
                 var isAnswerCorrect = answer != null ? answer.IsCorrect : false;
-                var questionText = questions.First(x => x.Id == userAnswer.QuestionId).Text;
-
-                qDetails.Add(new QuizReviewItem(isAnswerCorrect, questionText, userAnswer.QuestionId));
-
-
+                var question = questions.First(x => x.Id == userAnswer.QuestionId);
+                var questionText = question.Text;
+                var pointsEarned = isAnswerCorrect ? question.Points : 0;
+                qDetails.Add(new QuizReviewItemViewModel()
+                {
+                    IsCorrectAnswer = isAnswerCorrect,
+                    QuestionId = userAnswer.QuestionId,
+                    QuestionText = questionText,
+                    PointsEarned = pointsEarned,
+                    
+                });
             }
 
            
