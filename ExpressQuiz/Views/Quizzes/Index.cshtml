@@ -19,6 +19,7 @@
             OnFailure = "handleError"
         }))
         {
+            @Html.AntiForgeryToken()
             @Html.HiddenFor(m=>m.SelectedCategory)
             @Html.TextBox("searchTerm", null, new { @class = "form-control input-lg" , placeholder="search here" })
              <br />

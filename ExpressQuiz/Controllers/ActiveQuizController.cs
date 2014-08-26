@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 
 namespace ExpressQuiz.Controllers
 {
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class ActiveQuizController : Controller
     {
         private readonly IQuizService _quizService;
@@ -88,6 +89,7 @@ namespace ExpressQuiz.Controllers
             return jsonNetResult;
         }
 
+        
         [HttpPost]
         public JsonResult PostResult(QuizResult result)
         {
@@ -100,6 +102,7 @@ namespace ExpressQuiz.Controllers
             return Json(result.Id);
           
         }
+
 
         private int CalculateScore(QuizResult result)
         {

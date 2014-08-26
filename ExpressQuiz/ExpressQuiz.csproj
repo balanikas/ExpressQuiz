@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DependencyRegistrar.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -153,6 +154,7 @@
       <DependentUpon>201408111339009_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DataProvider.cs" />
+    <Compile Include="ValidateAntiForgeryTokenOnAllPosts.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\PublicUserProfileViewModel.cs" />
     <Compile Include="ViewModels\SocialSettingsViewModel.cs" />
@@ -217,6 +219,7 @@
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\expressquiz.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\expressquiz\ajaxhelper.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.af-ZA.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.af.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.am-ET.js" />

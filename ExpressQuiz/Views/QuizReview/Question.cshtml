@@ -1,10 +1,5 @@
 ﻿@model ExpressQuiz.ViewModels.QuestionReviewViewModel
 
-@section scripts
-{
-    @Scripts.Render("~/Scripts/jquery.bootpag.min.js")
-    @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
-}
 
 @section styles
 {
@@ -13,25 +8,32 @@
 
 }
 
+@section scripts
+{
+    @Scripts.Render("~/Scripts/jquery.bootpag.min.js")
+    @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
+}
+
+
+
 <div class="text-center">
     <br />
-    @Html.ActionLink("Back", "Index", new { id = @Model.QuizResultId }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Back", "Index", new {id = @Model.QuizResultId}, new {@class = "btn btn-primary"})
 
 </div>
-<div>
+
 
 
     <div id="page-selection"></div>
     <div id="content">
 
         <h4>Question</h4>
-        @*<p style="white-space: pre">
-            @Model.Question.Text
-        </p>*@
-        <div id="hiddenText" class ="hidden" >
+
+        <div id="hiddenText" class="hidden">
             @Model.Question.Text
         </div>
-        <textarea class="pagedown hidden"></textarea>
+        <div id="question" ></div>
+
 
         <h4>Answers</h4>
         <p>
@@ -39,36 +41,32 @@
                 @{
                     foreach (var a in Model.Question.Answers)
                     {
-
                         <div class="radio">
                             <label>
                                 @{
 
 
                                     <input type="radio"
-                                           @(a.IsCorrect ? "checked" : "")
+                                        @(a.IsCorrect ? "checked" : "")
                                            name="optionsRadios" disabled />
 
 
-
-
-
-                        if (Model.UserAnswerId == a.Id)
-                        {
-                            if (a.IsCorrect)
-                            {
-                                <div style="background: lightgreen">@a.Text</div>
-                            }
-                            else
-                            {
-                                <div style="background: lightcoral">@a.Text</div>
-                            }
-                        }
-                        else
-                        {
-                            <div>@a.Text</div>
-                        }
-}
+                                    if (Model.UserAnswerId == a.Id)
+                                    {
+                                        if (a.IsCorrect)
+                                        {
+                                            <div style="background: lightgreen">@a.Text</div>
+                                        }
+                                        else
+                                        {
+                                            <div style="background: lightcoral">@a.Text</div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div>@a.Text</div>
+                                    }
+                                }
                             </label>
                         </div>
                         <div style="color: green">
@@ -85,7 +83,7 @@
 
 
 
-</div>
+
 
 <br />
 
@@ -98,12 +96,17 @@
 
     $(document).ready(function() {
 
-        var text = $("#hiddenText").text();
+        var text = $("#hiddenText").text().trim();
+
+        $("#question").empty();
+        $("#question").append($("<textarea class='pagedown hidden' >" +
+            text + "</textarea>"));
 
         $("textarea.pagedown").pagedownBootstrap({
             'sanatize': true
         });
-        $("#wmd-input-0").text(text);
+        $('.wmd-preview').addClass('well');
         $(".wmd-button-bar").hide();
+
     });
 </script>

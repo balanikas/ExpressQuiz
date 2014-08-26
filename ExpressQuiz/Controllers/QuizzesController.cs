@@ -15,7 +15,7 @@ using Microsoft.Owin.Security;
 
 namespace ExpressQuiz.Controllers
 {
-
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class QuizzesController : Controller
     {
         private readonly IAnswerService _answerService;
@@ -135,7 +135,6 @@ namespace ExpressQuiz.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize]
         public ActionResult Edit(EditQuizViewModel vm)
         {
@@ -198,7 +197,6 @@ namespace ExpressQuiz.Controllers
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(CreateQuizViewModel vm)
         {
             if (ModelState.IsValid)
@@ -408,9 +406,8 @@ namespace ExpressQuiz.Controllers
             return View("Delete",quiz);
         }
 
-        // POST: Quizzes/Delete/5
+
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {

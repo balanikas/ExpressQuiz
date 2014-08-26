@@ -9,9 +9,11 @@ using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
 using ExpressQuiz.Extensions;
 using ExpressQuiz.ViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ExpressQuiz.Controllers
 {
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class QuizReviewController : Controller
     {
         private readonly IQuizService _quizService;
@@ -36,6 +38,7 @@ namespace ExpressQuiz.Controllers
             _quizRatingRepo = quizRatingRepo;
         }
 
+        [HttpGet]
         public ActionResult Index(int? id)
         {
             if (id == null)
@@ -43,18 +46,20 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var result = _quizResultRepo.Get(id.Value);
+            QuizResult result = _quizResultRepo.Get(id.Value);
+
+
             if (result != null)
             {
 
                 var vm = result.ToViewModel(_quizService, _answerService);
-                return View("Index",vm);
+                return View("Index", vm);
             }
 
-            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
 
-     
+
 
         [HttpPost]
         public ActionResult Index(QuizReviewViewModel model)
@@ -68,7 +73,8 @@ namespace ExpressQuiz.Controllers
             return RedirectToAction("Index", "Quizzes");
         }
 
-        public ActionResult Question(int? questionId, int resultId, int userAnswerId )
+
+        public ActionResult Question(int? questionId, int resultId, int userAnswerId)
         {
             if (questionId == null)
             {
@@ -79,7 +85,7 @@ namespace ExpressQuiz.Controllers
             if (q != null)
             {
                 var vm = q.ToViewModel(resultId, userAnswerId);
-                return View("Question",vm);
+                return View("Question", vm);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

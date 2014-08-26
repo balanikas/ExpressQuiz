@@ -5,14 +5,22 @@ using System.Linq;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
+using ExpressQuiz.Core.Services;
 using ExpressQuiz.Migrations;
 
 namespace ExpressQuiz.Controllers
 {
-   // [Authorize(Roles = "Administrator")]
-    [Authorize]
+
+    [Authorize(Roles = "Admin")]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class AdminController : Controller
     {
+        private readonly IQuizService _quizService;
+
+        public AdminController(IQuizService quizService)
+        {
+            _quizService = quizService;
+        }
         // GET: Admin
         public ActionResult Index()
         {
@@ -21,28 +29,28 @@ namespace ExpressQuiz.Controllers
 
         public FileResult Export()
         {
-            var quizRepo = new Repo<Quiz>(new QuizDbContext());
-            var quizzes = from m in quizRepo.GetAll().OrderByDescending(x=> x.Created)
+
+            var quizzes = from m in _quizService.GetAll().OrderByDescending(x => x.Created)
                           select m;
             DataProvider.Export(quizzes.ToList(), System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
             return File(System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"), "text/xml");
         }
 
-     
+        [HttpPost]
         public ActionResult Import()
         {
 
-            var ctx = new QuizDbContext();
-
-
             var quizzes = DataProvider.Import( System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
 
-            ctx.Quizzes.AddOrUpdate(i => i.Name,
-                       quizzes.ToArray()
-                  );
             try
             {
-                ctx.SaveChanges();
+                foreach (var quiz in quizzes)
+                {
+                    if (!_quizService.GetAll().Any(x => x.Name == quiz.Name))
+                    {
+                        _quizService.Insert(quiz);
+                    }
+                }
             }
             catch (DbEntityValidationException e)
             {

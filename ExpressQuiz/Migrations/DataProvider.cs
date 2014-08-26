@@ -101,16 +101,6 @@ namespace ExpressQuiz.Migrations
         }
 
 
-        private static QuizCategory GetCategory(List<Quiz> quizzes, string name)
-        {
-         
-            return new QuizCategory()
-            {
-                Name = name
-            };
-        }
-
-
         public static void Export(List<Quiz> quizzes , string fileName)
         {
             var doc = new XDocument();

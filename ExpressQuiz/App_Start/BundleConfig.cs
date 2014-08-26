@@ -30,7 +30,8 @@ namespace ExpressQuiz
                       "~/Scripts/expressquiz/quiz.js",
                       "~/Scripts/expressquiz/runtime.js",
                       "~/Scripts/expressquiz/useranswer.js",
-                      "~/Scripts/expressquiz/countdown.js"));
+                      "~/Scripts/expressquiz/countdown.js",
+                      "~/Scripts/expressquiz/ajaxhelper.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

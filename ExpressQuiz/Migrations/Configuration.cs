@@ -2,8 +2,11 @@ using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
+using System.Web;
 using ExpressQuiz.Core.Models;
 using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ExpressQuiz.Migrations
 {
@@ -21,6 +24,11 @@ namespace ExpressQuiz.Migrations
             context.QuizCategories.RemoveRange(context.QuizCategories.AsEnumerable());
 
             context.SaveChanges();
+
+
+
+            SeedUsersAndRoles(new ApplicationDbContext());
+           
 
             var uri = DataProvider.MapPath("~/bin/App_Data/seeddata.xml");
             var extraUri = DataProvider.MapPath("~/App_Data/imports/out.xml");
@@ -45,6 +53,30 @@ namespace ExpressQuiz.Migrations
                  );
 
             context.SaveChanges();
+        }
+
+        private void SeedUsersAndRoles(ApplicationDbContext context)
+        {
+            
+            if (!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Admin" };
+
+                manager.Create(role);
+            }
+
+            if (!context.Users.Any(u => u.UserName == "info@coderentals.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "info@coderentals.com", Email = "info@coderentals.com" };
+               
+                var result = manager.Create(user, "Admin123");
+               
+                manager.AddToRole(user.Id, "Admin");
+            }
         }
 
         private void RunAdditionalSeeds(QuizDbContext context)
