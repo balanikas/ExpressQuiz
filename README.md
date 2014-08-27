@@ -2,6 +2,7 @@ ExpressQuiz
 ===========
 Trying to become the de facto free quiz site.
 
+temprary website: http://www.coderentals.com/projects/collections/index.html
 
 Goal
 =========
