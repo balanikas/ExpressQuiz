@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using ExpressQuiz.Core.Models;
-using ExpressQuiz.Migrations;
+using ExpressQuiz.Core.Utils;
 using HtmlAgilityPack;
 
 namespace QuizTool

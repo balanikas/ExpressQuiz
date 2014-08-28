@@ -1,5 +1,8 @@
-﻿using System.Security.Claims;
+﻿using System.Data.Entity;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using ExpressQuiz.Core.Migrations;
+using ExpressQuiz.Core.Migrations.Application;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -21,9 +24,10 @@ namespace ExpressQuiz.Core.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("ApplicationDbContext", throwIfV1Schema: false)
         {
             Database.CreateIfNotExists();
+           // Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, ApplicationDbContextConfig>());
         }
 
         public static ApplicationDbContext Create()

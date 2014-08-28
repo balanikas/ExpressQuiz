@@ -1,6 +1,9 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Text;
+using ExpressQuiz.Core.Migrations;
+using ExpressQuiz.Core.Migrations.Quiz;
 
 namespace ExpressQuiz.Core.Models
 {
@@ -9,8 +12,8 @@ namespace ExpressQuiz.Core.Models
         public QuizDbContext()
             : base("QuizDbContext")
         {
-            //this.Configuration.LazyLoadingEnabled = false;
-            // Database.SetInitializer<QuizDbContext>(new DropCreateDatabaseAlways<QuizDbContext>());
+            Database.CreateIfNotExists();
+           
         }
         public DbSet<UserAnswer> UserAnswers { get; set; }
         public DbSet<Answer> Answers { get; set; }
@@ -21,10 +24,12 @@ namespace ExpressQuiz.Core.Models
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<QuizResult> QuizResults { get; set; }
         public DbSet<ContactInfo> ContactInfos { get; set; }
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-        //}
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            
+        }
 
         public override int SaveChanges()
         {
@@ -35,7 +40,7 @@ namespace ExpressQuiz.Core.Models
             catch (DbEntityValidationException ex)
             {
                 var sb = new StringBuilder();
-
+                
                 foreach (var failure in ex.EntityValidationErrors)
                 {
                     sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());

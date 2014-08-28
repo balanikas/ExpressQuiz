@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Content>
+
+
+  <Quizzes>
+    <Quiz category="category 1">
+      <Name>quiz 1</Name>
+      <Summary>quiz 1 summary</Summary>
+      <IsTimeable/>
+      <AllowPoints/>
+      <CreatedBy>
+        info@coderentals.com
+      </CreatedBy>
+      <Question>
+        <OrderId>1</OrderId>
+        <Text>q1</Text>
+        <EstimatedTime>10</EstimatedTime>
+        <Points>10</Points>
+        <Answer>
+          <OrderId>1</OrderId>
+          <IsCorrect />
+          <Text>a1 (correct)</Text>
+         <Explanation>.</Explanation>
+        </Answer>
+        <Answer>
+          <OrderId>2</OrderId>
+          <Text>a2</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+      </Question>
+      <Question>
+        <OrderId>2</OrderId>
+        <Text>q2</Text>
+        <EstimatedTime>10</EstimatedTime>
+        <Points>10</Points>
+        <Answer>
+          <OrderId>1</OrderId>
+          <Text>a1</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+        <Answer>
+          <OrderId>2</OrderId>
+          <IsCorrect />
+          <Text>a2(correct)</Text>
+        <Explanation>.</Explanation>
+        </Answer>
+      </Question>
+    </Quiz>
+    <Quiz category="category 2">
+      <Name>quiz 2</Name>
+      <Summary>quiz 2 summary</Summary>
+      <IsTimeable/>
+      <AllowPoints/>
+      <CreatedBy>
+        info@coderentals.com
+      </CreatedBy>
+      <Question>
+        <OrderId>1</OrderId>
+        <Text>q1</Text>
+        <EstimatedTime>10</EstimatedTime>
+        <Points>10</Points>
+        <Answer>
+          <OrderId>1</OrderId>
+          <IsCorrect />
+          <Text>a1 (correct)</Text>
+          <Explanation>.</Explanation>
+        </Answer>
+        <Answer>
+          <OrderId>2</OrderId>
+          <Text>a2</Text>
+          <Explanation>.</Explanation>
+        </Answer>
+      </Question>
+      <Question>
+        <OrderId>2</OrderId>
+        <Text>q2</Text>
+        <EstimatedTime>10</EstimatedTime>
+        <Points>10</Points>
+        <Answer>
+          <OrderId>1</OrderId>
+          <Text>a1</Text>
+          <Explanation>.</Explanation>
+        </Answer>
+        <Answer>
+          <OrderId>2</OrderId>
+          <IsCorrect />
+          <Text>a2(correct)</Text>
+          <Explanation>.</Explanation>
+        </Answer>
+      </Question>
+    </Quiz>
+  </Quizzes>
+</Content>

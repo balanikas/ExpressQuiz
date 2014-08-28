@@ -7,8 +7,8 @@ namespace ExpressQuiz.Core.Models
 {
     public class Question : Entity
     {
-       
 
+        //public int X { get; set; }
 
         [Required]
         [StringLength(1000)]

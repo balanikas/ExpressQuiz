@@ -149,11 +149,6 @@
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\ViewModelExtensions.cs" />
     <Compile Include="Logic\JsonNetResult.cs" />
-    <Compile Include="Migrations\201408111339009_init.cs" />
-    <Compile Include="Migrations\201408111339009_init.Designer.cs">
-      <DependentUpon>201408111339009_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\DataProvider.cs" />
     <Compile Include="ValidateAntiForgeryTokenOnAllPosts.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\PublicUserProfileViewModel.cs" />
@@ -173,7 +168,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -184,11 +178,10 @@
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_Data\seeddata.xml">
+    <Content Include="App_Data\seeddata.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Content Include="App_Data\out.xml" />
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -202,12 +195,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EmbeddedResource Include="Migrations\201408111339009_init.resx">
-      <DependentUpon>201408111339009_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="App_Data\seeddata.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -660,8 +647,8 @@
     <Content Include="Views\UserProfile\Public.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\imports\" />
     <Folder Include="Content\images\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Repos\" />
   </ItemGroup>
   <ItemGroup>

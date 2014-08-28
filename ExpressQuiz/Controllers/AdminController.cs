@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
-using ExpressQuiz.Migrations;
+using ExpressQuiz.Core.Utils;
+
 
 namespace ExpressQuiz.Controllers
 {
