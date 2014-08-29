@@ -1,7 +1,9 @@
 ﻿using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
@@ -17,10 +19,12 @@ namespace ExpressQuiz.Controllers
     public class AdminController : Controller
     {
         private readonly IQuizService _quizService;
+        private readonly IQuizCategoryService _quizCategoryService;
 
-        public AdminController(IQuizService quizService)
+        public AdminController(IQuizService quizService, IQuizCategoryService quizCategoryService)
         {
             _quizService = quizService;
+            _quizCategoryService = quizCategoryService;
         }
         // GET: Admin
         public ActionResult Index()
@@ -38,39 +42,38 @@ namespace ExpressQuiz.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import()
+        public ActionResult Import(HttpPostedFileBase file)
         {
 
-            var quizzes = DataProvider.Import( System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
-
-            try
-            {
-                foreach (var quiz in quizzes)
-                {
-                    if (!_quizService.GetAll().Any(x => x.Name == quiz.Name))
-                    {
-                        _quizService.Insert(quiz);
-                    }
-                }
-            }
-            catch (DbEntityValidationException e)
+            if (file.ContentLength <= 0)
             {
 
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                throw;
+                return RedirectToAction("Index"); //todo: report error
             }
-           
+
+
+            var fileName = Path.GetFileName(file.FileName);
+            var path = Path.Combine(Server.MapPath("~/App_Data"), fileName);
+            file.SaveAs(path);
+
+
+            var quizzes = DataProvider.Import(path);
+            System.IO.File.Delete(path);
             
-            return View("Index");
+            foreach (var quiz in quizzes)
+            {
+                if (!_quizService.GetAll().Any(x => x.Name == quiz.Name))
+                {
+                    var cat = _quizCategoryService.GetAll().FirstOrDefault(x => x.Name == quiz.Category.Name);
+                    if (cat != null)
+                    {
+                        quiz.Category = cat;
+                    }
+                    _quizService.Insert(quiz);
+                }
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

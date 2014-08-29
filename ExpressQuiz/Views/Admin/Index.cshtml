@@ -3,7 +3,19 @@
 
 <h2>Admin</h2>
 
+<h3>Import</h3>
 
+@using(Html.BeginForm("Import", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    <label for="file">Filename:</label>
+    <input type="file" name="file" id="file" />
+
+    <input type="submit" />
+
+}
+<br/>
+<br/>
+
+<h3>Export</h3>
 @Html.ActionLink("Export", "Export", "Admin")
 
-@Html.ActionLink("Import", "Import", "Admin")
