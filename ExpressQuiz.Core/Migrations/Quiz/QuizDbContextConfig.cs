@@ -17,36 +17,36 @@ namespace ExpressQuiz.Core.Migrations.Quiz
 
         protected override void Seed(ExpressQuiz.Core.Models.QuizDbContext context)
         {
-            context.Set<UserAnswer>().RemoveRange(context.UserAnswers.AsEnumerable());
-            context.Set<QuizResult>().RemoveRange(context.QuizResults.AsEnumerable());
-            context.Set<QuizCategory>().RemoveRange(context.QuizCategories.AsEnumerable());
+            //context.Set<UserAnswer>().RemoveRange(context.UserAnswers.AsEnumerable());
+            //context.Set<QuizResult>().RemoveRange(context.QuizResults.AsEnumerable());
+            //context.Set<QuizCategory>().RemoveRange(context.QuizCategories.AsEnumerable());
 
-            context.SaveChanges();
+            //context.SaveChanges();
 
             
 
-            var uri = DataProvider.MapPath("~/../Migrations/Quiz/seeddata.xml");
-          //  var extraUri = DataProvider.MapPath("~/../ExpressQuiz/bin/App_Data/imports/out.xml");
-            var quizzes = DataProvider.Import(uri).ToList();
-          //  quizzes.AddRange(DataProvider.Import(extraUri).ToList());
+            //var uri = DataProvider.MapPath("~/../Migrations/Quiz/seeddata.xml");
+
+            //var quizzes = DataProvider.Import(uri).ToList();
 
 
-            context.Set<QuizCategory>().AddOrUpdate(i => i.Name,
-               quizzes.Select(x => x.Category).DistinctBy(x => x.Name).ToArray()
-               );
 
-            context.SaveChanges();
+            //context.Set<QuizCategory>().AddOrUpdate(i => i.Name,
+            //   quizzes.Select(x => x.Category).DistinctBy(x => x.Name).ToArray()
+            //   );
 
-            foreach (var quiz in quizzes)
-            {
-                quiz.Category = context.Set<QuizCategory>().First(x => x.Name == quiz.Category.Name);
-            }
+            //context.SaveChanges();
 
-            context.Set<Models.Quiz>().AddOrUpdate(i => i.Name,
-                      quizzes.ToArray()
-                 );
+            //foreach (var quiz in quizzes)
+            //{
+            //    quiz.Category = context.Set<QuizCategory>().First(x => x.Name == quiz.Category.Name);
+            //}
 
-            context.SaveChanges();
+            //context.Set<Models.Quiz>().AddOrUpdate(i => i.Name,
+            //          quizzes.ToArray()
+            //     );
+
+            //context.SaveChanges();
         }
     }
 }

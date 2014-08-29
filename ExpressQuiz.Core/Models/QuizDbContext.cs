@@ -4,6 +4,7 @@ using System.Data.Entity.Validation;
 using System.Text;
 using ExpressQuiz.Core.Migrations;
 using ExpressQuiz.Core.Migrations.Quiz;
+using ExpressQuiz.Core.Utils;
 
 namespace ExpressQuiz.Core.Models
 {
@@ -50,6 +51,8 @@ namespace ExpressQuiz.Core.Models
                         sb.AppendLine();
                     }
                 }
+
+                new Logger().Error(sb.ToString());
 
                 throw new DbEntityValidationException(
                     "Entity Validation Failed - errors follow:\n" +

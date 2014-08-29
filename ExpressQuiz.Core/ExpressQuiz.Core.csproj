@@ -97,6 +97,7 @@
     <Compile Include="Services\AnswerService.cs" />
     <Compile Include="Services\QuestionService.cs" />
     <Compile Include="Services\QuizService.cs" />
+    <Compile Include="Utils\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using ExpressQuiz.Core.Models;
+using ExpressQuiz.Core.Utils;
 
 namespace ExpressQuiz.Core.Repos
 {
@@ -26,12 +28,19 @@ namespace ExpressQuiz.Core.Repos
 
         public T Insert(T o)
         {
-            return _ctx.Set<T>().Add(o);
+            var result = _ctx.Set<T>().Add(o);
+            if (result != null)
+            {
+                new Logger().Info("Creating entity of type " + typeof(T).Name);
+            }
+          
+            return result;
         }
 
         public void Update(T o)
         {
             _ctx.Entry(o).State = EntityState.Modified;
+            new Logger().Info("Updating entity of type " + typeof(T).Name + " with id " + o.Id);
         }
 
         public void Save()
@@ -45,6 +54,7 @@ namespace ExpressQuiz.Core.Repos
             if (existing != null)
             {
                 _ctx.Set<T>().Remove(existing);
+                new Logger().Info("Deleting entity of type " + typeof(T).Name + " with id " + id);
             }
             
         }

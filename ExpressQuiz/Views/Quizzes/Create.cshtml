@@ -17,14 +17,18 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         
         @Html.HiddenFor(m=>m.Quiz.CreatedBy)
+        
+        @if (Model.Categories.Any())
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.SelectedCategory, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
+                </div>
 
-        <div class="form-group">
-           @Html.LabelFor(m => m.SelectedCategory, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(m => m.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
             </div>
-          
-        </div>
+        }
+       
         
         <div class="form-group">
             @Html.LabelFor(model => model.NewCategory, htmlAttributes: new { @class = "control-label col-md-2" })
