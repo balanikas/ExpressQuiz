@@ -59,12 +59,14 @@ namespace ExpressQuiz.Tests.Services
         }
 
         [TestMethod]
-        public void QuizService_GetPublicQuizzes()
+        public void QuizService_GetPublicQuizzes_locked_is_not_returned()
         {
             var service = _mockRepo.QuizService;
 
             var publicCount = service.GetPublicQuizzes().Count();
 
+
+            //locked quiz must not be returned
             var quiz = service.Get(1);
             quiz.Locked = true;
             service.Insert(quiz);
@@ -73,7 +75,50 @@ namespace ExpressQuiz.Tests.Services
 
             Assert.IsTrue(publicCount > publicCountAfterUpdate);
 
+         
+           
+        }
+
+        [TestMethod]
+        public void QuizService_GetPublicQuizzes_with_zero_questions_is_not_returned()
+        {
+            var service = _mockRepo.QuizService;
+
+            var publicCount = service.GetPublicQuizzes().Count();
+
+
+            //incomplete quiz must not be returned
+            var quiz = service.Get(1);
+            quiz.Questions.Clear();
+            service.Update(quiz);
+
+            var publicCountAfterUpdate = service.GetPublicQuizzes().Count();
+
+            Assert.IsTrue(publicCount > publicCountAfterUpdate);
+
             
+
+        }
+
+        [TestMethod]
+        public void QuizService_GetPublicQuizzes_with_incomplete_question_is_not_returned()
+        {
+            var service = _mockRepo.QuizService;
+
+            var publicCount = service.GetPublicQuizzes().Count();
+
+
+            //incomplete quiz must not be returned
+            var quiz = service.Get(1);
+            quiz.Questions.ToList()[0].Answers.Clear();
+            service.Update(quiz);
+
+            var publicCountAfterUpdate = service.GetPublicQuizzes().Count();
+
+            Assert.IsTrue(publicCount > publicCountAfterUpdate);
+
+
+
         }
 
         [TestMethod]
