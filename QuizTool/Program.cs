@@ -17,7 +17,7 @@ namespace QuizTool
     {
         static void Main(string[] args)
         {
-            var outPath = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\imports\out.xml";
+            var outPath = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\out.xml";
 
             string line;
             List<Quiz> quizzes = new List<Quiz>();
@@ -27,6 +27,10 @@ namespace QuizTool
                new System.IO.StreamReader(Path.Combine(Environment.CurrentDirectory,"inputs.txt"));
             while ((line = file.ReadLine()) != null)
             {
+                if (line == "")
+                {
+                    continue;
+                }
                 quizzes.Add(Import(line));
                 Console.WriteLine("imported from " + line);
             }
@@ -35,7 +39,8 @@ namespace QuizTool
 
 
             DataProvider.Export(quizzes, outPath);
- 
+            
+            Console.WriteLine("Done, press something to exit");
             Console.ReadLine();
         
         }

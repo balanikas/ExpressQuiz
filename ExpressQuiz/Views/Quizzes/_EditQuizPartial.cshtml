@@ -167,16 +167,7 @@
 
             </td>
             <td>
-                @Ajax.ActionLink("Delete", "DeleteQuestion", "Quizzes", new { id = q.Id }, new AjaxOptions()
-                {
-                    InsertionMode = InsertionMode.Replace,
-                    HttpMethod = "Get",
-                    UpdateTargetId = "content",
-                    OnSuccess = "applyValidation",
-                    OnFailure = "handleError"
-
-                })
-
+                <a href="#" data-id="@q.Id" class="delete-question">Delete</a>
             </td>
               
         </tr>
@@ -192,6 +183,8 @@
 
 <script>
     
+
+
     $(function () {
 
         
@@ -217,6 +210,26 @@
             $(this.cells[0]).removeClass('showDragHandle');
         });
 
+
+
+        $('.delete-question').click(function () {
+            
+            $.ajax({
+                url: "/Quizzes/DeleteQuestion/" + this.getAttribute("data-id"),
+                type: 'POST',
+                headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
+                success: function (result) {
+                    $("#content").empty().html(result);
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    handlerError(jqXHR.responseText);
+                    
+                }
+            });
+
+            return false;
+        });
     });
 
    

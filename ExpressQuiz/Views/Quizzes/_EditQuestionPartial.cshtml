@@ -133,15 +133,7 @@
 
             </td>
             <td>
-                @Ajax.ActionLink("Delete", "DeleteAnswer", "Quizzes", new { id = a.Id, orderId = Model.Question.Answers.Count }, new AjaxOptions()
-                {
-                    InsertionMode = InsertionMode.Replace,
-                    HttpMethod = "Get",
-                    UpdateTargetId = "content",
-                    OnSuccess = "applyValidation",
-                    OnFailure = "handleError"
-
-                })
+                <a href="#" data-id="@a.Id" class="delete-answer">Delete</a>
 
             </td>
         </tr>
@@ -199,6 +191,26 @@
         $('#points').on('slide', function (slideEvt) {
            
             $('#' + '@Html.IdFor(m=>m.Question.Points)').attr("value", Math.round(slideEvt.value));
+        });
+
+
+        $('.delete-answer').click(function () {
+
+            $.ajax({
+                url: "/Quizzes/DeleteAnswer/" + this.getAttribute("data-id"),
+                type: 'POST',
+                headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
+                success: function (result) {
+                    $("#content").empty().html(result);
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    handlerError(jqXHR.responseText);
+
+                }
+            });
+
+            return false;
         });
     });
 

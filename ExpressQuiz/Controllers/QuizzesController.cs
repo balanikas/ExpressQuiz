@@ -418,7 +418,9 @@ namespace ExpressQuiz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            return View("Delete",quiz);
+           
+            return View("Delete", quiz);
+            
         }
 
 
@@ -428,20 +430,28 @@ namespace ExpressQuiz.Controllers
         {
             _quizService.Delete(id);
 
-        
-            return RedirectToAction("Index");
+            if (Request.IsAjaxRequest())
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                // _quizRepo.Dispose();
+
             }
             base.Dispose(disposing);
         }
 
         [Authorize]
+        [HttpPost]
         public ActionResult DeleteQuestion(int? id)
         {
             if (id == null)
@@ -467,6 +477,7 @@ namespace ExpressQuiz.Controllers
         }
 
         [Authorize]
+        [HttpPost]
         public ActionResult DeleteAnswer(int? id)
         {
             if (id == null)

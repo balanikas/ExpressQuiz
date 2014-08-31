@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.Migrations;
+﻿using System;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.IO;
@@ -69,7 +70,16 @@ namespace ExpressQuiz.Controllers
                     {
                         quiz.Category = cat;
                     }
-                    _quizService.Insert(quiz);
+                    try
+                    {
+                        _quizService.Insert(quiz);
+                    }
+                    catch (Exception)
+                    {
+                        
+                        //ignore, probably bad format, or validation issue
+                    }
+                    
                 }
             }
 
