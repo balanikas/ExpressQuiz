@@ -22,7 +22,8 @@ namespace ExpressQuiz.ViewModels
         public int QuizId { get; set; }
         public string ScoreText { get; set; }
         public int EllapsedTimePercent { get; set; }
-
+        public int RelativeScore { get; set; }
+        public int RelativeTime { get; set; }
         
     }
 }

@@ -27,7 +27,7 @@ namespace ExpressQuiz
             cb.RegisterType<QuestionService>().As<IQuestionService>().InstancePerRequest();
             cb.RegisterType<AnswerService>().As<IAnswerService>().InstancePerRequest();
             cb.RegisterType<QuizCategoryService>().As<IQuizCategoryService>().InstancePerRequest();
-
+            cb.RegisterType<QuizResultService>().As<IQuizResultService>().InstancePerRequest();
 
             cb.RegisterControllers(typeof(MvcApplication).Assembly).InstancePerRequest();
             cb.RegisterType<AccountController>().InstancePerDependency();

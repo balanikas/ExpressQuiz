@@ -67,56 +67,6 @@ namespace ExpressQuiz.Core.Services
             _quizRepo.Save();
         }
 
-        public int GetAverageLevel(Quiz quiz)
-        {
-            var ratings = _quizRatingRepo.GetAll().Where(x => x.QuizId == quiz.Id);
-            if (ratings.Any())
-            {
-                return (int)ratings.Average(x => x.Level);
-            }
-            return -1;
-        }
-
-        public int GetAverageRating(Quiz quiz)
-        {
-            var ratings = _quizRatingRepo.GetAll().Where(x => x.QuizId == quiz.Id);
-            if (ratings.Any())
-            {
-                return (int)ratings.Average(x => x.Rating);
-            }
-            return -1;
-        }
-
-        public int GetAverageScore(Quiz quiz)
-        {
-            var results = _quizResultRepo.GetAll().Where(x => x.QuizId == quiz.Id);
-            if (results.Any())
-            {
-                return (int)results.Average(x => x.Score);
-            }
-            return -1;
-        }
-
-        public int GetAverageTime(Quiz quiz)
-        {
-            var results = _quizResultRepo.GetAll().Where(x => x.QuizId == quiz.Id);
-            if (results.Any())
-            {
-                return (int)results.Average(x => x.EllapsedTime);
-            }
-            return -1;
-        }
-
-        public int GetAverageTimePercent(Quiz quiz)
-        {
-            var results = _quizResultRepo.GetAll().Where(x => x.QuizId == quiz.Id);
-            if (results.Any())
-            {
-                var avgTime = (int)results.Average(x => x.Score);
-                return (avgTime * 100) / quiz.Questions.Sum(x => x.EstimatedTime);
-            }
-            return -1;
-        }
 
         public IQueryable<Quiz> GetBySearchTerm(string searchTerm,IQueryable<Quiz> quizzes = null )
         {

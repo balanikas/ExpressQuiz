@@ -103,6 +103,7 @@
     <Compile Include="Services\AnswerServiceTests.cs" />
     <Compile Include="Services\QuestionServiceTests.cs" />
     <Compile Include="Services\QuizCategoryServiceTests.cs" />
+    <Compile Include="Services\QuizResultServiceTests.cs" />
     <Compile Include="Services\QuizServiceTest.cs" />
     <Compile Include="Services\ServiceTest.cs" />
     <Compile Include="ViewModels\QuizDetailsTest.cs" />

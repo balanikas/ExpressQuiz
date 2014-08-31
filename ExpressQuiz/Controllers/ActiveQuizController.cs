@@ -20,20 +20,20 @@ namespace ExpressQuiz.Controllers
     public class ActiveQuizController : Controller
     {
         private readonly IQuizService _quizService;
-        private readonly IRepo<QuizResult> _quizResultRepo;
+        private readonly IQuizResultService _quizResultService;
         private readonly IQuestionService _questionService;
         private readonly IAnswerService _answerService;
 
 
         public ActiveQuizController(
             IQuizService quizService,
-            IRepo<QuizResult> quizResultRepo,
+            IQuizResultService quizResultService,
             IAnswerService answerService,
             IQuestionService questionService 
             )
         {
             _quizService = quizService;
-            _quizResultRepo = quizResultRepo;
+            _quizResultService = quizResultService;
             _answerService = answerService;
             _questionService = questionService;
         }
@@ -98,8 +98,7 @@ namespace ExpressQuiz.Controllers
            
             result.UserId = User.Identity.Name;
             result.Score = CalculateScore(result);
-            _quizResultRepo.Insert(result);
-            _quizResultRepo.Save();
+            _quizResultService.Insert(result);
             
             return Json(result.Id);
           

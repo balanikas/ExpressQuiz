@@ -79,9 +79,8 @@ namespace ExpressQuiz.Tests.ViewModels
             });
             var quiz = _mockRepository.QuizRepo.Get(1);
 
-            var quizService = new QuizService(_mockRepository.QuizRepo, _mockRepository.QuizResultRepo,
-                _mockRepository.QuizRatingRepo);
-            var vm = quiz.ToViewModel(quizService,new InMemRepo<QuizResult>(quizResults), new InMemRepo<QuizRating>(quizRatings));
+           
+            var vm = quiz.ToViewModel(_mockRepository.QuizResultService, new InMemRepo<QuizRating>(quizRatings));
 
         }
     }

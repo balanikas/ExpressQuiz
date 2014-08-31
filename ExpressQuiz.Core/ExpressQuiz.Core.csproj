@@ -61,6 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\IQuizResultService.cs" />
+    <Compile Include="Services\QuizResultService.cs" />
     <Compile Include="Utils\DataProvider.cs" />
     <Compile Include="Migrations\201408281546449_Init.cs" />
     <Compile Include="Migrations\201408281546449_Init.Designer.cs">

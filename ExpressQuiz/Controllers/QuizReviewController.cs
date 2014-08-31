@@ -17,14 +17,14 @@ namespace ExpressQuiz.Controllers
     public class QuizReviewController : Controller
     {
         private readonly IQuizService _quizService;
-        private readonly IRepo<QuizResult> _quizResultRepo;
+        private readonly IQuizResultService _quizResultService;
         private readonly IQuestionService _questionService;
         private readonly IAnswerService _answerService;
         private readonly IRepo<QuizRating> _quizRatingRepo;
 
         public QuizReviewController(
             IQuizService quizService,
-            IRepo<QuizResult> quizResultRepo,
+            IQuizResultService quizResultService,
             IQuestionService questionService,
             IAnswerService answerService,
             IRepo<QuizRating> quizRatingRepo
@@ -32,7 +32,7 @@ namespace ExpressQuiz.Controllers
             )
         {
             _quizService = quizService;
-            _quizResultRepo = quizResultRepo;
+            _quizResultService = quizResultService;
             _questionService = questionService;
             _answerService = answerService;
             _quizRatingRepo = quizRatingRepo;
@@ -46,13 +46,13 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            QuizResult result = _quizResultRepo.Get(id.Value);
+            QuizResult result = _quizResultService.Get(id.Value);
 
 
             if (result != null)
             {
 
-                var vm = result.ToViewModel(_quizService, _answerService);
+                var vm = result.ToViewModel(_quizService, _answerService, _quizResultService);
                 return View("Index", vm);
             }
 

@@ -24,22 +24,22 @@ namespace ExpressQuiz.Controllers
         private readonly IQuestionService _questionService;
         private readonly IQuizCategoryService _quizCategoryService;
         private readonly IRepo<QuizRating> _quizRatingRepo;
-        private readonly IRepo<QuizResult> _quizResultRepo;
+        private readonly IQuizResultService _quizResultService;
         private readonly IQuizService _quizService;
 
         public QuizzesController(
             IAnswerService answerService, 
             IQuestionService questionService,
             IQuizCategoryService quizCategoryService, 
-            IRepo<QuizRating> quizRatingRepo, 
-            IRepo<QuizResult> quizResultRepo, 
+            IRepo<QuizRating> quizRatingRepo,
+            IQuizResultService quizResultService, 
             IQuizService quizService)
         {
             _questionService = questionService;
             _answerService = answerService;
             _quizCategoryService = quizCategoryService;
             _quizRatingRepo = quizRatingRepo;
-            _quizResultRepo = quizResultRepo;
+            _quizResultService = quizResultService;
             _quizService = quizService;
         }
 
@@ -105,7 +105,7 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            var model = quiz.ToViewModel(_quizService, _quizResultRepo, _quizRatingRepo);
+            var model = quiz.ToViewModel(_quizResultService, _quizRatingRepo);
 
             return View("Details",model);
         }

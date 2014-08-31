@@ -12,15 +12,15 @@ namespace ExpressQuiz.Extensions
 {
     public static class ModelExtensions
     {
-        public static QuizDetailsViewModel ToViewModel(this Quiz quiz, IQuizService quizService, IRepo<QuizResult> quizResults, IRepo<QuizRating> quizRatings)
+        public static QuizDetailsViewModel ToViewModel(this Quiz quiz, IQuizResultService quizResultService, IRepo<QuizRating> quizRatings)
         {
             var vm = new QuizDetailsViewModel();
             
-            vm.AvgLevel = quizService.GetAverageLevel(quiz);
-            vm.AvgRating = quizService.GetAverageRating(quiz);
-            vm.AvgScore = quizService.GetAverageScore(quiz);
-            vm.AvgTime = quizService.GetAverageTime(quiz);
-            vm.AvgTimePercent = quizService.GetAverageTimePercent(quiz);
+            vm.AvgLevel = quizResultService.GetAverageLevel(quiz.Id);
+            vm.AvgRating = quizResultService.GetAverageRating(quiz.Id);
+            vm.AvgScore = quizResultService.GetAverageScore(quiz.Id);
+            vm.AvgTime = quizResultService.GetAverageTime(quiz.Id);
+            vm.AvgTimePercent = quizResultService.GetAverageTimePercent(quiz.Id);
             
             vm.Quiz = quiz;
 
@@ -119,7 +119,8 @@ namespace ExpressQuiz.Extensions
             return vm;
         }
 
-        public static QuizReviewViewModel ToViewModel(this QuizResult quizResult, IService<Quiz> quizzes, IAnswerService answers  )
+        public static QuizReviewViewModel ToViewModel(this QuizResult quizResult, IQuizService quizzes, IAnswerService answers,
+            IQuizResultService quizResultService)
         {
             var vm = new QuizReviewViewModel();
             var quiz = quizzes.Get(quizResult.QuizId);
@@ -165,6 +166,9 @@ namespace ExpressQuiz.Extensions
             vm.EllapsedTimePercent = (int)((double)quizResult.EllapsedTime/(double)questions.Sum(x => x.EstimatedTime)*100);
             vm.QuizId = quizResult.QuizId;
 
+            
+            vm.RelativeScore = quizResultService.GetRelativeScore(quiz.Id, quizResult.Score);
+            vm.RelativeTime = quizResultService.GetRelativeTime(quiz.Id, quizResult.EllapsedTime);
             return vm;
         }
 

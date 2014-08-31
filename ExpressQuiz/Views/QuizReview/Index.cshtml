@@ -11,11 +11,11 @@
 
 
 
-<br/>
+<br />
 
 <div>
-   
-   
+
+
     <dl>
         <dt>
             @Html.DisplayNameFor(model => model.Result.Score)
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.Result.EllapsedTime)
         </dt>
@@ -39,6 +39,32 @@
             </div>
         </dd>
     </dl>
+
+    <div class="row">
+        @if (Model.RelativeScore != -1)
+        {
+            <div class="col-lg-6 text-center">
+
+                <div class="well">
+                    You scored higher than <h1>@Model.RelativeScore%</h1> of all users
+                </div>
+
+
+            </div>
+        }
+        @if (Model.RelativeTime != -1)
+        {
+            <div class="col-lg-6 text-center">
+
+                <div class="well">
+                    You were faster than <h1>@Model.RelativeTime%</h1> of all users
+                </div>
+
+            </div>
+        }
+
+
+    </div>
 
     <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
@@ -81,9 +107,9 @@
         </tbody>
     </table>
 
-    </div>
+</div>
 
-<br/>
+<br />
 <div class="text-center">
     <button type="button" onclick="rate()" class="btn btn-primary">Exit quiz</button>
 </div>
@@ -102,42 +128,42 @@
                 <div class="modal-body">
 
                     <div class="form-horizontal">
-                        
+
                         @Html.AntiForgeryToken()
-                    
+
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        
+
                         @Html.HiddenFor(model => model.QuizId)
                         @Html.HiddenFor(m => m.Rating)
                         @Html.HiddenFor(m => m.Level)
                         <div class="form-group">
                             @Html.Label("How much did you like it?")
-                            <div >
-                               
+                            <div>
+
                                 <input id="ratingStar" type="number" class="rating form-control" value="2.5" min=0 max=5 step=0.5 data-size="xs">
-                              
+
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             @Html.Label("How difficult was it?")
-                            <div >
-                        
+                            <div>
+
                                 <input id="levelStar" type="number" class="rating" value="2.5" min=0 max=5 step=0.5 data-size="xs">
-                            
+
                             </div>
                         </div>
-                        
-                        
-                        
-                       
+
+
+
+
                     </div>
                 </div>
 
                 <div class="modal-footer">
 
                     <div class="form-group">
-                        <div >
+                        <div>
                             <input type="submit" value="Close" class="btn btn-primary center-block" />
                         </div>
                     </div>
@@ -180,7 +206,7 @@
         });
 
         $('#levelStar').on('rating.change', function (event, value, caption) {
-            $("#Level").attr('value',value);
+            $("#Level").attr('value', value);
         });
 
         $('#ratingStar').on('rating.change', function (event, value, caption) {

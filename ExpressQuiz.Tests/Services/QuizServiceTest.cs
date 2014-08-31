@@ -157,44 +157,6 @@ namespace ExpressQuiz.Tests.Services
             Assert.AreEqual("quiz 1", quizzes.First().Name);
         }
 
-        [TestMethod]
-        public void QuizService_GetAverageLevel()
-        {
-            var service = _mockRepo.QuizService;
-            var quiz = service.Get(1);
-            Assert.AreEqual(40,service.GetAverageLevel(quiz));
-
-        }
-
-        [TestMethod]
-        public void QuizService_GetAverageRating()
-        {
-            var service = _mockRepo.QuizService;
-            var quiz = service.Get(1);
-            Assert.AreEqual(55, service.GetAverageRating(quiz));
-
-        }
-
-        [TestMethod]
-        public void QuizService_GetAverageScore()
-        {
-            var service = _mockRepo.QuizService;
-            var quiz = service.Get(1);
-            Assert.AreEqual(65, service.GetAverageScore(quiz));
-
-            quiz = service.Get(2);
-            Assert.AreEqual(-1, service.GetAverageScore(quiz));
-        }
-
-        [TestMethod]
-        public void QuizService_GetAverageTime()
-        {
-            var service = _mockRepo.QuizService;
-            var quiz = service.Get(1);
-            Assert.AreEqual(15, service.GetAverageTime(quiz));
-
-            quiz = service.Get(2);
-            Assert.AreEqual(-1, service.GetAverageTime(quiz));
-        }
+       
     }
 }

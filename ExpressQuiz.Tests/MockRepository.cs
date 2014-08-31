@@ -28,7 +28,7 @@ namespace ExpressQuiz.Tests
         public IQuestionService QuestionService { get; private set; }
         public IAnswerService AnswerService { get; private set; }
         public IQuizCategoryService QuizCategoryService { get; private set; }
-        
+        public IQuizResultService QuizResultService { get; private set; }
 
 
         public MockRepository(string uri)
@@ -94,6 +94,7 @@ namespace ExpressQuiz.Tests
             QuestionService = new QuestionService(QuestionRepo);
             AnswerService = new AnswerService(AnswerRepo);
             QuizCategoryService = new QuizCategoryService(QuizCategoryRepo);
+            QuizResultService = new QuizResultService(QuizRepo,QuizResultRepo,QuizRatingRepo);
         }
 
         public void Reload()

@@ -28,7 +28,7 @@ namespace ExpressQuiz.Tests
             _mockRepo.QuestionService,
             _mockRepo.QuizCategoryService,
             _mockRepo.QuizRatingRepo,
-            _mockRepo.QuizResultRepo,
+            _mockRepo.QuizResultService,
             _mockRepo.QuizService);
 
             return c;
@@ -44,7 +44,7 @@ namespace ExpressQuiz.Tests
         {
             var c = new ActiveQuizController(
                 _mockRepo.QuizService, 
-                _mockRepo.QuizResultRepo, 
+                _mockRepo.QuizResultService, 
                 _mockRepo.AnswerService,
                 _mockRepo.QuestionService);
 
@@ -55,7 +55,7 @@ namespace ExpressQuiz.Tests
         {
             var c = new QuizReviewController(
                 _mockRepo.QuizService,
-                _mockRepo.QuizResultRepo,
+                _mockRepo.QuizResultService,
                 _mockRepo.QuestionService,
                 _mockRepo.AnswerService,
                 _mockRepo.QuizRatingRepo);
