@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
@@ -141,6 +142,7 @@ namespace ExpressQuiz.Controllers
         [Authorize]
         public ActionResult Edit(EditQuizViewModel vm)
         {
+            
             if (ModelState.IsValid)
             {
                 Quiz quiz;
@@ -177,9 +179,7 @@ namespace ExpressQuiz.Controllers
                 ModelState.Clear();
 
                 vm = _quizService.Get(quiz.Id).ToViewModel(_quizCategoryService);
-                vm.ModifiedByUser = true;
-
-              
+               
 
                 return PartialView("_EditQuizPartial", vm);
 
@@ -352,10 +352,7 @@ namespace ExpressQuiz.Controllers
                 ModelState.Clear();
 
                 vm = _questionService.Get(q.Id).ToViewModel();
-                vm.ModifiedByUser = true;
-
-             
-
+               
                 return PartialView("_EditQuestionPartial", vm);
             }
           
@@ -393,7 +390,7 @@ namespace ExpressQuiz.Controllers
 
 
                 var vm = _questionService.Get(a.QuestionId).ToViewModel();
-                vm.ModifiedByUser = true;
+               
                 ModelState.Clear();
 
             

@@ -12,6 +12,6 @@ namespace ExpressQuiz.ViewModels
     {
         public Question Question { get; set; }
         public string Order { get; set; }
-        public bool ModifiedByUser { get; set; }
+      
     }
 }

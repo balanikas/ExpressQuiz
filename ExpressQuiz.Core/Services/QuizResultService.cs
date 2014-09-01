@@ -32,6 +32,19 @@ namespace ExpressQuiz.Core.Services
             return -1;
         }
 
+        public int GetAverageScorePercent(int quizId)
+        {
+            var results = _quizResultRepo.GetAll().Where(x => x.QuizId == quizId);
+            if (results.Any())
+            {
+                var avgScore = (int)results.Average(x => x.Score);
+
+                var quiz = _quizRepo.Get(quizId);
+                return (avgScore * 100) / quiz.Questions.Sum(x => x.Points);
+            }
+            return -1;
+        }
+
         public int GetAverageTime(int quizId)
         {
             var results = _quizResultRepo.GetAll().Where(x => x.QuizId == quizId);
@@ -47,7 +60,7 @@ namespace ExpressQuiz.Core.Services
             var results = _quizResultRepo.GetAll().Where(x => x.QuizId == quizId);
             if (results.Any())
             {
-                var avgTime = (int)results.Average(x => x.Score);
+                var avgTime = (int)results.Average(x => x.EllapsedTime);
 
                 var quiz = _quizRepo.Get(quizId);
                 return (avgTime * 100) / quiz.Questions.Sum(x => x.EstimatedTime);

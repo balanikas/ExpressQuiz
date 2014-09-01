@@ -12,7 +12,8 @@
             HttpMethod = "Get",
             InsertionMode = InsertionMode.Replace,
             OnSuccess = "applyValidation",
-            OnFailure = "handleError"
+            OnFailure = "handleError",
+           
         })
     </li>
     <li class="active">Answer</li>
@@ -24,7 +25,9 @@
 {
     UpdateTargetId = "content",
     HttpMethod = "Post",
-    InsertionMode = InsertionMode.Replace
+    InsertionMode = InsertionMode.Replace,
+    OnBegin = "beforePost",
+
 }))
 {
     @Html.AntiForgeryToken()
@@ -65,7 +68,10 @@
 
         <div class="form-group">
             <div class="col-md-offset-11 col-md-1">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary has-spinner">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    Save
+                </button>
             </div>
         </div>
     </div>

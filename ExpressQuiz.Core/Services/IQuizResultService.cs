@@ -12,6 +12,8 @@ namespace ExpressQuiz.Core.Services
         int GetAverageTime(int quizId);
 
         int GetAverageTimePercent(int quizId);
+        
+        int GetAverageScorePercent(int quizId);
 
         int GetAverageLevel(int quizId);
 
@@ -20,5 +22,6 @@ namespace ExpressQuiz.Core.Services
         int GetRelativeScore(int quizId, int compareValue);
 
         int GetRelativeTime(int quizId, int compareValue);
+       
     }
 }

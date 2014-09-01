@@ -13,7 +13,9 @@
     HttpMethod = "Post",
     InsertionMode = InsertionMode.Replace,
     OnSuccess = "applyValidation",
-    OnFailure = "handleError"
+    OnFailure = "handleError",
+    OnBegin = "beforePost",
+
 }))
 {
     @Html.AntiForgeryToken()
@@ -112,13 +114,15 @@
       
 
         <div class="form-group">
-               
-               
-                <div class="col-md-offset-11 col-md-1">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
+            <div class="col-md-offset-11 col-md-1">
+                <button type="submit" class="btn btn-primary has-spinner">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    Save
+                </button>
             </div>
+        </div>
        
+     
        
         <hr />
         @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes" ,new { id = Model.Quiz.Id, orderId = Model.Quiz.Questions.Count }, new AjaxOptions()
@@ -181,13 +185,13 @@
 }
 
 
+
+
 <script>
     
-
+   
 
     $(function () {
-
-        
 
         $("#questionsTbl").tableDnD({
             onDrop: function (table, row) {
@@ -235,10 +239,3 @@
    
 </script>
 
-
-@if (Model.ModifiedByUser)
-{
-    <script>
-        showSavedAlert();
-    </script>
-}

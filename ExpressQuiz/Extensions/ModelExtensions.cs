@@ -18,10 +18,16 @@ namespace ExpressQuiz.Extensions
             
             vm.AvgLevel = quizResultService.GetAverageLevel(quiz.Id);
             vm.AvgRating = quizResultService.GetAverageRating(quiz.Id);
+
             vm.AvgScore = quizResultService.GetAverageScore(quiz.Id);
+            vm.TotalPoints = quiz.Questions.Sum(x => x.Points);
+            vm.AvgScorePercent = quizResultService.GetAverageScorePercent(quiz.Id);
+
             vm.AvgTime = quizResultService.GetAverageTime(quiz.Id);
             vm.AvgTimePercent = quizResultService.GetAverageTimePercent(quiz.Id);
-            
+            vm.TotalTime = quiz.Questions.Sum(x => x.EstimatedTime);
+           
+
             vm.Quiz = quiz;
 
             return vm;

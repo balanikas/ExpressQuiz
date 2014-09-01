@@ -22,6 +22,6 @@ namespace ExpressQuiz.ViewModels
 
          [DisplayName("Create new category")]
         public string NewCategory { get; set; }
-        public bool ModifiedByUser { get; set; }
+  
     }
 }

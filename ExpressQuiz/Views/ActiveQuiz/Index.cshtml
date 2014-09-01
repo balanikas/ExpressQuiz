@@ -4,7 +4,7 @@
 
 @section styles
 {
-    @Styles.Render("~/Content/font-awesome.min.css")
+    @Styles.Render("~/Content/font-awesome-4.2.0/css/font-awesome.min.css")
     @Styles.Render("~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css")
 
 }
@@ -26,7 +26,11 @@
 
     <div class="text-center">
 
-        <button id="done" type="button" class="btn btn-lg btn-primary">Finish</button>
+      
+        <button id="done"  class="btn btn-lg btn-primary has-spinner">
+            <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+            Finish
+        </button>
         <br/>
         <br />
         <div class="progress">
@@ -78,6 +82,7 @@
         });
 
         $("#done").click(function () {
+           
             sendResults();
         });
 
@@ -103,7 +108,7 @@
             result.Answers = runtime.getResult();
             result.EllapsedTime = counter.getRemainingTime();
 
-            
+            $("#done").addClass('active');
          
             $.ajax({
                 url: '/ActiveQuiz/PostResult/',
@@ -115,7 +120,8 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 error: OnPostResultsError,
-                success: OnPostResultsSucces
+                success: OnPostResultsSucces,
+                complete:  $("#done").addClass('active')
 
         });
         }

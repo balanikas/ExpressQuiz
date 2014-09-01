@@ -25,5 +25,10 @@ namespace ExpressQuiz.ViewModels
         //public int Sessions { get; set; }
 
         public int AvgTimePercent { get; set; }
+        public int AvgScorePercent { get; set; }
+        public int TotalPoints { get; set; }
+        public int TotalTime { get; set; }
+
+
     }
 }
