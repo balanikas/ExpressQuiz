@@ -44,7 +44,7 @@ namespace ExpressQuiz.Controllers
             _quizService = quizService;
         }
 
-        public ActionResult GetQuizzes(string searchTerm, int? filter, int? selectedCategory)
+        private IQueryable<Quiz> GetQuizzes(string searchTerm, int? filter, int? selectedCategoryId)
         {
 
             var quizzes = _quizService.GetPublicQuizzes();
@@ -52,11 +52,11 @@ namespace ExpressQuiz.Controllers
             if (filter.HasValue)
             {
                 quizzes = _quizService.GetBy((QuizFilter)filter, quizzes);
-            }           
+            }
 
-            if (selectedCategory.HasValue && selectedCategory.Value != -1)
+            if (selectedCategoryId.HasValue && selectedCategoryId.Value != -1)
             {
-                quizzes = _quizService.GetByCategory(selectedCategory.Value, quizzes);
+                quizzes = _quizService.GetByCategory(selectedCategoryId.Value, quizzes);
             }
 
             if (!String.IsNullOrEmpty(searchTerm))
@@ -65,32 +65,28 @@ namespace ExpressQuiz.Controllers
             }
 
 
+            return quizzes;
+        }
+
+
+        public ActionResult GetQuizList(string searchTerm, int? filter, int? selectedCategory, int page)
+        {
+            page--;
+          
+            var quizzes = GetQuizzes(searchTerm, filter, selectedCategory);
+            quizzes = quizzes.Skip(2*page).Take(2);
             return PartialView("_QuizListPartial", quizzes.ToList());
         }
 
-   
-        public ActionResult Index(int? catId, string searchString)
+        public ActionResult Index(string searchTerm, int? filter, int? selectedCategoryId)
         {
-           
-            var quizzes = _quizService.GetPublicQuizzes();
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                quizzes = _quizService.GetBySearchTerm(searchString, quizzes);
-            }
 
-            if (catId.HasValue && catId != -1)
-            {
-                quizzes = _quizService.GetByCategory(catId.Value, quizzes);
-            }
+            var quizzes = GetQuizzes(searchTerm, filter, selectedCategoryId);
 
-            quizzes = _quizService.GetBy(QuizFilter.Newest, quizzes, true);    
-            var model = quizzes.ToViewModel(_quizService,_quizCategoryService,  catId);
+            var model = quizzes.ToViewModel(_quizService, _quizCategoryService, selectedCategoryId);
             
-
             return View("Index",model);
         }
-
-
 
         public ActionResult Details(int? id)
         {

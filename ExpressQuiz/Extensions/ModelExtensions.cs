@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using ExpressQuiz.Core.Models;
@@ -66,7 +67,7 @@ namespace ExpressQuiz.Extensions
             vm.QuizCategories = categories.GetAll().ToViewModel(quizService.GetPublicQuizzes(), catId);
 
             vm.Filter = QuizFilter.Newest;
-            vm.Quizzes = quizzes.ToList();
+           
 
             vm.TopQuizzes = quizService.GetBy(QuizFilter.Rating, descending: true, count: 10).Select(x => new TopListItem()
             {
@@ -74,8 +75,24 @@ namespace ExpressQuiz.Extensions
                 Name = x.Name
             }).ToList();
 
-            vm.SelectedCategory = catId.HasValue ? catId.Value : -1;
+            vm.SelectedCategoryId = catId.HasValue ?  catId.Value:  -1;
 
+            vm.SearchPlaceHolder = vm.SelectedCategoryId > -1 ? "Search in " + categories.Get(vm.SelectedCategoryId).Name : "Search here";
+
+
+            vm.Quizzes = quizzes.ToList();
+     
+            if (vm.Quizzes.Count() <= 2)
+            {
+                vm.PageCount = 1;
+            }
+            else
+            {
+                vm.PageCount = (int)Math.Ceiling((double)vm.Quizzes.Count() / 2);
+            }
+
+            vm.Quizzes = vm.Quizzes.Take(2).ToList();
+           
             return vm;
         }
 

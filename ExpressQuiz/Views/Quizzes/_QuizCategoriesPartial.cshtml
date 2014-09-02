@@ -8,7 +8,7 @@
         @foreach (var category in Model)
         {
           
-            <a class="list-group-item @(category.IsSelected? "active": "") " href="/Quizzes?catId=@category.Id">
+            <a class="list-group-item @(category.IsSelected? "active": "") " href="/Quizzes?selectedCategoryId=@category.Id">
                 @category.Name
                 <span class="badge">@category.QuizCount</span>
             </a>
