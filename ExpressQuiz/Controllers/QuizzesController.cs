@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
@@ -74,8 +75,10 @@ namespace ExpressQuiz.Controllers
             page--;
           
             var quizzes = GetQuizzes(searchTerm, filter, selectedCategory);
-            quizzes = quizzes.Skip(2*page).Take(2);
-            return PartialView("_QuizListPartial", quizzes.ToList());
+            quizzes = quizzes.Skip(2 * page).Take(2);
+            var vm = quizzes.ToList().Select(x => x.ToQuizViewModel()).ToList();
+
+            return PartialView("_QuizListPartial", vm);
         }
 
         public ActionResult Index(string searchTerm, int? filter, int? selectedCategoryId)
@@ -83,9 +86,9 @@ namespace ExpressQuiz.Controllers
 
             var quizzes = GetQuizzes(searchTerm, filter, selectedCategoryId);
 
-            var model = quizzes.ToViewModel(_quizService, _quizCategoryService, selectedCategoryId);
+            var vm = quizzes.ToQuizzesViewModel(_quizService, _quizCategoryService, selectedCategoryId);
             
-            return View("Index",model);
+            return View("Index",vm);
         }
 
         public ActionResult Details(int? id)
@@ -102,9 +105,9 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            var model = quiz.ToViewModel(_quizResultService, _quizRatingRepo);
+            var vm = quiz.ToQuizDetailsViewModel(_quizResultService, _quizRatingRepo);
 
-            return View("Details",model);
+            return View("Details",vm);
         }
 
         [Authorize]
@@ -128,7 +131,7 @@ namespace ExpressQuiz.Controllers
                 }
             }
 
-            var vm = quiz.ToViewModel(_quizCategoryService);
+            var vm = quiz.ToEditQuizViewModel(_quizCategoryService);
 
             return View("Edit",vm);
         }
@@ -142,11 +145,11 @@ namespace ExpressQuiz.Controllers
             if (ModelState.IsValid)
             {
                 Quiz quiz;
-                if (_quizService.GetAll().Any(x=>x.Name == vm.Quiz.Name && x.Id != vm.Quiz.Id))
+                if (_quizService.GetAll().Any(x=>x.Name == vm.Quiz.Name && x.Id != vm.Quiz.QuizId))
                 {
                     ModelState.AddModelError("Name", "Name already exists");
-                    quiz = _quizService.Get(vm.Quiz.Id);
-                    vm = quiz.ToViewModel(_quizCategoryService);
+                    quiz = _quizService.Get(vm.Quiz.QuizId);
+                    vm = quiz.ToEditQuizViewModel(_quizCategoryService);
                     return PartialView("_EditQuizPartial", vm);
                 }
                 if (!String.IsNullOrEmpty(vm.NewCategory))
@@ -154,11 +157,11 @@ namespace ExpressQuiz.Controllers
                     if (_quizCategoryService.Exists(vm.NewCategory))
                     {
                         ModelState.AddModelError("NewCategory", "Category already exists");
-                        quiz = _quizService.Get(vm.Quiz.Id);
-                        vm = quiz.ToViewModel(_quizCategoryService);
+                        quiz = _quizService.Get(vm.Quiz.QuizId);
+                        vm = quiz.ToEditQuizViewModel(_quizCategoryService);
                         return PartialView("_EditQuizPartial", vm);
                     }
-                    vm.Quiz.Category = _quizCategoryService.InsertByName(vm.NewCategory);
+                    vm.SelectedCategory = _quizCategoryService.InsertByName(vm.NewCategory).Id;
                 }
 
 
@@ -169,12 +172,12 @@ namespace ExpressQuiz.Controllers
                 
                 if (quiz.Questions.Count > 1)
                 {
-                    _questionService.SaveOrder(quiz.Questions.ToList(), vm.Order);
+                    _questionService.SaveOrder(quiz.Questions.ToList(), vm.QuestionOrder);
                 }
 
                 ModelState.Clear();
 
-                vm = _quizService.Get(quiz.Id).ToViewModel(_quizCategoryService);
+                vm = _quizService.Get(quiz.Id).ToEditQuizViewModel(_quizCategoryService);
                
 
                 return PartialView("_EditQuizPartial", vm);
@@ -193,7 +196,7 @@ namespace ExpressQuiz.Controllers
             quiz.AllowPoints = true;
 
 
-            var vm = quiz.ToViewModel(_quizCategoryService, User.Identity.Name);
+            var vm = quiz.ToCreateQuizViewModel(_quizCategoryService, User.Identity.Name);
             return View("Create",vm);
         }
 
@@ -203,12 +206,10 @@ namespace ExpressQuiz.Controllers
         {
             if (ModelState.IsValid)
             {
-
+               
                 if (_quizService.Exists(vm.Quiz.Name))
                 {
                     ModelState.AddModelError("Name", "Name already exists");
-                    var quiz = new Quiz();
-                    vm = quiz.ToViewModel(_quizCategoryService, User.Identity.Name);
                     return View("Create",vm);
                 }
 
@@ -217,25 +218,18 @@ namespace ExpressQuiz.Controllers
                     if (_quizCategoryService.Exists( vm.NewCategory))
                     {
                         ModelState.AddModelError("NewCategory", "Category already exists");
-                        var quiz = new Quiz();
-                        vm = quiz.ToViewModel(_quizCategoryService, User.Identity.Name);
+                    
                         return View("Create", vm);
                     }
-                    vm.Quiz.Category = _quizCategoryService.InsertByName(vm.NewCategory);
-                }
-                else
-                {
-                    vm.Quiz.Category = _quizCategoryService.Get(vm.SelectedCategory);
                 }
 
-                vm.Quiz.Locked = true;
+                var quiz = vm.ToModel(_quizCategoryService);
+                quiz.CreatedBy = User.Identity.Name;
 
-                vm.Quiz.Created = DateTime.Now;
-
-                _quizService.Insert(vm.Quiz);
+                _quizService.Insert(quiz);
 
              
-                return RedirectToAction("Edit",new {id= vm.Quiz.Id});
+                return RedirectToAction("Edit",new {id= quiz.Id});
             }
 
             return View("Create",vm);
@@ -270,7 +264,7 @@ namespace ExpressQuiz.Controllers
 
             var question = _questionService.Insert(model);
         
-            var vm = quiz.ToViewModel(_quizCategoryService);
+            var vm = quiz.ToEditQuizViewModel(_quizCategoryService);
             return PartialView("_EditQuizPartial", vm);
         }
 
@@ -300,14 +294,10 @@ namespace ExpressQuiz.Controllers
 
             model.OrderId = maxOrderId;
 
-            var answer = _answerService.Insert(model);
-           
+           _answerService.Insert(model);
 
-            var vm = q.ToViewModel();
+            return RedirectToAction("EditQuestion", new {id = q.Id});
 
-            
-
-            return PartialView("_EditQuestionPartial", vm);
         }
 
 
@@ -326,7 +316,7 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            var vm = question.ToViewModel();
+            var vm = question.ToEditQuestionViewModel(_quizService);
             return PartialView("_EditQuestionPartial", vm);
 
         }
@@ -347,7 +337,7 @@ namespace ExpressQuiz.Controllers
 
                 ModelState.Clear();
 
-                vm = _questionService.Get(q.Id).ToViewModel();
+                vm = _questionService.Get(q.Id).ToEditQuestionViewModel(_quizService);
                
                 return PartialView("_EditQuestionPartial", vm);
             }
@@ -368,36 +358,28 @@ namespace ExpressQuiz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-
-            return PartialView("_EditAnswerPartial", model);
+            var vm = model.ToEditAnswerViewModel();
+            return PartialView("_EditAnswerPartial", vm);
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult EditAnswer(Answer model)
+        public ActionResult EditAnswer(EditAnswerViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                var a = _answerService.Get(model.Id);
-                a.Explanation = model.Explanation;
-                a.IsCorrect = model.IsCorrect;
-                a.Text = model.Text;
+                var a = _answerService.Get(vm.Answer.AnswerId);
+                a.Explanation = vm.Answer.Explanation;
+                a.IsCorrect = vm.Answer.IsCorrect;
+                a.Text = vm.Answer.Text;
                 _answerService.Update(a);
 
-
-                var vm = _questionService.Get(a.QuestionId).ToViewModel();
-               
                 ModelState.Clear();
 
-            
-
-                return PartialView("_EditQuestionPartial", vm);
+                return RedirectToAction("EditQuestion", new {id = a.QuestionId});
             }
-            return PartialView("_EditAnswerPartial", model);
+            return PartialView("_EditAnswerPartial", vm);
         }
-
-
-
 
         [Authorize]
         public ActionResult Delete(int? id)
@@ -411,8 +393,10 @@ namespace ExpressQuiz.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-           
-            return View("Delete", quiz);
+
+
+            var vm = quiz.ToQuizViewModel();
+            return View("Delete", vm);
             
         }
 
@@ -463,7 +447,7 @@ namespace ExpressQuiz.Controllers
 
 
             var quiz = _quizService.Get(model.QuizId);
-            var vm = quiz.ToViewModel(_quizCategoryService);
+            var vm = quiz.ToEditQuizViewModel(_quizCategoryService);
 
           
             return PartialView("_EditQuizPartial", vm);
@@ -488,7 +472,7 @@ namespace ExpressQuiz.Controllers
 
             var question = _questionService.Get(model.QuestionId);
 
-            var vm = question.ToViewModel();
+            var vm = question.ToEditQuestionViewModel(_quizService);
 
             return PartialView("_EditQuestionPartial", vm);
         }

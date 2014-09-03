@@ -20,19 +20,4 @@ namespace ExpressQuiz.Core.Models
             return userIdentity;
         }
     }
-
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("ApplicationDbContext", throwIfV1Schema: false)
-        {
-            Database.CreateIfNotExists();
-           // Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, ApplicationDbContextConfig>());
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-    }
 }

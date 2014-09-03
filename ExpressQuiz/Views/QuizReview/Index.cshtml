@@ -18,23 +18,23 @@
 
     <dl>
         <dt>
-            @Html.DisplayNameFor(model => model.Result.Score)
+            @Html.DisplayNameFor(model => model.Score)
         </dt>
         <dd>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.Result.Score%;">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.Score%;">
                     @Model.ScoreText
                 </div>
             </div>
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Result.EllapsedTime)
+            @Html.DisplayNameFor(model => model.EllapsedTime)
         </dt>
         <dd>
             <div class="progress">
                 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.EllapsedTimePercent%;">
-                    @Model.Result.EllapsedTime seconds
+                    @Model.EllapsedTime seconds
                 </div>
             </div>
         </dd>
@@ -94,8 +94,8 @@
                             @Html.ActionLink("Review", "Question", new
                        {
                            questionId = q.QuestionId,
-                           resultId = Model.Result.Id,
-                           userAnswerId = Model.Result.Answers.First(x => x.QuestionId == q.QuestionId).AnswerId
+                           resultId = Model.ResultId,
+                           userAnswerId = Model.UserAnswers.First(x => x.QuestionId == q.QuestionId).AnswerId
                        })
                         </td>
                     </tr>

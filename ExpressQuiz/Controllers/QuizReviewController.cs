@@ -52,7 +52,7 @@ namespace ExpressQuiz.Controllers
             if (result != null)
             {
 
-                var vm = result.ToViewModel(_quizService, _answerService, _quizResultService);
+                var vm = result.ToQuizReviewViewModel(_quizService, _answerService, _quizResultService);
                 return View("Index", vm);
             }
 
@@ -84,7 +84,7 @@ namespace ExpressQuiz.Controllers
             var q = _questionService.Get(questionId.Value);
             if (q != null)
             {
-                var vm = q.ToViewModel(resultId, userAnswerId);
+                var vm = q.ToQuestionReviewViewModel(resultId, userAnswerId);
                 return View("Question", vm);
             }
 

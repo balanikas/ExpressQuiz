@@ -71,7 +71,7 @@
             ExpressQuiz.Utils.togglePreventLeavingPage(true);
 
             $.ajax({
-                url: "/ActiveQuiz/GetQuiz/" + "@Model.Quiz.Id",
+                url: "/ActiveQuiz/GetQuiz/" + "@Model.QuizId",
                 type: "GET",
                 error: OnGetQuizError,
                 success: OnGetQuizSuccess
@@ -104,7 +104,7 @@
 
         function sendResults() {
             var result = {};
-            result.QuizId = "@Model.Quiz.Id";
+            result.QuizId = "@Model.QuizId";
             result.Answers = runtime.getResult();
             result.EllapsedTime = counter.getRemainingTime();
 

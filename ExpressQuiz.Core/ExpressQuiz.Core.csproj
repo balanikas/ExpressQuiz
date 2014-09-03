@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="Services\IQuizResultService.cs" />
     <Compile Include="Services\QuizResultService.cs" />
     <Compile Include="Utils\DataProvider.cs" />
@@ -77,12 +78,12 @@
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\ContactInfo.cs" />
     <Compile Include="Models\Entity.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\QuestionType.cs" />
     <Compile Include="Models\Quiz.cs" />
     <Compile Include="Models\QuizCategory.cs" />
-    <Compile Include="Models\QuizDbContext.cs" />
+    <Compile Include="QuizDbContext.cs" />
     <Compile Include="Models\QuizFilter.cs" />
     <Compile Include="Models\QuizRating.cs" />
     <Compile Include="Models\QuizResult.cs" />

@@ -13,7 +13,7 @@ namespace ExpressQuiz.ViewModels
 
         public List<TopListItem> TopQuizzes { get; set; } 
 
-        public List<Quiz> Quizzes { get; set; }
+        public List<QuizViewModel> Quizzes { get; set; }
 
         public int SelectedFilter { get; set; }
         public IEnumerable<SelectListItem> Filters { get; set; }

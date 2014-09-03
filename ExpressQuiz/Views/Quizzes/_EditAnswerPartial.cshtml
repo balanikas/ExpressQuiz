@@ -1,9 +1,9 @@
-﻿@model ExpressQuiz.Core.Models.Answer
+﻿@model ExpressQuiz.ViewModels.EditAnswerViewModel
 
 
 <ul class="breadcrumb" style="margin-bottom: 5px;">
     <li>
-       @Html.ActionLink("Quiz", "Edit", new { id = Model.Question.QuizId })
+       @Html.ActionLink("Quiz", "Edit", new { id = Model.QuizId })
     </li>
     <li>
         @Ajax.ActionLink("Question", "EditQuestion", "Quizzes", new { id = Model.QuestionId }, new AjaxOptions()
@@ -36,32 +36,32 @@
         <h4>Answer</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Answer.AnswerId)
 
       
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Answer.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control pagedown", @rows = 5 } })
-                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Answer.Text, new { htmlAttributes = new { @class = "form-control pagedown", @rows = 5 } })
+                @Html.ValidationMessageFor(model => model.Answer.Text, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Explanation, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Answer.Explanation, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Explanation, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
-                @Html.ValidationMessageFor(model => model.Explanation, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Answer.Explanation, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
+                @Html.ValidationMessageFor(model => model.Answer.Explanation, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsCorrect, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Answer.IsCorrect, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.IsCorrect)
-                    @Html.ValidationMessageFor(model => model.IsCorrect, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Answer.IsCorrect)
+                    @Html.ValidationMessageFor(model => model.Answer.IsCorrect, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>

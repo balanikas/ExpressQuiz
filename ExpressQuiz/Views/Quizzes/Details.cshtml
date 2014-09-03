@@ -10,7 +10,7 @@
     <hr />
 
 
-    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new {id = Model.Quiz.Id}, new {@class = "btn btn-lg btn-success"})</div>
+    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new {id = Model.Quiz.QuizId}, new {@class = "btn btn-lg btn-success"})</div>
 
 
     <br />
@@ -98,10 +98,10 @@
 
 @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)
 {
-    <div>@Html.ActionLink("Edit", "Edit", new {id = Model.Quiz.Id}, new {@class = "btn btn-primary btn-sm  col-md-1"})</div>
+    <div>@Html.ActionLink("Edit", "Edit", new {id = Model.Quiz.QuizId}, new {@class = "btn btn-primary btn-sm  col-md-1"})</div>
 
 
-    <div> @Html.ActionLink("Delete", "Delete", new {id = Model.Quiz.Id}, new {@class = "btn btn-danger btn-sm  col-md-1"})</div>
+    <div> @Html.ActionLink("Delete", "Delete", new {id = Model.Quiz.QuizId}, new {@class = "btn btn-danger btn-sm  col-md-1"})</div>
 }
 <br />
 
@@ -109,5 +109,5 @@
 
 
 
-    @Html.Action("Index", "Users", new {quizId = @Model.Quiz.Id})
+    @Html.Action("Index", "Users", new {quizId = @Model.Quiz.QuizId})
 </div>

@@ -36,7 +36,7 @@ namespace ExpressQuiz.Controllers
         {
 
             var vm = new ContactViewModel();
-            vm.ContactInfo = new ContactInfo();
+            
             return View("Contact", vm);
         }
 
@@ -45,12 +45,17 @@ namespace ExpressQuiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                vm.ContactInfo.Created = DateTime.Now;
-                _contactInfoRepo.Insert(vm.ContactInfo);
+                var model = new ContactInfo();
+                model.Created = DateTime.Now;
+                model.Email = vm.Email;
+                model.Message = vm.Message;
+                model.Name = vm.Name;
+                
+                _contactInfoRepo.Insert(model);
                 _contactInfoRepo.Save();
 
                 vm = new ContactViewModel();
-                vm.ContactInfo = new ContactInfo();
+              
                 vm.WasSent = true;
                 ModelState.Clear();
             }

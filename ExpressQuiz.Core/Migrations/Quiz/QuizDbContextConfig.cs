@@ -10,14 +10,14 @@ namespace ExpressQuiz.Core.Migrations.Quiz
 {
    
 
-    internal sealed class QuizDbContextConfig : DbMigrationsConfiguration<ExpressQuiz.Core.Models.QuizDbContext>
+    internal sealed class QuizDbContextConfig : DbMigrationsConfiguration<QuizDbContext>
     {
         public QuizDbContextConfig()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(ExpressQuiz.Core.Models.QuizDbContext context)
+        protected override void Seed(QuizDbContext context)
         {
             context.Set<UserAnswer>().RemoveRange(context.UserAnswers.AsEnumerable());
             context.Set<QuizResult>().RemoveRange(context.QuizResults.AsEnumerable());

@@ -9,7 +9,7 @@ namespace ExpressQuiz.ViewModels
 {
     public class QuizDetailsViewModel
     {
-        public Quiz Quiz { get; set; }
+        public QuizViewModel Quiz { get; set; }
         
         [DisplayName("Average score")]
         public int AvgScore { get; set; }
@@ -20,9 +20,6 @@ namespace ExpressQuiz.ViewModels
         public int AvgRating { get; set; }
         [DisplayName("Average time taken")]
         public int AvgTime { get; set; }
-
-        //[DisplayName("Attempts")]
-        //public int Sessions { get; set; }
 
         public int AvgTimePercent { get; set; }
         public int AvgScorePercent { get; set; }

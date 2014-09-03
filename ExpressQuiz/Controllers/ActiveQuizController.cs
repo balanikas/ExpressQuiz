@@ -51,7 +51,7 @@ namespace ExpressQuiz.Controllers
             {
                 return HttpNotFound();
             }
-            var vm = quiz.ToViewModel();
+            var vm = quiz.ToActiveQuizViewModel();
             return View("Index",vm);
 
         }

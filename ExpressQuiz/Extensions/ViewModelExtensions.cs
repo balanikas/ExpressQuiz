@@ -12,7 +12,7 @@ namespace ExpressQuiz.Extensions
     {
         public static Quiz ToModel(this EditQuizViewModel vm, IQuizService quizService, IQuizCategoryService quizCategoryService)
         {
-            var model = quizService.Get(vm.Quiz.Id);
+            var model = quizService.Get(vm.Quiz.QuizId);
 
             if (!String.IsNullOrEmpty(vm.NewCategory))
             {
@@ -34,9 +34,34 @@ namespace ExpressQuiz.Extensions
             return model;
         }
 
+
+        public static Quiz ToModel(this CreateQuizViewModel vm, IQuizCategoryService categories)
+        {
+            var model = new Quiz();
+
+            if (!String.IsNullOrEmpty(vm.NewCategory))
+            {
+                model.Category = categories.InsertByName(vm.NewCategory);
+            }
+            else
+            {
+                model.Category = categories.Get(vm.SelectedCategory);
+            }
+
+            model.IsTimeable = vm.Quiz.IsTimeable;
+            model.Locked = vm.Quiz.Locked;
+            model.Summary = vm.Quiz.Summary;
+            model.Name = vm.Quiz.Name;
+            model.Created = DateTime.Now;
+            model.AllowPoints = vm.Quiz.AllowPoints;
+
+
+            return model;
+        }
+     
         public static Question ToModel(this EditQuestionViewModel vm, IQuestionService questionService)
         {
-            var model = questionService.Get(vm.Question.Id);
+            var model = questionService.Get(vm.Question.QuestionId);
             model.Text = vm.Question.Text;
             model.EstimatedTime = vm.Question.EstimatedTime;
             model.Points = vm.Question.Points;

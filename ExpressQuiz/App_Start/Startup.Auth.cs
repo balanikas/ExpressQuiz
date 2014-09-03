@@ -1,4 +1,5 @@
-﻿using ExpressQuiz.Core.Models;
+﻿using ExpressQuiz.Core;
+using ExpressQuiz.Core.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;

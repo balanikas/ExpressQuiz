@@ -2,11 +2,10 @@
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Text;
-using ExpressQuiz.Core.Migrations;
-using ExpressQuiz.Core.Migrations.Quiz;
+using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Utils;
 
-namespace ExpressQuiz.Core.Models
+namespace ExpressQuiz.Core
 {
     public class QuizDbContext : DbContext
     {

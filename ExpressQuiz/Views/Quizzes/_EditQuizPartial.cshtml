@@ -24,8 +24,8 @@
 
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Quiz.Id)
-        @Html.HiddenFor(model => model.Order)
+        @Html.HiddenFor(model => model.Quiz.QuizId)
+        @Html.HiddenFor(model => model.QuestionOrder)
         @Html.HiddenFor(model => model.Quiz.CreatedBy)
         
         <div class="form-group">
@@ -125,7 +125,7 @@
      
        
         <hr />
-        @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes" ,new { id = Model.Quiz.Id, orderId = Model.Quiz.Questions.Count }, new AjaxOptions()
+        @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes" ,new { id = Model.Quiz.QuizId, orderId = Model.Quiz.Questions.Count }, new AjaxOptions()
                                     {
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",
@@ -148,9 +148,9 @@
             <tbody>
                 @{
 
-    foreach (var q in Model.Quiz.Questions.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId))
+    foreach (var q in Model.Quiz.Questions.OrderBy(x => x.OrderId))
     {
-        <tr id="@q.Id">
+        <tr id="@q.QuestionId">
             <td class="dragHandle"></td>
             <td >
                 @q.Text
@@ -159,7 +159,7 @@
                 @q.Answers.Count
             </td>
             <td>
-                @Ajax.ActionLink("Edit", "EditQuestion", "Quizzes", new { id = q.Id }, new AjaxOptions()
+                @Ajax.ActionLink("Edit", "EditQuestion", "Quizzes", new { id = q.QuestionId }, new AjaxOptions()
                 {
                     InsertionMode = InsertionMode.Replace,
                     HttpMethod = "Get",
@@ -171,7 +171,7 @@
 
             </td>
             <td>
-                <a href="#" data-id="@q.Id" class="delete-question">Delete</a>
+                <a href="#" data-id="@q.QuestionId" class="delete-question">Delete</a>
             </td>
               
         </tr>
@@ -202,7 +202,7 @@
                         ids += rows[i].id + ",";
                     }
                 }
-                $("#Order").val(ids);
+                $("#QuestionOrder").val(ids);
             },
             dragHandle: ".dragHandle"
         });

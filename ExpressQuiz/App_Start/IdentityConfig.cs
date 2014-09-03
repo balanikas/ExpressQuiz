@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ExpressQuiz.Core;
 using ExpressQuiz.Core.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ExpressQuiz.Core.Models.Quiz> 
+﻿@model IEnumerable<ExpressQuiz.ViewModels.QuizViewModel> 
 
 
     @Scripts.Render("~/bundles/expressquiz")
@@ -35,15 +35,15 @@
 
             @{
 
-                foreach (var q in Model.ToList())
+                foreach (var q in Model)
                 {
 
                     <tr @(q.Locked ? "class=danger" : "")>
-                        <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new {id = q.Id}, htmlAttributes: new {@class = ""})</td>
+                        <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new {id = q.QuizId}, htmlAttributes: new {@class = ""})</td>
                         <td>@q.Questions.Count</td>
                         <td>@q.Locked</td>
                         <td>
-                            <a href="#" data-id="@q.Id" class="delete-quiz">Delete</a>
+                            <a href="#" data-id="@q.QuizId" class="delete-quiz">Delete</a>
                          
                       
                         </td>

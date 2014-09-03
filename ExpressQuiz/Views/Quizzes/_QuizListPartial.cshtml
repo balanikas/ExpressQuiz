@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ExpressQuiz.Core.Models.Quiz>
+﻿@model IEnumerable<ExpressQuiz.ViewModels.QuizViewModel>
 
 @if (!Model.Any())
 {
@@ -22,7 +22,7 @@ else
                     </div>
                     <div class="col-sm-2">
                         <div class="text-center">
-                            @Html.ActionLink("View", "Details", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-default btn-lg " })
+                            @Html.ActionLink("View", "Details", new { id = item.QuizId }, htmlAttributes: new { @class = "btn btn-default btn-lg " })
                         </div>
                         <br />
 

@@ -20,18 +20,18 @@ namespace ExpressQuiz.Tests.Controllers
             QuizzesViewModel model;
             ViewResult result;
 
-            result = c.Index(null, "") as ViewResult;
+            result = c.Index("",null,null) as ViewResult;
             model = result.Model as QuizzesViewModel;
 
             Assert.IsNotNull(model);
             Assert.AreEqual(2,model.Quizzes.Count);
             Assert.AreEqual(3,model.QuizCategories.Count);
 
-            result = c.Index(null, "__") as ViewResult;
+            result = c.Index("***", null, null) as ViewResult;
             model = result.Model as QuizzesViewModel;
             Assert.AreEqual(0, model.Quizzes.Count);
 
-            result = c.Index(null, "qui") as ViewResult;
+            result = c.Index("q", null, null) as ViewResult;
             model = result.Model as QuizzesViewModel;
             Assert.AreEqual(2, model.Quizzes.Count);
         }
@@ -84,6 +84,7 @@ namespace ExpressQuiz.Tests.Controllers
             var model = result.Model as EditQuizViewModel;
 
             Assert.IsNotNull(model);
+            Assert.AreEqual(1,model.Quiz.QuizId);
         }
 
         [TestMethod]
@@ -114,12 +115,15 @@ namespace ExpressQuiz.Tests.Controllers
         public void Edit_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuizViewModel model = _mockRepository.QuizService.Get(1).ToViewModel(_mockRepository.QuizCategoryService);
+            EditQuizViewModel model = _mockRepository.QuizService.Get(1).ToEditQuizViewModel(_mockRepository.QuizCategoryService);
+
+            model.Quiz.Name = "test";
 
             var result = c.Edit(model) as PartialViewResult;
             model = result.Model as EditQuizViewModel;
 
             Assert.IsNotNull(model);
+            Assert.AreEqual("test",model.Quiz.Name);
         }
 
         [TestMethod]
@@ -131,6 +135,7 @@ namespace ExpressQuiz.Tests.Controllers
             var model = result.Model as EditQuestionViewModel;
 
             Assert.IsNotNull(model);
+            Assert.AreEqual(1,model.Question.QuestionId);
         }
 
         [TestMethod]
@@ -161,14 +166,15 @@ namespace ExpressQuiz.Tests.Controllers
         public void EditQuestion_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuestionViewModel model = _mockRepository.QuestionRepo.Get(1).ToViewModel();
+            EditQuestionViewModel model = _mockRepository.QuestionRepo.Get(1).ToEditQuestionViewModel(_mockRepository.QuizService);
 
-            PartialViewResult result;
+            model.Question.Text = "text";
 
-            result = c.EditQuestion(model) as PartialViewResult;
+            var result = c.EditQuestion(model) as PartialViewResult;
             model = result.Model as EditQuestionViewModel;
 
             Assert.IsNotNull(model);
+            Assert.AreEqual("text",model.Question.Text);
         }
 
 
@@ -180,9 +186,10 @@ namespace ExpressQuiz.Tests.Controllers
             var c = _controllerProvider.CreateQuizzesController();
 
             var result = c.EditAnswer(1) as PartialViewResult;
-            var model = result.Model as Answer;
+            var model = result.Model as EditAnswerViewModel;
 
             Assert.IsNotNull(model);
+            Assert.AreEqual(1,model.Answer.AnswerId);
         }
 
         [TestMethod]
@@ -215,12 +222,10 @@ namespace ExpressQuiz.Tests.Controllers
             var c = _controllerProvider.CreateQuizzesController();
             Answer model = _mockRepository.AnswerRepo.Get(1);
 
-            PartialViewResult result;
+            
 
-            result = c.EditAnswer(model) as PartialViewResult;
-            var returnedModel = result.Model as EditQuestionViewModel;
-
-            Assert.IsNotNull(returnedModel);
+            var result = c.EditAnswer(model.ToEditAnswerViewModel()) as RedirectToRouteResult;
+            Assert.AreEqual(result.RouteValues["action"], "EditQuestion");
         }
 
 
@@ -240,7 +245,7 @@ namespace ExpressQuiz.Tests.Controllers
         //{
         //    var c = _controllerProvider.CreateQuizzesController();
 
-        //    CreateQuizViewModel model = _mockRepository.QuizRepo.Get(1).ToViewModel(_mockRepository.QuizCategoryRepo, "username");
+        //    CreateQuizViewModel model = _mockRepository.QuizRepo.Get(1).ToActiveQuizViewModel(_mockRepository.QuizCategoryRepo, "username");
 
 
         //    var result = c.Create(model) as ViewResult;
@@ -285,11 +290,10 @@ namespace ExpressQuiz.Tests.Controllers
         public void CreateAnswer_Get()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            var result = c.CreateAnswer(1, 1) as PartialViewResult;
-            var model = result.Model as EditQuestionViewModel;
-
-            Assert.IsNotNull(model);
-
+            var result = c.CreateAnswer(1, 1) as RedirectToRouteResult;
+       
+            Assert.AreEqual(result.RouteValues["action"], "EditQuestion");
+            Assert.AreEqual(result.RouteValues["id"], 1);
         }
 
 
@@ -316,7 +320,7 @@ namespace ExpressQuiz.Tests.Controllers
         {
             var c = _controllerProvider.CreateQuizzesController();
             var result = c.Delete(1) as ViewResult;
-            var model = result.Model as Quiz;
+            var model = result.Model as QuizViewModel;
 
             Assert.IsNotNull(model);
 

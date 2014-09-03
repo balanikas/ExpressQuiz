@@ -12,16 +12,16 @@ namespace ExpressQuiz.Core.Models
     public class ContactInfo : Entity
     {
         [StringLength(50)]
-        [DisplayName("Your name")]
+ 
         [Required]
         public string Name { get; set; }
 
-        [DisplayName("Your email")]
+     
         [DataType(DataType.EmailAddress)]
         [Required]
         public string Email { get; set; }
 
-        [DisplayName("Message")]
+   
         [Required]
         [StringLength(1000)]
         [DataType(DataType.MultilineText)]

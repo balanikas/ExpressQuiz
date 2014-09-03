@@ -10,8 +10,8 @@ namespace ExpressQuiz.ViewModels
 {
     public class CreateQuizViewModel
     {
-        public Quiz Quiz { get; set; }
-         [DisplayName("Category")]
+        public QuizViewModel Quiz { get; set; }
+        [DisplayName("Category")]
         public int SelectedCategory { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
 

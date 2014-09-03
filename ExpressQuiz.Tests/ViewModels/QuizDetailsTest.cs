@@ -80,7 +80,7 @@ namespace ExpressQuiz.Tests.ViewModels
             var quiz = _mockRepository.QuizRepo.Get(1);
 
            
-            var vm = quiz.ToViewModel(_mockRepository.QuizResultService, new InMemRepo<QuizRating>(quizRatings));
+            var vm = quiz.ToQuizDetailsViewModel(_mockRepository.QuizResultService, new InMemRepo<QuizRating>(quizRatings));
 
         }
     }

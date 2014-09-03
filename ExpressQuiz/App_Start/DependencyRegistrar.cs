@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Integration.Mvc;
 using ExpressQuiz.Controllers;
+using ExpressQuiz.Core;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;

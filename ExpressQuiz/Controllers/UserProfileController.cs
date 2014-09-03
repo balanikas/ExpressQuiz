@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Services;
-
+using ExpressQuiz.Extensions;
 using ExpressQuiz.ViewModels;
 
 namespace ExpressQuiz.Controllers
@@ -19,7 +19,10 @@ namespace ExpressQuiz.Controllers
         public ActionResult Index(int? profileView)
         {
             var vm = new UserProfileViewModel();
-            vm.Quizzes = _quizRepo.GetAll().Where(x => x.CreatedBy == User.Identity.Name);
+            
+            var quizzes =  _quizRepo.GetAll().Where(x => x.CreatedBy == User.Identity.Name);
+            vm.Quizzes = quizzes.ToList().Select(x => x.ToQuizViewModel());
+
             vm.ProfileView = profileView.HasValue ? profileView.Value : 0;
 
             var socialSettings = new SocialSettingsViewModel();
