@@ -1,20 +1,95 @@
 ﻿
-<div class="jumbotron">
-    <h1>ExpressQuiz</h1>
-    <p class="lead">ExpressQuiz is a free online quiz engine</p>
-    <p>
-        @Html.ActionLink("Learn more", "About", "Home")
 
-    </p>
-    <div class=" text-center">@Html.ActionLink("Go to quizzes", "Index", "Quizzes", routeValues: null, htmlAttributes: new { @class = "btn btn-lg btn-success" })</div>
 
+
+
+
+
+
+
+
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="3000">
+
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>
+
+
+    <div class="jumbotron">
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <h1>ExpressQuiz</h1>
+                <p class="lead">ExpressQuiz is a free online quiz engine</p>
+                <p>
+                    @Html.ActionLink("Learn more", "About", "Home")
+
+                </p>
+            </div>
+
+            <div class="col-md-6">
+                <div class=" text-center">@Html.ActionLink("Go to quizzes", "Index", "Quizzes", routeValues: null, htmlAttributes: new { @class = "btn btn-lg btn-success" })</div>
+                <br/>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="carousel-inner">
+            <div class="item active">
+                <img class="front-img" src="/Content/images/front/1.png" alt="...">
+                <div class="carousel-caption">
+
+                </div>
+            </div>
+            <div class="item">
+                <img class="front-img" src="/Content/images/front/2.png" alt="...">
+                <div class="carousel-caption">
+
+                </div>
+            </div>
+            <div class="item">
+                <img class="front-img" src="/Content/images/front/3.png" alt="...">
+                <div class="carousel-caption">
+
+                </div>
+            </div>
+            <div class="item">
+                <img class="front-img" src="/Content/images/front/4.png" alt="...">
+                <div class="carousel-caption">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
 </div>
+
+
+
+
+
+
 
 <div class="row">
     <div class="col-md-4">
         <h2>Getting started</h2>
         <p>
-            Do you think that existing online quizzes suck?<br/>
+            Do you think that existing online quizzes suck?<br />
             Do you think they are slow and ugly?<br />
             Do you think they are funny but not fun to take?<br />
             Do you believe in free knowledge sharing?<br />
