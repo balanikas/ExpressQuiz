@@ -6,7 +6,7 @@
 }
 
 <div style="width: 1280px">
-    
+
     <br />
 
     <div id="leftSideBar" style="float:left;width:20%; margin:5px">
@@ -17,27 +17,40 @@
         @using (Html.BeginForm("Index", "Quizzes"))
         {
             @Html.AntiForgeryToken()
-            @Html.HiddenFor(m=>m.SelectedCategoryId)
-            @Html.TextBox("searchTerm", null, new {id="searchTerm", @class = "form-control input-lg" , placeholder= Model.SearchPlaceHolder })
-             <br />
+            @Html.HiddenFor(m => m.SelectedCategoryId)
+            @Html.TextBox("searchTerm", null, new { id = "searchTerm", @class = "form-control input-lg ", placeholder = Model.SearchPlaceHolder })
+            <br />
             <div class="form-group">
-                @Html.EnumDropDownListFor(m => m.Filter, htmlAttributes: new { @class = "form-control input-sm col-md-offset-5 col-md-2", id = "filterList" })
-                <div class="col-md-1">
-                    <input type="submit" value="Sort" class="btn btn-primary btn-sm" />
+
+                <div class="row">
+                    <div class="col-sm-offset-6 col-sm-6">
+
+                        @Html.EnumDropDownListFor(m => m.Filter,
+                            htmlAttributes: new { @class = "form-control input-sm col-sm-1", id = "filterList", @onchange="form.submit()" })
+
+                      
+                    </div>
+
+
                 </div>
-            </div>
-           
-          <br />
-        }
-        
-        <br/>
-            @Html.ActionLink("Create New", "Create", "Quizzes", routeValues: null,  htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block" })
-     
-            <div id="quizList" class="list-group">
-                @Html.Partial("_QuizListPartial", Model.Quizzes)
+
 
             </div>
-        
+
+           
+        }
+
+        <br />
+        <div class="text-center">
+            @Html.ActionLink("Create New", "Create", "Quizzes", routeValues: null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+        </div>
+        <br />
+
+        <div id="quizList" class="list-group">
+            @Html.Partial("_QuizListPartial", Model.Quizzes)
+
+        </div>
+
         <div id="page-selection"></div>
 
     </div>
@@ -49,9 +62,9 @@
 @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 
 <script>
-   
 
-    $(function() {
+
+    $(function () {
 
 
         if ('@Model.PageCount' > 1) {
@@ -98,7 +111,7 @@
                 dataType: "html",
                 contentType: "text/html",
 
-                success: function(data) {
+                success: function (data) {
                     $("#quizList").empty();
                     $("#quizList").html(data);
                 },

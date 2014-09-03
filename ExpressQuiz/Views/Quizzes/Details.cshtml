@@ -5,24 +5,18 @@
     @Model.Quiz.Name  (@Model.Quiz.Questions.Count questions)
 </h2>
 
-<div>
+<div class="container">
 
     <hr />
 
 
-    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new {id = Model.Quiz.QuizId}, new {@class = "btn btn-lg btn-success"})</div>
+    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Quiz.QuizId }, new { @class = "btn btn-lg btn-success" })</div>
 
 
     <br />
 
     <dl class="dl-horizontal">
-        @*<dt>
-                @Html.DisplayNameFor(model => model.Quiz.Name)
-            </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Quiz.Name)
-            </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Quiz.Summary)
@@ -31,15 +25,8 @@
             @Html.DisplayFor(model => model.Quiz.Summary)
         </dd>
 
-        @*<dt>
-                Questions
-            </dt>
-            <dd>
-
-                @Model.Quiz.Questions.Count
-            </dd>*@
         <br />
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.AvgScore)
         </dt>
@@ -84,7 +71,7 @@
             </div>
         </dd>
 
-      
+
 
 
 
@@ -92,22 +79,33 @@
 
 
 
+    @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)
+    {
 
+        <div class="row">
+
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.QuizId },
+                        new { @class = "btn btn-primary  " })
+
+
+
+
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.QuizId },
+                        new { @class = "btn btn-danger  " })
+
+
+        </div>
+
+    }
 
 </div>
 
-@if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)
-{
-    <div>@Html.ActionLink("Edit", "Edit", new {id = Model.Quiz.QuizId}, new {@class = "btn btn-primary btn-sm  col-md-1"})</div>
 
-
-    <div> @Html.ActionLink("Delete", "Delete", new {id = Model.Quiz.QuizId}, new {@class = "btn btn-danger btn-sm  col-md-1"})</div>
-}
 <br />
 
 <div>
 
 
 
-    @Html.Action("Index", "Users", new {quizId = @Model.Quiz.QuizId})
+    @Html.Action("Index", "Users", new { quizId = @Model.Quiz.QuizId })
 </div>

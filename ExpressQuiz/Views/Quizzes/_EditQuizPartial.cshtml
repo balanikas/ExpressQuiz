@@ -114,18 +114,11 @@
       
 
         <div class="form-group">
-            <div class="col-md-offset-11 col-md-1">
-                <button type="submit" class="btn btn-primary has-spinner">
-                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
-                    Save
-                </button>
-            </div>
-        </div>
-       
-     
-       
-        <hr />
-        @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes" ,new { id = Model.Quiz.QuizId, orderId = Model.Quiz.Questions.Count }, new AjaxOptions()
+            <div class="row">
+                
+                <div class="col-md-4">
+                    
+                    @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes", new { id = Model.Quiz.QuizId, orderId = Model.Quiz.Questions.Count }, new AjaxOptions()
                                     {
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",
@@ -133,26 +126,45 @@
                                         OnSuccess = "applyValidation",
                                         OnFailure = "handleError"
 
-                                    }, htmlAttributes: new { @class = "btn btn-primary btn-block" } )
+                                    }, htmlAttributes: new { @class = "btn btn-primary " })
 
 
-        <table id="questionsTbl" class="table table-striped table-hover table-bordered">
-            <thead>
-                <tr>
-                    <td></td>
-                    <td>Question</td>
-                    <td>Answers</td>
-                </tr>
 
-            </thead>
-            <tbody>
-                @{
+                    <button type="submit" class="btn btn-primary has-spinner">
+                        <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                        Save
+                    </button>
+                    
+
+                </div>
+             
+            </div>
+        </div>
+       
+     
+       
+        <hr />
+      
+          
+
+         
+            <table id="questionsTbl" class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Question</td>
+                        <td>Answers</td>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @{
 
     foreach (var q in Model.Quiz.Questions.OrderBy(x => x.OrderId))
     {
         <tr id="@q.QuestionId">
             <td class="dragHandle"></td>
-            <td >
+            <td>
                 @q.Text
             </td>
             <td>
@@ -173,15 +185,15 @@
             <td>
                 <a href="#" data-id="@q.QuestionId" class="delete-question">Delete</a>
             </td>
-              
+
         </tr>
 
     }
-                }
-            </tbody>
-        </table>
+                    }
+                </tbody>
+            </table>
 
-    </div>
+        </div>
 }
 
 

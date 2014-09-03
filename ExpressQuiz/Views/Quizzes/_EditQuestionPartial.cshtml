@@ -82,16 +82,11 @@
            
         }
         <div class="form-group">
-            <div class="col-md-offset-11 col-md-1">
-                <button type="submit" class="btn btn-primary has-spinner">
-                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
-                    Save
-                </button>
-            </div>
-        </div>
-
-        <hr />
-        @Ajax.ActionLink("Add answer", "CreateAnswer", "Quizzes", new { id = Model.Question.QuestionId, orderId = Model.Question.Answers.Count }, new AjaxOptions()
+            
+            <div class="row">
+                <div class="col-md-4">
+                
+                    @Ajax.ActionLink("Add answer", "CreateAnswer", "Quizzes", new { id = Model.Question.QuestionId, orderId = Model.Question.Answers.Count }, new AjaxOptions()
                                     {
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",
@@ -99,7 +94,24 @@
                                         OnSuccess = "applyValidation",
                                         OnFailure = "handleError"
 
-                                    }, htmlAttributes: new { @class = "btn btn-primary btn-block" })
+                                    }, htmlAttributes: new { @class = "btn btn-primary" })
+                    
+                    
+                    <button type="submit" class="btn btn-primary has-spinner">
+                        <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                        Save
+                    </button>
+
+                </div>
+            </div>
+
+         
+               
+        
+        </div>
+
+        <hr />
+      
 
 
         <table id="answersTbl" class="table table-striped table-hover table-bordered">
