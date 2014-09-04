@@ -15,7 +15,7 @@ namespace ExpressQuiz.Core.Models
 
         [Required]
         [DataType(DataType.MultilineText)]
-        [StringLength(1000)]
+        [StringLength(5000)]
         public string Summary { get; set; }
 
         public bool IsTimeable { get; set; }

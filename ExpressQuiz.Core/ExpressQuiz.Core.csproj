@@ -62,6 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="Migrations\201409041449474_moretext.cs" />
+    <Compile Include="Migrations\201409041449474_moretext.Designer.cs">
+      <DependentUpon>201409041449474_moretext.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\IQuizResultService.cs" />
     <Compile Include="Services\QuizResultService.cs" />
     <Compile Include="Utils\DataProvider.cs" />
@@ -112,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201408281547335_App_Init.resx">
       <DependentUpon>201408281547335_App_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409041449474_moretext.resx">
+      <DependentUpon>201409041449474_moretext.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -60,7 +60,9 @@ namespace ExpressQuiz.Controllers
 
             var quizzes = DataProvider.Import(path);
             System.IO.File.Delete(path);
-            
+
+
+            int successCount = 0, failCount = 0;
             foreach (var quiz in quizzes)
             {
                 if (!_quizService.GetAll().Any(x => x.Name == quiz.Name))
@@ -73,16 +75,17 @@ namespace ExpressQuiz.Controllers
                     try
                     {
                         _quizService.Insert(quiz);
+                        successCount++;
                     }
                     catch (Exception)
                     {
-                        
+                        failCount++;
                         //ignore, probably bad format, or validation issue
                     }
                     
                 }
             }
-
+            ViewData["ImportStatus"] = string.Format("{0} quizzes imported, {1} quizzes were not imported", successCount,failCount);
             return RedirectToAction("Index");
         }
     }

@@ -11,7 +11,7 @@ namespace ExpressQuiz.Core.Models
       
 
         [Required]
-        [StringLength(1000)]
+        [StringLength(5000)]
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
 
@@ -22,7 +22,7 @@ namespace ExpressQuiz.Core.Models
         [Column(TypeName = "int")]
         public int EstimatedTime { get; set; }
 
-        [Range(0,1000)]
+        [Range(0,10)]
         public int Points { get; set; }
 
         public int QuizId { get; set; }

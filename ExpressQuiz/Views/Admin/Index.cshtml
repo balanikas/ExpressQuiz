@@ -5,11 +5,16 @@
 
 <h3>Import</h3>
 
+<p>
+    <h1>Result from import:</h1>
+    @ViewData["ImportStatus"]
+</p>
+
 @using(Html.BeginForm("Import", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     <label for="file">Filename:</label>
     <input type="file" name="file" id="file" />
-
+    
     <input type="submit" />
 
 }

@@ -161,19 +161,19 @@ namespace ExpressQuiz.Extensions
 
 
             vm.Quizzes = quizzes.ToList().Select(x => x.ToQuizViewModel()).ToList();
-            
 
+            const int pageSize = 10;
 
-            if (vm.Quizzes.Count() <= 2)
+            if (vm.Quizzes.Count() <= pageSize)
             {
                 vm.PageCount = 1;
             }
             else
             {
-                vm.PageCount = (int)Math.Ceiling((double)vm.Quizzes.Count() / 2);
+                vm.PageCount = (int)Math.Ceiling((double)vm.Quizzes.Count() / pageSize);
             }
 
-            vm.Quizzes = vm.Quizzes.Take(2).ToList();
+            vm.Quizzes = vm.Quizzes.Take(pageSize).ToList();
            
             return vm;
         }

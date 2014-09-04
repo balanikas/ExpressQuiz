@@ -72,10 +72,11 @@ namespace ExpressQuiz.Controllers
 
         public ActionResult GetQuizList(string searchTerm, int? filter, int? selectedCategory, int page)
         {
+            const int pageSize = 10;
             page--;
-          
+            
             var quizzes = GetQuizzes(searchTerm, filter, selectedCategory);
-            quizzes = quizzes.Skip(2 * page).Take(2);
+            quizzes = quizzes.Skip(pageSize * page).Take(pageSize);
             var vm = quizzes.ToList().Select(x => x.ToQuizViewModel()).ToList();
 
             return PartialView("_QuizListPartial", vm);

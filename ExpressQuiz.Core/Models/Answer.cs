@@ -14,7 +14,7 @@ namespace ExpressQuiz.Core.Models
         public int OrderId { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [StringLength(2000)]
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
 
