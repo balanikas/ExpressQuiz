@@ -9,11 +9,11 @@ namespace ExpressQuiz.ViewModels
 {
     public class QuizzesViewModel
     {
-        public List<QuizCategoryViewModel> QuizCategories { get; set; }
+        public IEnumerable<QuizCategoryViewModel> QuizCategories { get; set; }
 
-        public List<TopListItem> TopQuizzes { get; set; } 
+        public IEnumerable<TopListItem> TopQuizzes { get; set; } 
 
-        public List<QuizViewModel> Quizzes { get; set; }
+        public IEnumerable<QuizViewModel> Quizzes { get; set; }
 
         public int SelectedFilter { get; set; }
         public IEnumerable<SelectListItem> Filters { get; set; }

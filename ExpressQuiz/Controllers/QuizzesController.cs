@@ -45,11 +45,12 @@ namespace ExpressQuiz.Controllers
             _quizService = quizService;
         }
 
-        private IQueryable<Quiz> GetQuizzes(string searchTerm, int? filter, int? selectedCategoryId)
+        private IQueryable<Quiz> GetQuizzes(string searchTerm, int? filter, int? selectedCategoryId, int? page = null)
         {
 
             var quizzes = _quizService.GetPublicQuizzes();
 
+            
             if (filter.HasValue)
             {
                 quizzes = _quizService.GetBy((QuizFilter)filter, quizzes);
@@ -65,6 +66,14 @@ namespace ExpressQuiz.Controllers
                 quizzes = _quizService.GetBySearchTerm(searchTerm, quizzes);
             }
 
+            if (page.HasValue)
+            {
+                const int pageSize = 10;
+                page--;
+                quizzes = quizzes.Skip(pageSize * page.Value).Take(pageSize);
+            }
+           
+            
 
             return quizzes;
         }
@@ -72,11 +81,10 @@ namespace ExpressQuiz.Controllers
 
         public ActionResult GetQuizList(string searchTerm, int? filter, int? selectedCategory, int page)
         {
-            const int pageSize = 10;
-            page--;
+           
             
-            var quizzes = GetQuizzes(searchTerm, filter, selectedCategory);
-            quizzes = quizzes.Skip(pageSize * page).Take(pageSize);
+            var quizzes = GetQuizzes(searchTerm, filter, selectedCategory,page);
+           
             var vm = quizzes.ToList().Select(x => x.ToQuizViewModel()).ToList();
 
             return PartialView("_QuizListPartial", vm);

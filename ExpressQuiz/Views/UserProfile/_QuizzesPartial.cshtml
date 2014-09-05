@@ -40,7 +40,7 @@
 
                     <tr @(q.Locked ? "class=danger" : "")>
                         <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new {id = q.QuizId}, htmlAttributes: new {@class = ""})</td>
-                        <td>@q.Questions.Count</td>
+                        <td>@q.Questions.Count()</td>
                         <td>@q.Locked</td>
                         <td>
                             <a href="#" data-id="@q.QuizId" class="delete-quiz">Delete</a>

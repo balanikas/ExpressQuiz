@@ -31,7 +31,28 @@ namespace ExpressQuiz.Extensions
                     Id = quiz.Category.Id,
                     Name = quiz.Category.Name
                 },
-                Questions = quiz.Questions.ToList().Select(x => x.ToQuestionViewModel()).ToList()
+                Questions = quiz.Questions.ToList().Select(x => x.ToQuestionViewModel())
+            };
+
+            return vm;
+        }
+
+        public static QuizViewModel ToQuizViewModelLight(this Quiz quiz)
+        {
+            var vm = new QuizViewModel()
+            {
+               
+                Created = quiz.Created,
+                CreatedBy = quiz.CreatedBy,
+                Name = quiz.Name,
+                QuizId = quiz.Id,
+                Summary = quiz.Summary,
+                Category = new QuizCategoryViewModel()
+                {
+                    Id = quiz.Category.Id,
+                    Name = quiz.Category.Name
+                },
+               
             };
 
             return vm;
@@ -112,7 +133,7 @@ namespace ExpressQuiz.Extensions
             return vm;
         }
 
-        public static List<QuizCategoryViewModel> ToQuizCategoriesViewModel(this IQueryable<QuizCategory> categories,IQueryable<Quiz> quizzes, int? catId)
+        public static IEnumerable<QuizCategoryViewModel> ToQuizCategoriesViewModel(this IQueryable<QuizCategory> categories,IQueryable<Quiz> quizzes, int? catId)
         {
             var cats = (from c in categories
                                  orderby c.Name
@@ -159,22 +180,19 @@ namespace ExpressQuiz.Extensions
                 ? "Search in " + categories.Get(vm.SelectedCategoryId).Name 
                 : "Search here";
 
-
-            vm.Quizzes = quizzes.ToList().Select(x => x.ToQuizViewModel()).ToList();
-
             const int pageSize = 10;
-
-            if (vm.Quizzes.Count() <= pageSize)
+            var quizCount = quizzes.Count();
+            if (quizCount <= pageSize)
             {
                 vm.PageCount = 1;
             }
             else
             {
-                vm.PageCount = (int)Math.Ceiling((double)vm.Quizzes.Count() / pageSize);
+                vm.PageCount = (int)Math.Ceiling((double)quizCount / pageSize);
             }
 
-            vm.Quizzes = vm.Quizzes.Take(pageSize).ToList();
-           
+            vm.Quizzes = quizzes.Take(pageSize).ToList().Select(x => x.ToQuizViewModelLight());
+ 
             return vm;
         }
 

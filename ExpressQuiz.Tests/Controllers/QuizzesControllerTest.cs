@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Extensions;
@@ -24,16 +25,16 @@ namespace ExpressQuiz.Tests.Controllers
             model = result.Model as QuizzesViewModel;
 
             Assert.IsNotNull(model);
-            Assert.AreEqual(2,model.Quizzes.Count);
-            Assert.AreEqual(3,model.QuizCategories.Count);
+            Assert.AreEqual(2,model.Quizzes.Count());
+            Assert.AreEqual(3,model.QuizCategories.Count());
 
             result = c.Index("***", null, null) as ViewResult;
             model = result.Model as QuizzesViewModel;
-            Assert.AreEqual(0, model.Quizzes.Count);
+            Assert.AreEqual(0, model.Quizzes.Count());
 
             result = c.Index("q", null, null) as ViewResult;
             model = result.Model as QuizzesViewModel;
-            Assert.AreEqual(2, model.Quizzes.Count);
+            Assert.AreEqual(2, model.Quizzes.Count());
         }
 
       

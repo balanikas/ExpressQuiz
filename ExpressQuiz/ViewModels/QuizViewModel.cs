@@ -38,7 +38,7 @@ namespace ExpressQuiz.ViewModels
         [DisplayName("Locked")]
         public bool Locked { get; set; }
 
-        public IList<QuestionViewModel> Questions { get; set; }
+        public IEnumerable<QuestionViewModel> Questions { get; set; }
 
         public QuizCategoryViewModel Category { get; set; }
     }
