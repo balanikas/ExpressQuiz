@@ -50,21 +50,22 @@ namespace ExpressQuiz.Core.Services
         }
 
 
-        public void SaveOrder(List<Answer> answers, string order)
+        public void SaveOrder(int questionId, string order)
         {
             var orders = order.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (orders.Length == 0 || orders.Length != answers.Count())
+            if (orders.Length == 0)
             {
                 throw new ArgumentException("order");
             }
 
+            var answersToUpdate = _answerRepo.GetAll().Where(x => x.QuestionId == questionId).ToList();
             int orderCount = 0;
             foreach (var o in orders)
             {
-                var q = answers.First(x => x.Id.ToString() == o);
+                var q = answersToUpdate.First(x => x.Id.ToString() == o);
                 q.OrderId = orderCount++;
-                _answerRepo.Update(q);
+                
             }
             _answerRepo.Save();
         }

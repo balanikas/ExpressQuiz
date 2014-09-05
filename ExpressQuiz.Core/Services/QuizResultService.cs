@@ -125,6 +125,35 @@ namespace ExpressQuiz.Core.Services
             return result;
         }
 
+        public QuizStatistics GetStatistics(int quizId)
+        {
+
+            var stats = new QuizStatistics();
+
+            var ratings = _quizRatingRepo.GetAll().Where(x => x.QuizId == quizId);
+            var results = _quizResultRepo.GetAll().Where(x => x.QuizId == quizId);
+            var quiz = _quizRepo.Get(quizId);
+            
+            if (results.Any())
+            {
+                stats.AvgScore = (int)results.Average(x => x.Score);
+                stats.AvgScorePercent = (stats.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
+                stats.AvgTime = (int)results.Average(x => x.EllapsedTime);
+                stats.AvgTimePercent = (stats.AvgTime * 100) / quiz.Questions.Sum(x => x.EstimatedTime);
+            }
+
+            if (ratings.Any())
+            {
+                stats.AvgRating = (int)ratings.Average(x => x.Rating);
+                stats.AvgLevel = (int)ratings.Average(x => x.Level);
+            }
+
+            stats.TotalPoints = quiz.Questions.Sum(x => x.Points);
+            stats.TotalTime = quiz.Questions.Sum(x => x.EstimatedTime);
+
+            return stats;
+        }
+
         public QuizResult Get(int id)
         {
             return _quizResultRepo.Get(id);

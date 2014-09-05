@@ -6,7 +6,6 @@ using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
 using ExpressQuiz.ViewModels;
-using WebGrease.Css.Extensions;
 
 
 namespace ExpressQuiz.Extensions
@@ -14,8 +13,134 @@ namespace ExpressQuiz.Extensions
     public static class ModelExtensions
     {
 
-        public static QuizViewModel ToQuizViewModel(this Quiz quiz)
+        public static IQueryable<QuizViewModel> ToQuizViewModels(this IQueryable<Quiz> quizzes)
         {
+            var query = quizzes.Select(x => new QuizViewModel()
+            {
+                AllowPoints = x.AllowPoints,
+                Created = x.Created,
+                IsTimeable = x.IsTimeable,
+                CreatedBy = x.CreatedBy,
+                Locked = x.Locked,
+                Name = x.Name,
+                QuizId = x.Id,
+                Summary = x.Summary,
+                Category = new QuizCategoryViewModel()
+                {
+                    Id = x.Category.Id,
+                    Name = x.Category.Name
+                },
+                QuestionCount = x.Questions.Count()
+            });
+
+            return query;
+        }
+
+        public static IQueryable<QuestionViewModel> ToQuestionViewModels(this IQueryable<Question> questions,
+            IAnswerService answerService, 
+            bool includeAnswers = false,
+            bool orderedAnswers = false)
+        {
+            IQueryable<QuestionViewModel> query;
+
+           
+
+            if (includeAnswers)
+            {
+
+                if (orderedAnswers)
+                {
+                    query = questions.Select(x => new QuestionViewModel()
+                    {
+
+                        EstimatedTime = x.EstimatedTime,
+                        OrderId = x.OrderId,
+                        Points = x.Points,
+                        Text = x.Text,
+                        QuestionId = x.Id,
+                        AnswerCount = x.Answers.Count(),
+                        Answers = x.Answers.Select(z =>
+                                new AnswerViewModel()
+                                {
+                                    Text = z.Text,
+                                    Explanation = z.Explanation,
+                                    IsCorrect = z.IsCorrect,
+                                    OrderId = z.OrderId,
+                                    AnswerId = z.Id
+                                }).OrderBy(z => z.OrderId)
+                    });
+                }
+                else
+                {
+                    query = questions.Select(x => new QuestionViewModel()
+                    {
+
+                        EstimatedTime = x.EstimatedTime,
+                        OrderId = x.OrderId,
+                        Points = x.Points,
+                        Text = x.Text,
+                        QuestionId = x.Id,
+                        AnswerCount = x.Answers.Count(),
+                        Answers = x.Answers.Select(z =>
+                                new AnswerViewModel()
+                                {
+                                    Text = z.Text,
+                                    Explanation = z.Explanation,
+                                    IsCorrect = z.IsCorrect,
+                                    OrderId = z.OrderId,
+                                    AnswerId = z.Id
+                                })
+                    });
+                }
+
+            }
+            else
+            {
+                query = questions.Select(x => new QuestionViewModel()
+                {
+
+                    EstimatedTime = x.EstimatedTime,
+                    OrderId = x.OrderId,
+                    Points = x.Points,
+                    Text = x.Text,
+                    QuestionId = x.Id,
+                    AnswerCount = x.Answers.Count(),
+
+                });
+
+
+                if (orderedAnswers)
+                {
+                    query = query.OrderBy(x => x.OrderId);
+                }
+            }
+
+            return query;
+        }
+
+        public static IQueryable<AnswerViewModel> ToAnswerViewModels(this IQueryable<Answer> quizzes)
+        {
+            var query = quizzes.Select(x => new AnswerViewModel()
+            {
+                Text = x.Text,
+                Explanation = x.Explanation,
+                IsCorrect = x.IsCorrect,
+                OrderId = x.OrderId,
+                AnswerId = x.Id
+            });
+
+            return query;
+        }
+
+        public static QuizViewModel ToQuizViewModel(this Quiz quiz,
+            IQuestionService questionService,
+             IAnswerService answerService, 
+            bool includeQuestions = false, 
+            bool includeAnswers = false,
+            bool orderedQuestions = false,
+            bool orderedAnswers = false)
+        {
+
             var vm = new QuizViewModel()
             {
                 AllowPoints = quiz.AllowPoints,
@@ -31,47 +156,55 @@ namespace ExpressQuiz.Extensions
                     Id = quiz.Category.Id,
                     Name = quiz.Category.Name
                 },
-                Questions = quiz.Questions.ToList().Select(x => x.ToQuestionViewModel())
+                QuestionCount = quiz.Questions.Count()
+                
             };
 
-            return vm;
-        }
-
-        public static QuizViewModel ToQuizViewModelLight(this Quiz quiz)
-        {
-            var vm = new QuizViewModel()
+            if (includeQuestions)
             {
-               
-                Created = quiz.Created,
-                CreatedBy = quiz.CreatedBy,
-                Name = quiz.Name,
-                QuizId = quiz.Id,
-                Summary = quiz.Summary,
-                Category = new QuizCategoryViewModel()
+                var query = questionService.GetAll()
+                    .Where(x => x.QuizId == quiz.Id)
+                    .ToQuestionViewModels(answerService, includeAnswers, orderedAnswers);
+
+                if (orderedQuestions)
                 {
-                    Id = quiz.Category.Id,
-                    Name = quiz.Category.Name
-                },
-               
-            };
+                    query = query.OrderBy(x => x.OrderId);
+                }
+              
+                vm.Questions = query;
+            }
 
             return vm;
         }
 
-        public static QuestionViewModel ToQuestionViewModel(this Question question)
+        public static QuestionViewModel ToQuestionViewModel(this Question question, IAnswerService answers, bool includeAnswers = false)
         {
             var vm = new QuestionViewModel()
             {
-                Answers = question.Answers.ToList().Select(x => x.ToAnswerViewModel()).ToList(),
+                
                 EstimatedTime = question.EstimatedTime,
                 OrderId = question.OrderId,
                 Points = question.Points,
                 Text = question.Text,
-                QuestionId = question.Id
+                QuestionId = question.Id,
+                AnswerCount = answers.GetAll().Count(x=> x.QuestionId == question.Id)
             };
+
+            if (includeAnswers)
+            {
+                vm.Answers = question.Answers.ToList().Select(x => new AnswerViewModel
+                {
+                    AnswerId = x.Id,
+                    Explanation = x.Explanation,
+                    IsCorrect = x.IsCorrect,
+                    OrderId = x.OrderId,
+                    Text = x.Text,
+                });
+            }
 
             return vm;
         }
+
 
         public static AnswerViewModel ToAnswerViewModel(this Answer answer)
         {
@@ -100,23 +233,28 @@ namespace ExpressQuiz.Extensions
             return vm;
         }
 
-        public static QuizDetailsViewModel ToQuizDetailsViewModel(this Quiz quiz, IQuizResultService quizResultService, IRepo<QuizRating> quizRatings)
+        public static QuizDetailsViewModel ToQuizDetailsViewModel(this Quiz quiz, 
+            IQuestionService questions,
+            IAnswerService answers, 
+            IQuizResultService quizResultService, 
+            IRepo<QuizRating> quizRatings)
         {
             var vm = new QuizDetailsViewModel();
+
+            var stats = quizResultService.GetStatistics(quiz.Id);
+
+            vm.AvgLevel = stats.AvgLevel;
+            vm.AvgRating = stats.AvgRating;
+            vm.AvgScore = stats.AvgScore;
+            vm.TotalPoints = stats.TotalPoints;
+            vm.AvgScorePercent = stats.AvgScorePercent;
+            vm.AvgTime = stats.AvgTime;
+            vm.AvgTimePercent = stats.AvgTimePercent;
+            vm.TotalTime = stats.TotalTime;
             
-            vm.AvgLevel = quizResultService.GetAverageLevel(quiz.Id);
-            vm.AvgRating = quizResultService.GetAverageRating(quiz.Id);
-
-            vm.AvgScore = quizResultService.GetAverageScore(quiz.Id);
-            vm.TotalPoints = quiz.Questions.Sum(x => x.Points);
-            vm.AvgScorePercent = quizResultService.GetAverageScorePercent(quiz.Id);
-
-            vm.AvgTime = quizResultService.GetAverageTime(quiz.Id);
-            vm.AvgTimePercent = quizResultService.GetAverageTimePercent(quiz.Id);
-            vm.TotalTime = quiz.Questions.Sum(x => x.EstimatedTime);
-           
-
-            vm.Quiz = quiz.ToQuizViewModel();
+            
+            vm.Quiz = quiz.ToQuizViewModel(questions,answers);
+            
 
             return vm;
         }
@@ -150,13 +288,14 @@ namespace ExpressQuiz.Extensions
                 Id = -1,
                 Name = "All",
                 IsSelected = catId.HasValue ? (-1 == catId.Value) : true,
-                QuizCount = quizzes.Count()
+                QuizCount = cats.Sum(x=>x.QuizCount)
             });
 
             return cats;
         }
 
-        public static QuizzesViewModel ToQuizzesViewModel(this IQueryable<Quiz> quizzes, 
+        public static QuizzesViewModel ToQuizzesViewModel(this IQueryable<Quiz> quizzes,
+            IQuestionService questions,
             IQuizService quizService,
             IQuizCategoryService categories, 
             int? catId)
@@ -191,17 +330,26 @@ namespace ExpressQuiz.Extensions
                 vm.PageCount = (int)Math.Ceiling((double)quizCount / pageSize);
             }
 
-            vm.Quizzes = quizzes.Take(pageSize).ToList().Select(x => x.ToQuizViewModelLight());
+            vm.Quizzes = quizzes.Take(pageSize).ToQuizViewModels();
+
+
+           
+
  
             return vm;
         }
 
-        public static EditQuizViewModel ToEditQuizViewModel(this Quiz quiz, IQuizCategoryService categories)
+        public static EditQuizViewModel ToEditQuizViewModel(this Quiz quiz, 
+            IQuestionService questions,
+            IAnswerService answers, 
+            IQuizCategoryService categories)
         {
             var vm = new EditQuizViewModel();
 
 
-            vm.Quiz = quiz.ToQuizViewModel();
+            vm.Quiz = quiz.ToQuizViewModel(questions, answers,true);
+            
+
 
             var sortedQuestions = quiz.Questions.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId).Select(x => x.Id);
             vm.QuestionOrder = string.Join(",", sortedQuestions);
@@ -213,13 +361,13 @@ namespace ExpressQuiz.Extensions
             return vm;
         }
 
-      
 
-        public static EditQuestionViewModel ToEditQuestionViewModel(this Question question, IQuizService quizzes)
+
+        public static EditQuestionViewModel ToEditQuestionViewModel(this Question question, IAnswerService answers, IQuizService quizzes)
         {
             var vm = new EditQuestionViewModel();
 
-            vm.Question = question.ToQuestionViewModel();
+            vm.Question = question.ToQuestionViewModel(answers,true);
             vm.Order = string.Join(",", question.Answers.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId).Select(x => x.Id));
            
             var quiz = quizzes.Get(question.QuizId);
@@ -239,30 +387,32 @@ namespace ExpressQuiz.Extensions
             return vm;
         }
 
-        public static QuestionReviewViewModel ToQuestionReviewViewModel(this Question question,int resultId, int userAnswerId )
+        public static QuestionReviewViewModel ToQuestionReviewViewModel(this Question question, IAnswerService answers,  int resultId, int userAnswerId)
         {
             var vm = new QuestionReviewViewModel();
-            vm.Question = question.ToQuestionViewModel();
+            vm.Question = question.ToQuestionViewModel(answers,true);
             
             vm.QuizResultId = resultId;
             vm.UserAnswerId = userAnswerId;
             return vm;
         }
 
-        public static QuizReviewViewModel ToQuizReviewViewModel(this QuizResult quizResult, IQuizService quizzes, IAnswerService answers,
+        public static QuizReviewViewModel ToQuizReviewViewModel(this QuizResult quizResult, 
+            IQuizService quizzes, 
+            IAnswerService answers,
             IQuizResultService quizResultService)
         {
             var vm = new QuizReviewViewModel();
             var quiz = quizzes.Get(quizResult.QuizId);
             var questions = quiz.Questions.Where(x => x.QuizId == quizResult.QuizId);
 
-
+           
 
             var qDetails = new List<QuizReviewItemViewModel>();
             foreach (var userAnswer in quizResult.Answers)
             {
                 var answer = answers.GetAll().FirstOrDefault(x => x.Id == userAnswer.AnswerId);
-                var isAnswerCorrect = answer != null ? answer.IsCorrect : false;
+                var isAnswerCorrect = answer != null && answer.IsCorrect;
                 var question = questions.First(x => x.Id == userAnswer.QuestionId);
                 var questionText = question.Text;
                 var pointsEarned = isAnswerCorrect ? question.Points : 0;

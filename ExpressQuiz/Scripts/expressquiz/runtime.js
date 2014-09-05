@@ -6,7 +6,7 @@
             this.userAnswers = [];
             this.currentQuestionIndex = 0;
             for (var i = 0; i < quiz.Questions.length; i++) {
-                this.userAnswers[i] = new ExpressQuiz.UserAnswer(quiz.Questions[i].Id, undefined);
+                this.userAnswers[i] = new ExpressQuiz.UserAnswer(quiz.Questions[i].QuestionId, undefined);
             }
         }
         Runtime.prototype.setActiveQuestion = function (index) {
@@ -25,10 +25,10 @@
             var q = this.quiz.Questions[index];
             var userAnswer;
             if (answer === undefined) {
-                userAnswer = new ExpressQuiz.UserAnswer(q.Id, undefined);
+                userAnswer = new ExpressQuiz.UserAnswer(q.QuestionId, undefined);
             } else {
                 var a = q.Answers[answer];
-                userAnswer = new ExpressQuiz.UserAnswer(q.Id, a.Id);
+                userAnswer = new ExpressQuiz.UserAnswer(q.QuestionId, a.AnswerId);
             }
 
             this.userAnswers[index] = userAnswer;

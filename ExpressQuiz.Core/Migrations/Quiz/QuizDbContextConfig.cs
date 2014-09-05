@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
@@ -44,20 +45,72 @@ namespace ExpressQuiz.Core.Migrations.Quiz
                 quiz.Category = context.Set<QuizCategory>().First(x => x.Name == quiz.Category.Name);
             }
 
+            AddLotsOfQuizzes(context,quizzes[0]);
+
+
             context.Set<Models.Quiz>().AddOrUpdate(i => i.Name,
                       quizzes.ToArray()
                  );
 
             context.SaveChanges();
 
-
-            //ratings
-           AddQuizRatings(context);
-
-
+            AddQuizRatings(context);
 
             AddQuizResults(context);
           
+        }
+
+
+        private void AddLotsOfQuizzes(QuizDbContext ctx, Models.Quiz reference)
+        {
+            
+            for (int k = 0; k < 100; k++)
+            {
+                var quizTemp = new Models.Quiz()
+                {
+                    AllowPoints = true,
+                    Category = reference.Category,
+                    Created = DateTime.Now,
+                    CreatedBy = "info@coderentals.com",
+                    IsTimeable = true,
+                    Locked = false,
+                    Name = reference.Name + "-" + k,
+                    Summary = "sum" + k,
+
+                };
+
+                for (int i = 0; i < 100; i++)
+                {
+                    var q = new Question()
+                    {
+                        OrderId = i,
+                        Text = "text",
+                        EstimatedTime = 10,
+                        Points = 5,
+
+                    };
+                    for (int j = 0; j < 50; j++)
+                    {
+                        q.Answers.Add(new Answer()
+                        {
+                            Explanation = "",
+                            Text = "text",
+                            OrderId = j,
+
+                        });
+                    }
+
+                    quizTemp.Questions.Add(q);
+                }
+
+
+
+                ctx.Set<Models.Quiz>().AddOrUpdate(i => i.Name,
+                    quizTemp
+                );
+                ctx.SaveChanges();
+            }
+           
         }
 
         private void AddQuizRatings(QuizDbContext ctx)

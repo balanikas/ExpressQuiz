@@ -84,8 +84,8 @@ namespace ExpressQuiz.Controllers
            
             
             var quizzes = GetQuizzes(searchTerm, filter, selectedCategory,page);
-           
-            var vm = quizzes.ToList().Select(x => x.ToQuizViewModel()).ToList();
+
+            var vm = quizzes.ToQuizViewModels();
 
             return PartialView("_QuizListPartial", vm);
         }
@@ -95,7 +95,7 @@ namespace ExpressQuiz.Controllers
 
             var quizzes = GetQuizzes(searchTerm, filter, selectedCategoryId);
 
-            var vm = quizzes.ToQuizzesViewModel(_quizService, _quizCategoryService, selectedCategoryId);
+            var vm = quizzes.ToQuizzesViewModel(_questionService, _quizService, _quizCategoryService, selectedCategoryId);
             
             return View("Index",vm);
         }
@@ -114,7 +114,7 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            var vm = quiz.ToQuizDetailsViewModel(_quizResultService, _quizRatingRepo);
+            var vm = quiz.ToQuizDetailsViewModel(_questionService,_answerService, _quizResultService, _quizRatingRepo);
 
             return View("Details",vm);
         }
@@ -140,7 +140,7 @@ namespace ExpressQuiz.Controllers
                 }
             }
 
-            var vm = quiz.ToEditQuizViewModel(_quizCategoryService);
+            var vm = quiz.ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
 
             return View("Edit",vm);
         }
@@ -158,7 +158,7 @@ namespace ExpressQuiz.Controllers
                 {
                     ModelState.AddModelError("Name", "Name already exists");
                     quiz = _quizService.Get(vm.Quiz.QuizId);
-                    vm = quiz.ToEditQuizViewModel(_quizCategoryService);
+                    vm = quiz.ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
                     return PartialView("_EditQuizPartial", vm);
                 }
                 if (!String.IsNullOrEmpty(vm.NewCategory))
@@ -167,7 +167,7 @@ namespace ExpressQuiz.Controllers
                     {
                         ModelState.AddModelError("NewCategory", "Category already exists");
                         quiz = _quizService.Get(vm.Quiz.QuizId);
-                        vm = quiz.ToEditQuizViewModel(_quizCategoryService);
+                        vm = quiz.ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
                         return PartialView("_EditQuizPartial", vm);
                     }
                     vm.SelectedCategory = _quizCategoryService.InsertByName(vm.NewCategory).Id;
@@ -181,12 +181,12 @@ namespace ExpressQuiz.Controllers
                 
                 if (quiz.Questions.Count > 1)
                 {
-                    _questionService.SaveOrder(quiz.Questions.ToList(), vm.QuestionOrder);
+                    _questionService.SaveOrder(quiz.Id, vm.QuestionOrder);
                 }
 
                 ModelState.Clear();
 
-                vm = _quizService.Get(quiz.Id).ToEditQuizViewModel(_quizCategoryService);
+                vm = _quizService.Get(quiz.Id).ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
                
 
                 return PartialView("_EditQuizPartial", vm);
@@ -272,8 +272,8 @@ namespace ExpressQuiz.Controllers
             model.OrderId = maxOrderId;
 
             var question = _questionService.Insert(model);
-        
-            var vm = quiz.ToEditQuizViewModel(_quizCategoryService);
+
+            var vm = quiz.ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
             return PartialView("_EditQuizPartial", vm);
         }
 
@@ -325,7 +325,7 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
-            var vm = question.ToEditQuestionViewModel(_quizService);
+            var vm = question.ToEditQuestionViewModel(_answerService,_quizService);
             return PartialView("_EditQuestionPartial", vm);
 
         }
@@ -341,12 +341,12 @@ namespace ExpressQuiz.Controllers
           
                 if (q.Answers.Count > 1)
                 {
-                    _answerService.SaveOrder(q.Answers.ToList(), vm.Order);
+                    _answerService.SaveOrder(q.Id, vm.Order);
                 }
 
                 ModelState.Clear();
 
-                vm = _questionService.Get(q.Id).ToEditQuestionViewModel(_quizService);
+                vm = _questionService.Get(q.Id).ToEditQuestionViewModel(_answerService,_quizService);
                
                 return PartialView("_EditQuestionPartial", vm);
             }
@@ -404,7 +404,7 @@ namespace ExpressQuiz.Controllers
             }
 
 
-            var vm = quiz.ToQuizViewModel();
+            var vm = quiz.ToQuizViewModel(_questionService, _answerService);
             return View("Delete", vm);
             
         }
@@ -456,7 +456,7 @@ namespace ExpressQuiz.Controllers
 
 
             var quiz = _quizService.Get(model.QuizId);
-            var vm = quiz.ToEditQuizViewModel(_quizCategoryService);
+            var vm = quiz.ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
 
           
             return PartialView("_EditQuizPartial", vm);
@@ -481,7 +481,7 @@ namespace ExpressQuiz.Controllers
 
             var question = _questionService.Get(model.QuestionId);
 
-            var vm = question.ToEditQuestionViewModel(_quizService);
+            var vm = question.ToEditQuestionViewModel(_answerService,_quizService);
 
             return PartialView("_EditQuestionPartial", vm);
         }

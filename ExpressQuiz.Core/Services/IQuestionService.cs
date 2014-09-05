@@ -10,6 +10,6 @@ namespace ExpressQuiz.Core.Services
 {
     public interface IQuestionService : IService<Question>
     {
-        void SaveOrder(List<Question> questions , string order);
+        void SaveOrder(int quizId , string order);
     }
 }

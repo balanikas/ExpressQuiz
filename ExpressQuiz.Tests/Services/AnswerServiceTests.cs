@@ -82,7 +82,7 @@ namespace ExpressQuiz.Tests.Services
             var service = _mockRepo.AnswerService;
 
             var answers = service.GetAll().Where(x => x.QuestionId == 1).ToList();
-            service.SaveOrder(answers, "2,1");
+            service.SaveOrder(1, "2,1");
 
             var updated = service.GetAll().Where(x => x.QuestionId == 1).ToList();
 
@@ -98,7 +98,7 @@ namespace ExpressQuiz.Tests.Services
 
             var answers = service.GetAll().Where(x => x.QuestionId == 1).ToList();
             
-            service.SaveOrder(answers, "hello,2,1,6");
+            service.SaveOrder(1, "hello,2,1,6");
         }
 
     }

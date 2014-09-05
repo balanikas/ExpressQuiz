@@ -15,60 +15,62 @@
 
 
 
-@if (Model.Any())
-{
+@{
+    var quizzes = Model.ToList();
+    if (quizzes.Any())
+    {
 
 
 
 
-    <table class="table table-striped table-hover ">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Questions</th>
-                <th>Locked</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Questions</th>
+                    <th>Locked</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
 
-        <tbody>
+            <tbody>
 
-            @{
+                @{
 
-                foreach (var q in Model)
-                {
+        foreach (var q in quizzes)
+                    {
 
-                    <tr @(q.Locked ? "class=danger" : "")>
-                        <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new {id = q.QuizId}, htmlAttributes: new {@class = ""})</td>
-                        <td>@q.Questions.Count()</td>
-                        <td>@q.Locked</td>
-                        <td>
-                            <a href="#" data-id="@q.QuizId" class="delete-quiz">Delete</a>
+                        <tr @(q.Locked ? "class=danger" : "")>
+                            <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new {id = q.QuizId}, htmlAttributes: new {@class = ""})</td>
+                            <td>@q.Questions.Count()</td>
+                            <td>@q.Locked</td>
+                            <td>
+                                <a href="#" data-id="@q.QuizId" class="delete-quiz">Delete</a>
                          
                       
-                        </td>
+                            </td>
 
                        
-                    </tr>
+                        </tr>
 
+                    }
                 }
-            }
 
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="text-center">
+            <br />
+            <p><i>You have not created any quizzes yet.</i></p>
+            @Html.ActionLink("Create", "Create", "Quizzes", routeValues: null, htmlAttributes: new {@class = "btn btn-primary"})
+
+        </div>
+
+    }
 }
-else
-{
-    <div class="text-center">
-        <br />
-        <p><i>You have not created any quizzes yet.</i></p>
-        @Html.ActionLink("Create", "Create", "Quizzes", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
-
-    </div>
-   
-}
-
 
 <script>
     

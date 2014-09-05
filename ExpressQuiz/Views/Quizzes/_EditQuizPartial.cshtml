@@ -118,7 +118,7 @@
                 
                 <div class="col-md-4">
                     
-                    @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes", new { id = Model.Quiz.QuizId, orderId = Model.Quiz.Questions.Count() }, new AjaxOptions()
+                    @Ajax.ActionLink("Add question", "CreateQuestion", "Quizzes", new { id = Model.Quiz.QuizId, orderId = Model.Quiz.QuestionCount }, new AjaxOptions()
                                     {
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",
@@ -168,7 +168,7 @@
                 @q.Text
             </td>
             <td>
-                @q.Answers.Count
+                @q.AnswerCount
             </td>
             <td>
                 @Ajax.ActionLink("Edit", "EditQuestion", "Quizzes", new { id = q.QuestionId }, new AjaxOptions()

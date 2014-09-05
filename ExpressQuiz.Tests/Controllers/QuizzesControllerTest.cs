@@ -116,7 +116,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void Edit_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuizViewModel model = _mockRepository.QuizService.Get(1).ToEditQuizViewModel(_mockRepository.QuizCategoryService);
+            EditQuizViewModel model = _mockRepository.QuizService.Get(1).ToEditQuizViewModel(_mockRepository.QuestionService,_mockRepository.AnswerService,  _mockRepository.QuizCategoryService);
 
             model.Quiz.Name = "test";
 
@@ -167,7 +167,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void EditQuestion_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuestionViewModel model = _mockRepository.QuestionRepo.Get(1).ToEditQuestionViewModel(_mockRepository.QuizService);
+            EditQuestionViewModel model = _mockRepository.QuestionRepo.Get(1).ToEditQuestionViewModel(_mockRepository.AnswerService, _mockRepository.QuizService);
 
             model.Question.Text = "text";
 

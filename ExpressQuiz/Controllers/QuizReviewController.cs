@@ -84,7 +84,7 @@ namespace ExpressQuiz.Controllers
             var q = _questionService.Get(questionId.Value);
             if (q != null)
             {
-                var vm = q.ToQuestionReviewViewModel(resultId, userAnswerId);
+                var vm = q.ToQuestionReviewViewModel(_answerService, resultId, userAnswerId);
                 return View("Question", vm);
             }
 

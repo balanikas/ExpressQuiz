@@ -22,6 +22,8 @@ namespace ExpressQuiz.Core.Services
         int GetRelativeScore(int quizId, int compareValue);
 
         int GetRelativeTime(int quizId, int compareValue);
-       
+
+        QuizStatistics GetStatistics(int quizId);
+
     }
 }

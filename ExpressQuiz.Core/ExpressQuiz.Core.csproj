@@ -66,6 +66,8 @@
     <Compile Include="Migrations\201409041449474_moretext.Designer.cs">
       <DependentUpon>201409041449474_moretext.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\QuestionAnswerMap.cs" />
+    <Compile Include="Models\QuizStatistics.cs" />
     <Compile Include="Services\IQuizResultService.cs" />
     <Compile Include="Services\QuizResultService.cs" />
     <Compile Include="Utils\DataProvider.cs" />

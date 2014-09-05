@@ -144,7 +144,7 @@
             $("#answers").empty();
 
             for (var i = 0; i < question.Answers.length; i++) {
-                var checked = answerId == question.Answers[i].Id ? "checked" : "";
+                var checked = answerId == question.Answers[i].AnswerId ? "checked" : "";
 
                 var div = $(" <div class='radio'/>");
                 var label = $("<label/>");

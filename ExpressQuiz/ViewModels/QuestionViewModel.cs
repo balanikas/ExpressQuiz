@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using ExpressQuiz.Core.Models;
+using ExpressQuiz.Extensions;
 
 namespace ExpressQuiz.ViewModels
 {
@@ -31,7 +32,9 @@ namespace ExpressQuiz.ViewModels
         [DisplayName("Assign points")]
         public int Points { get; set; }
 
-        public IList<AnswerViewModel> Answers { get; set; }
+        public IEnumerable<AnswerViewModel> Answers { get; set; }
+
+        public int AnswerCount { get; set; }
 
         public QuestionViewModel()
         {

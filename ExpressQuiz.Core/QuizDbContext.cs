@@ -12,7 +12,7 @@ namespace ExpressQuiz.Core
         public QuizDbContext()
             : base("QuizDbContext")
         {
-            Database.CreateIfNotExists();
+           // Database.CreateIfNotExists();
            
         }
         public DbSet<UserAnswer> UserAnswers { get; set; }

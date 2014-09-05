@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 
@@ -50,26 +47,27 @@ namespace ExpressQuiz.Core.Services
         }
 
 
-        public void SaveOrder(List<Question> questions, string order)
+        public void SaveOrder(int quizId, string order)
         {
-
             var orders = order.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (orders.Length == 0 || orders.Length != questions.Count())
+            if (orders.Length == 0 )
             {
                 throw new ArgumentException("order");
             }
 
+            var questionsToUpdate = _questionRepo.GetAll().Where(x => x.QuizId == quizId).ToList();
             int orderCount = 0;
             foreach (var o in orders)
             {
-                var q = questions.First(x => x.Id.ToString() == o);
+                var q = questionsToUpdate.First(x => x.Id.ToString() == o);
                 q.OrderId = orderCount++;
-                _questionRepo.Update(q);
             }
+
             _questionRepo.Save();
         }
 
-
     }
+
+    
 }

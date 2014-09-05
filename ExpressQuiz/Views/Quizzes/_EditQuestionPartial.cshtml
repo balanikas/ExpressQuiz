@@ -86,7 +86,7 @@
             <div class="row">
                 <div class="col-md-4">
                 
-                    @Ajax.ActionLink("Add answer", "CreateAnswer", "Quizzes", new { id = Model.Question.QuestionId, orderId = Model.Question.Answers.Count }, new AjaxOptions()
+                    @Ajax.ActionLink("Add answer", "CreateAnswer", "Quizzes", new { id = Model.Question.QuestionId, orderId = Model.Question.AnswerCount }, new AjaxOptions()
                                     {
                                         InsertionMode = InsertionMode.Replace,
                                         HttpMethod = "Get",

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using ExpressQuiz.Core.Models;
+using ExpressQuiz.Extensions;
 
 namespace ExpressQuiz.ViewModels
 {
@@ -38,8 +39,18 @@ namespace ExpressQuiz.ViewModels
         [DisplayName("Locked")]
         public bool Locked { get; set; }
 
-        public IEnumerable<QuestionViewModel> Questions { get; set; }
+
+
+        public IEnumerable<QuestionViewModel> Questions{ set; get;}
+
 
         public QuizCategoryViewModel Category { get; set; }
+
+
+        public int QuestionCount { get; set; }
+        public QuizViewModel()
+        {
+            Questions = new List<QuestionViewModel>();
+        }
     }
 }

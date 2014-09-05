@@ -1,51 +1,56 @@
 ﻿@model IEnumerable<ExpressQuiz.ViewModels.QuizViewModel>
 
-@if (!Model.Any())
-{
-    <br/>
-    <p class="text-center"><i>no quizzes found</i></p>
-}
-else
-{
-    <ul id="quizList" class="list-group">
 
-        @foreach (var item in Model)
-        {
-            <li class="list-group-item">
-                <div class="row">
+@{
 
-                    <div class="col-sm-10">
-                        <h4 class="list-group-item-heading">@item.Name</h4>
-                        <p class="list-group-item-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@item.Summary</p>
-                        <br />
-                        @Html.ActionLink(item.Category.Name, "Index", new { catId = item.Category.Id }, htmlAttributes: new { @class = "btn btn-default btn-xs" })
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="text-center">
-                            @Html.ActionLink("View", "Details", new { id = item.QuizId }, htmlAttributes: new { @class = "btn btn-default btn-lg " })
+    var quizzes = Model.ToList();
+
+    if (!quizzes.Any())
+    {
+        <br/>
+        <p class="text-center"><i>no quizzes found</i></p>
+    }
+    else
+    {
+        <ul id="quizList" class="list-group">
+
+            @foreach (var item in quizzes)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+
+                        <div class="col-sm-10">
+                            <h4 class="list-group-item-heading">@item.Name</h4>
+                            <p class="list-group-item-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@item.Summary</p>
+                            <br />
+                            @Html.ActionLink(item.Category.Name, "Index", new {catId = item.Category.Id}, htmlAttributes: new {@class = "btn btn-default btn-xs"})
                         </div>
-                        <br />
+                        <div class="col-sm-2">
+                            <div class="text-center">
+                                @Html.ActionLink("View", "Details", new {id = item.QuizId}, htmlAttributes: new {@class = "btn btn-default btn-lg "})
+                            </div>
+                            <br />
 
 
-                        @{
-                            var link = "http://graph.facebook.com/" + @item.CreatedBy + "/picture?type=square";
-                            var profileLink = "UserProfile/Public/" + @item.CreatedBy ;
-                        }
-                        <a href="@profileLink">
-                            <img src="@link" width="25px" class="img-responsive img-circle pull-right" 
-                                 data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="" />
-                        </a>
+                            @{
+                                var link = "http://graph.facebook.com/" + @item.CreatedBy + "/picture?type=square";
+                                var profileLink = "UserProfile/Public/" + @item.CreatedBy;
+                            }
+                            <a href="@profileLink">
+                                <img src="@link" width="25px" class="img-responsive img-circle pull-right" 
+                                     data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="" />
+                            </a>
 
 
+                        </div>
                     </div>
-                </div>
 
-            </li>
-        }
+                </li>
+            }
 
-    </ul>
+        </ul>
+    }
 }
-
 
 <script>
     $('[data-toggle="tooltip"]').tooltip();

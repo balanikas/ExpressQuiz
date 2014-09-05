@@ -90,7 +90,7 @@ namespace ExpressQuiz.Tests
 
         private void CreateServices()
         {
-            QuizService = new QuizService(QuizRepo,QuizResultRepo,QuizRatingRepo);
+            QuizService = new QuizService(QuizRepo,QuizRatingRepo);
             QuestionService = new QuestionService(QuestionRepo);
             AnswerService = new AnswerService(AnswerRepo);
             QuizCategoryService = new QuizCategoryService(QuizCategoryRepo);

@@ -9,19 +9,19 @@ namespace ExpressQuiz.Controllers
 {
     public class UserProfileController : Controller
     {
-        private readonly IQuizService _quizRepo;
-
-        public UserProfileController(IQuizService quizRepo)
+        private readonly IQuizService _quizService;
+        public UserProfileController(IQuizService quizService)
         {
-            _quizRepo = quizRepo;
+            _quizService = quizService;
+
         }
 
         public ActionResult Index(int? profileView)
         {
             var vm = new UserProfileViewModel();
-            
-            var quizzes =  _quizRepo.GetAll().Where(x => x.CreatedBy == User.Identity.Name);
-            vm.Quizzes = quizzes.ToList().Select(x => x.ToQuizViewModel());
+
+            var quizzes = _quizService.GetAll().Where(x => x.CreatedBy == User.Identity.Name);
+            vm.Quizzes = quizzes.ToQuizViewModels();
 
             vm.ProfileView = profileView.HasValue ? profileView.Value : 0;
 

@@ -71,22 +71,18 @@ namespace ExpressQuiz.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Quiz quiz = _quizService.Get(id.Value);
+            var quiz = _quizService.Get(id.Value);
             if (quiz == null)
             {
                 return HttpNotFound();
             }
+            var vm = quiz.ToQuizViewModel(_questionService, _answerService, true, true,true,true);
+          
 
-            quiz.Questions = quiz.Questions.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId).ToArray();
-            foreach (var question in quiz.Questions)
-            {
-                question.Answers = question.Answers.AsQueryable().AsNoTracking().OrderBy(x => x.OrderId).ToArray();
-            }
-
-            JsonNetResult jsonNetResult = new JsonNetResult();
+            var jsonNetResult = new JsonNetResult();
             jsonNetResult.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
             jsonNetResult.Formatting = Formatting.Indented;
-            jsonNetResult.Data = quiz;
+            jsonNetResult.Data = vm;
 
             return jsonNetResult;
         }

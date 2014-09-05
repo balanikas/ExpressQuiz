@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 
@@ -8,16 +10,15 @@ namespace ExpressQuiz.Core.Services
     public class QuizService :  IQuizService
     {
         private readonly IRepo<Quiz> _quizRepo;
-        private readonly IRepo<QuizResult> _quizResultRepo;
+
         private readonly IRepo<QuizRating> _quizRatingRepo;
 
         public QuizService(
             IRepo<Quiz> quizRepo,
-            IRepo<QuizResult> quizResultRepo,
             IRepo<QuizRating> quizRatingRepo )
         {
             _quizRepo = quizRepo;
-            _quizResultRepo = quizResultRepo;
+
             _quizRatingRepo = quizRatingRepo;
         }
 
@@ -191,5 +192,9 @@ namespace ExpressQuiz.Core.Services
 
         }
 
+       
+
     }
+
+  
 }
