@@ -65,7 +65,7 @@ namespace ExpressQuiz.Controllers
         public ActionResult Index(QuizReviewViewModel model)
         {
             var quizRating = new QuizRating();
-            quizRating.Rating = model.Rating * 100;
+            quizRating.Rating = model.Rating * 20;
             quizRating.Level = model.Level * 20;
             quizRating.QuizId = model.QuizId;
             _quizRatingRepo.Insert(quizRating);

@@ -37,8 +37,12 @@
                                 var profileLink = "UserProfile/Public/" + @item.CreatedBy;
                             }
                             <a href="@profileLink">
-                                <img src="@link" width="25px" class="img-responsive img-circle pull-right" 
-                                     data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="" />
+                                <span class="glyphicon glyphicon-user pull-right" data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="">
+                                </span>
+                                
+                                @*<img src="@link" onerror="this.parent.addClass('glyphicon glyphicon-search')" width="25px" class="img-responsive img-circle pull-right" alt="User"
+                                     data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="" />*@
+                            
                             </a>
 
 
