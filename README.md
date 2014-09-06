@@ -2,11 +2,11 @@ ExpressQuiz
 ===========
 Trying to become the de facto free quiz site.
 
-temprary website: http://www.coderentals.com/projects/collections/index.html
+temprary website: coming soon
 
 Goal
 =========
-To provide a serious quiz service with a clean UI in a collaborative community based environment.
+To provide a serious quiz service with a clean and simple UI in a collaborative community based environment.
 Promote sharing of knowledge, with competitive elements. 
 
 
