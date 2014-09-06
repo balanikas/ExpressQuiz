@@ -34,7 +34,7 @@
         <br/>
         <br />
         <div class="progress">
-            <div id="pTimeLeft" class="progress-bar progress-bar-warning" style="width: 100%;"></div>
+            <div id="pTimeLeft" class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width: 100%;"></div>
         </div>
 
     </div>
@@ -42,7 +42,6 @@
     <div class="progress">
         <div id="prgCompleted" class="progress-bar" style="width: 0%;"></div>
     </div>
-    
   
 
     <div id="page-selection"></div>
@@ -82,7 +81,8 @@
         });
 
         $("#done").click(function () {
-           
+            counter.stop();
+            
             sendResults();
         });
 
@@ -103,16 +103,17 @@
 
 
         function sendResults() {
+            $("#done").addClass('active');
+            $("#pTimeLeft").removeClass("active");
             var result = {};
             result.QuizId = "@Model.QuizId";
             result.Answers = runtime.getResult();
             result.EllapsedTime = counter.getRemainingTime();
 
-            $("#done").addClass('active');
+            
          
             $.ajax({
                 url: '/ActiveQuiz/PostResult/',
-                async: false,
                 type: "POST",
                 cache: false,
                 headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),

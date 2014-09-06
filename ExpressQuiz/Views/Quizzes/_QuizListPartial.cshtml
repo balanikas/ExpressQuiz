@@ -18,26 +18,29 @@
             {
                 <li class="list-group-item">
                     <div class="row">
-
+                        
                         <div class="col-sm-10">
+                         
                             <h4 class="list-group-item-heading">@item.Name</h4>
                             <p class="list-group-item-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@item.Summary</p>
                             <br />
-                            @Html.ActionLink(item.Category.Name, "Index", new {catId = item.Category.Id}, htmlAttributes: new {@class = "btn btn-default btn-xs"})
+                            @Html.ActionLink(item.Category.Name, "Index", new {selectedCategoryId = item.Category.Id}, htmlAttributes: new {@class = "btn btn-default btn-xs"})
                         </div>
                         <div class="col-sm-2">
                             <div class="text-center">
-                                @Html.ActionLink("View", "Details", new {id = item.QuizId}, htmlAttributes: new {@class = "btn btn-default btn-lg "})
+                                @Html.ActionLink("View", "Details", new {id = item.QuizId}, htmlAttributes: new {@class = "btn btn-default "})
                             </div>
                             <br />
-
+                            
+                            
+                            
 
                             @{
                                 var link = "http://graph.facebook.com/" + @item.CreatedBy + "/picture?type=square";
                                 var profileLink = "UserProfile/Public/" + @item.CreatedBy;
                             }
                             <a href="@profileLink">
-                                <span class="glyphicon glyphicon-user pull-right" data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="">
+                                <span class="glyphicon glyphicon-user " data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="">
                                 </span>
                                 
                                 @*<img src="@link" onerror="this.parent.addClass('glyphicon glyphicon-search')" width="25px" class="img-responsive img-circle pull-right" alt="User"
@@ -45,7 +48,11 @@
                             
                             </a>
 
+                            <a href="/ActiveQuiz/Index/@item.QuizId">
+                                <span class="glyphicon glyphicon-play " data-toggle="tooltip" data-placement="top" data-original-title="take quiz" title="">
+                                </span>
 
+                            </a>
                         </div>
                     </div>
 

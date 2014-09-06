@@ -1,5 +1,15 @@
 ﻿@model ExpressQuiz.ViewModels.QuizDetailsViewModel
 
+@section styles
+{
+    @Styles.Render("~/Content/font-awesome-4.2.0/css/font-awesome.min.css")
+    @Styles.Render("~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css")
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
+}
 
 <h2>
     @Model.Quiz.Name  (@Model.Quiz.QuestionCount questions)
@@ -14,18 +24,11 @@
 
 
     <br />
+    
+    <textarea class='pagedown hidden'>@Model.Quiz.Summary</textarea>
 
+    
     <dl class="dl-horizontal">
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Quiz.Summary)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Quiz.Summary)
-        </dd>
-
-        <br />
 
         <dt>
             @Html.DisplayNameFor(model => model.AvgScore)
@@ -91,7 +94,7 @@
 
 
             @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.QuizId },
-                        new { @class = "btn btn-danger  " })
+                        new { @class = "btn btn-primary  " })
 
 
         </div>
@@ -109,3 +112,18 @@
 
     @Html.Action("Index", "Users", new { quizId = @Model.Quiz.QuizId })
 </div>
+
+
+
+<script>
+
+    $(function() {
+        $("textarea.pagedown").pagedownBootstrap({
+            'sanatize': true
+        });
+        $('.wmd-preview').addClass('well');
+        $(".wmd-button-bar").hide();
+    });
+
+   
+</script>

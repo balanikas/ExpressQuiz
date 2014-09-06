@@ -7,12 +7,19 @@
 
     @Styles.Render("//cdn.datatables.net/1.10.2/css/jquery.dataTables.css");
 }
+@section scripts{
+    @Scripts.Render("~/Scripts/starrating/star-rating.min.js")
+    @Scripts.Render("//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js");
+}
 
 
 
 
 <br />
-
+<br />
+<div class="text-center">
+    <button type="button" onclick="rate()" class="btn btn-primary">Exit quiz</button>
+</div>
 <div>
 
 
@@ -109,10 +116,7 @@
 
 </div>
 
-<br />
-<div class="text-center">
-    <button type="button" onclick="rate()" class="btn btn-primary">Exit quiz</button>
-</div>
+
 
 
 <div id="rateQuiz" class="modal">
@@ -137,7 +141,7 @@
                         @Html.HiddenFor(m => m.Rating)
                         @Html.HiddenFor(m => m.Level)
                         <div class="form-group">
-                            @Html.Label("How much did you like it?")
+                            @Html.Label("Did you like it?")
                             <div>
 
                                 <input id="ratingStar" type="number" class="rating form-control" value="2.5" min=0 max=5 step=0.5 data-size="xs">
@@ -146,7 +150,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.Label("How difficult was it?")
+                            @Html.Label("How hard was it?")
                             <div>
 
                                 <input id="levelStar" type="number" class="rating" value="2.5" min=0 max=5 step=0.5 data-size="xs">
@@ -164,7 +168,7 @@
 
                     <div class="form-group">
                         <div>
-                            <input type="submit" value="Close" class="btn btn-primary center-block" />
+                            <input type="submit" value="Thanks!" class="btn btn-primary center-block" />
                         </div>
                     </div>
                 </div>
@@ -175,8 +179,8 @@
     </div>
 </div>
 
-@Scripts.Render("~/Scripts/starrating/star-rating.min.js")
-@Scripts.Render("//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js");
+
+
 <script>
 
 
