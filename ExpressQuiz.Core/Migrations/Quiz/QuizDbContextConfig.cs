@@ -45,7 +45,7 @@ namespace ExpressQuiz.Core.Migrations.Quiz
                 quiz.Category = context.Set<QuizCategory>().First(x => x.Name == quiz.Category.Name);
             }
 
-            AddLotsOfQuizzes(context,quizzes[0]);
+            //AddLotsOfQuizzes(context,quizzes[0]);
 
 
             context.Set<Models.Quiz>().AddOrUpdate(i => i.Name,
@@ -71,7 +71,7 @@ namespace ExpressQuiz.Core.Migrations.Quiz
                     AllowPoints = true,
                     Category = reference.Category,
                     Created = DateTime.Now,
-                    CreatedBy = "info@coderentals.com",
+                    CreatedBy = "admin",
                     IsTimeable = true,
                     Locked = false,
                     Name = reference.Name + "-" + k,

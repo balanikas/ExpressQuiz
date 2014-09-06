@@ -24,11 +24,11 @@ namespace ExpressQuiz.Core.Migrations.Application
                 manager.Create(role);
             }
 
-            if (!context.Users.Any(u => u.UserName == "info@coderentals.com"))
+            if (!context.Users.Any(u => u.UserName == "admin"))
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { UserName = "info@coderentals.com", Email = "info@coderentals.com" };
+                var user = new ApplicationUser { UserName = "admin", Email = "info@coderentals.com" };
 
                 var result = manager.Create(user, "Admin123");
 

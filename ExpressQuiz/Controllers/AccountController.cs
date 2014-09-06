@@ -60,7 +60,7 @@ namespace ExpressQuiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.Email, model.Password);
+                var user = await UserManager.FindAsync(model.NickName, model.Password);
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -93,7 +93,7 @@ namespace ExpressQuiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser() { UserName = model.NickName, Email = model.Email, NickName = model.NickName};
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -409,7 +409,8 @@ namespace ExpressQuiz.Controllers
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser() {
-                    UserName = info.DefaultUserName,
+                    UserName = model.NickName,
+                    NickName = model.NickName,
                     Email = model.Email};
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)

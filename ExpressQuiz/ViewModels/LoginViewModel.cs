@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ExpressQuiz.ViewModels
 {
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        public string NickName { get; set; }
+
+
 
         [Required]
         [DataType(DataType.Password)]

@@ -11,7 +11,7 @@ namespace ExpressQuiz.ViewModels
         public string Email { get; set; }
 
         [Required]
-        [DisplayName("Nickname")]
+        [DisplayName("Username")]
         public string NickName { get; set; }
     }
 }
