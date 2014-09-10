@@ -30,8 +30,9 @@ namespace ExpressQuiz.Controllers
 
             var results = _quizResultRepo.GetAll()
                 .Where(x => x.QuizId == quizId)
+                .OrderByDescending(x => x.Score)
                 .DistinctBy(x => x.UserId)
-                .OrderByDescending(x => x.Score);
+                .Take(5);
 
             var vm = results.ToList().Select(x => x.ToQuizResultViewModel()).ToList();
             return PartialView("_QuizUsersPartial", vm);

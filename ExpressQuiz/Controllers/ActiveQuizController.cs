@@ -96,7 +96,7 @@ namespace ExpressQuiz.Controllers
 
             var userId = String.IsNullOrEmpty(User.Identity.Name) ? Session.SessionID : User.Identity.Name;
             result.UserId = userId;
-            result.Score = CalculateScore(result);
+            
             _quizResultService.Insert(result);
 
             
@@ -107,51 +107,7 @@ namespace ExpressQuiz.Controllers
         }
 
 
-        private int CalculateScore(QuizResult result)
-        {
-            var quiz = _quizService.Get(result.QuizId);
-            var usePoints = quiz.AllowPoints;
-
-
-
-            int count = 0;
-            var totalPoints = 0;
-
-            if (usePoints)
-            {
-                
-                foreach (var userAnswer in result.UserAnswers)
-                {
-                    var points = _questionService.Get(userAnswer.QuestionId).Points;
-                    totalPoints += points;
-                    
-                    var correctAnswer = _answerService.Get(userAnswer.AnswerId);
-                    if (correctAnswer != null && correctAnswer.IsCorrect)
-                    {
-                        count += points;
-                    }
-
-                }
-                return (int)(((double)count / (double)totalPoints) * 100);
-                
-            }
-            else
-            {
-                totalPoints = quiz.Questions.Count;
-                foreach (var userAnswer in result.UserAnswers)
-                {
-                    var correctAnswer = _answerService.Get(userAnswer.AnswerId);
-                    if (correctAnswer != null && correctAnswer.IsCorrect)
-                    {
-                        count++;
-                    }
-
-                }
-                return (int) (((double)count / (double)totalPoints) * 100);
-            }
-          
-           
-        }
+      
      
     }
 }

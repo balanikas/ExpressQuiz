@@ -37,7 +37,7 @@
 
                             @{
                                 var link = "http://graph.facebook.com/" + @item.CreatedBy + "/picture?type=square";
-                                var profileLink = "UserProfile/Public/" + @item.CreatedBy;
+                                var profileLink = "UserProfile/Index/" + @item.CreatedBy;
                             }
                             <a href="@profileLink">
                                 <span class="glyphicon glyphicon-user " data-toggle="tooltip" data-placement="top" data-original-title="@item.CreatedBy" title="">

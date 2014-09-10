@@ -19,6 +19,10 @@
 <h2>
     @Model.Quiz.Name  (@Model.Quiz.QuestionCount questions)
 </h2>
+<h4>
+    created by
+    @Html.ActionLink(Model.Quiz.CreatedBy, "Index", "UserProfile", new { id = Model.Quiz.CreatedBy, profileView = 0 }, htmlAttributes: null)
+</h4>
 
 <div class="container">
 
@@ -29,10 +33,10 @@
 
 
     <br />
-    
+
     <textarea class='pagedown hidden'>@Model.Quiz.Summary</textarea>
 
-    
+
     <dl class="dl-horizontal">
 
         <dt>
@@ -57,69 +61,72 @@
             </div>
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AvgLevel)
-        </dt>
-        <dd>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgLevel%;">
-                    @Model.AvgLevel%
+        @*<dt>
+                @Html.DisplayNameFor(model => model.AvgLevel)
+            </dt>
+            <dd>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgLevel%;">
+                        @Model.AvgLevel%
+                    </div>
                 </div>
-            </div>
-        </dd>
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AvgRating)
-        </dt>
-        <dd>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgRating%;">
-                    @Model.AvgRating%
+            <dt>
+                @Html.DisplayNameFor(model => model.AvgRating)
+            </dt>
+            <dd>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: @Model.AvgRating%;">
+                        @Model.AvgRating%
+                    </div>
                 </div>
-            </div>
-        </dd>
+            </dd>*@
 
 
 
 
 
     </dl>
-    
-    
+
+
     <div class="row">
-       
-            <div class="col-xs-4 text-center">
-
-                <div class="well well-sm">
-                    <h3>
-                        @Model.Quiz.Votes
-                        <span class="glyphicon glyphicon-thumbs-up ">
-                        </span>
-                    </h3>
-                </div>
-
-
-            </div>
-       
-            <div class="col-xs-4 text-center">
-
-                <div class="well well-sm">
-                    <h3>
-                        @Model.Quiz.Views
-                        <span class="glyphicon glyphicon-zoom-in ">
-                        </span>
-                    </h3>
-                </div>
-
-            </div>
 
         <div class="col-xs-4 text-center">
 
             <div class="well well-sm">
                 <h3>
-                    @Model.Quiz.Completed
+
+                    <span class="glyphicon glyphicon-thumbs-up ">
+                    </span>
+                    @Model.Quiz.Votes votes
+                </h3>
+            </div>
+
+
+        </div>
+
+        <div class="col-xs-4 text-center">
+
+            <div class="well well-sm">
+                <h3>
+
+                    <span class="glyphicon glyphicon-zoom-in ">
+                    </span>
+                    @Model.Quiz.Views views
+                </h3>
+            </div>
+
+        </div>
+
+        <div class="col-xs-4 text-center">
+
+            <div class="well well-sm">
+                <h3>
+
                     <span class="glyphicon glyphicon-play-circle ">
                     </span>
+                    @Model.Quiz.Completed completions
                 </h3>
             </div>
 
@@ -130,24 +137,29 @@
     </div>
 
 
-    @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)
-    {
 
-        <div class="row">
+    <div class="row">
 
+        @if ((!Model.Quiz.Locked && !String.IsNullOrEmpty(User.Identity.Name))
+            || Model.Quiz.CreatedBy == User.Identity.Name)
+        {
             @Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.QuizId },
-                        new { @class = "btn btn-primary  " })
+                    new { @class = "btn btn-primary  " })
+        }
 
 
 
 
+        @if (Model.Quiz.CreatedBy == User.Identity.Name)
+        {
             @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.QuizId },
-                        new { @class = "btn btn-primary  " })
+                    new { @class = "btn btn-primary  " })
+        }
 
 
-        </div>
 
-    }
+    </div>
+
 
 </div>
 
@@ -165,7 +177,7 @@
 
 <script>
 
-    $(function() {
+    $(function () {
         $("textarea.pagedown").pagedownBootstrap({
             'sanatize': true
         });
@@ -173,5 +185,5 @@
         $(".wmd-button-bar").hide();
     });
 
-   
+
 </script>

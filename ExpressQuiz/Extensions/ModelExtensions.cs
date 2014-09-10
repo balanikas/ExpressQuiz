@@ -505,9 +505,17 @@ namespace ExpressQuiz.Extensions
             vm.EllapsedTimePercent = (int)((double)quizResult.EllapsedTime/(double)questions.Sum(x => x.EstimatedTime)*100);
             vm.QuizId = quizResult.QuizId;
 
+            if (quizResultService.GetAll().Count(x => x.QuizId == quiz.Id) > 1)
+            {
+                vm.RelativeScore = quizResultService.GetRelativeScore(quiz.Id, quizResult.Score);
+                vm.RelativeTime = quizResultService.GetRelativeTime(quiz.Id, quizResult.EllapsedTime);
+            }
+            else
+            {
+                vm.RelativeScore = -1;
+                vm.RelativeTime = -1;
+            }
             
-            vm.RelativeScore = quizResultService.GetRelativeScore(quiz.Id, quizResult.Score);
-            vm.RelativeTime = quizResultService.GetRelativeTime(quiz.Id, quizResult.EllapsedTime);
             return vm;
         }
 

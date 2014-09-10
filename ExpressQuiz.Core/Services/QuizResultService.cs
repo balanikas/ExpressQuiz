@@ -11,15 +11,16 @@ namespace ExpressQuiz.Core.Services
         private readonly IRepo<QuizResult> _quizResultRepo;
         private readonly IRepo<QuizRating> _quizRatingRepo;
         private readonly IRepo<Quiz> _quizRepo;
+        private readonly IRepo<Question> _questionRepo;
+        private readonly IRepo<Answer> _answerRepo;
 
-        public QuizResultService(
-            IRepo<Quiz> quizRepo,
-            IRepo<QuizResult> quizResultRepo,
-            IRepo<QuizRating> quizRatingRepo )
+        public QuizResultService(IRepo<Quiz> quizRepo, IRepo<QuizResult> quizResultRepo, IRepo<QuizRating> quizRatingRepo, IRepo<Question> questionRepo, IRepo<Answer> answerRepo)
         {
             _quizRepo = quizRepo;
             _quizResultRepo = quizResultRepo;
             _quizRatingRepo = quizRatingRepo;
+            _questionRepo = questionRepo;
+            _answerRepo = answerRepo;
         }
 
         public int GetAverageScore(int quizId)
@@ -139,7 +140,15 @@ namespace ExpressQuiz.Core.Services
                 stats.AvgScore = (int)results.Average(x => x.Score);
                 if (stats.AvgScore > 0)
                 {
-                    stats.AvgScorePercent = (stats.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
+                    if (quiz.AllowPoints)
+                    {
+                        stats.AvgScorePercent = (stats.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
+                    }
+                    else
+                    {
+                        stats.AvgScorePercent = (stats.AvgScore * 100) / quiz.Questions.Count;
+                    }
+                    
                 }
                 
                 stats.AvgTime = (int)results.Average(x => x.EllapsedTime);
@@ -156,7 +165,16 @@ namespace ExpressQuiz.Core.Services
                 stats.AvgLevel = (int)ratings.Average(x => x.Level);
             }
 
-            stats.TotalPoints = quiz.Questions.Sum(x => x.Points);
+
+            if (quiz.AllowPoints)
+            {
+                stats.TotalPoints = quiz.Questions.Sum(x => x.Points);
+            }
+            else
+            {
+                stats.TotalPoints = quiz.Questions.Count;
+            }
+            
             stats.TotalTime = quiz.Questions.Sum(x => x.EstimatedTime);
 
             return stats;
@@ -174,6 +192,7 @@ namespace ExpressQuiz.Core.Services
 
         public QuizResult Insert(QuizResult o)
         {
+            o.Score = CalculateScore(o);
             var quiz = _quizResultRepo.Insert(o);
             _quizRepo.Save();
             return quiz;
@@ -189,6 +208,52 @@ namespace ExpressQuiz.Core.Services
         {
             _quizResultRepo.Delete(id);
             _quizResultRepo.Save();
+        }
+
+        private int CalculateScore(QuizResult result)
+        {
+            var quiz = _quizRepo.Get(result.QuizId);
+            var usePoints = quiz.AllowPoints;
+
+
+
+            int count = 0;
+            var totalPoints = 0;
+
+            if (usePoints)
+            {
+
+                foreach (var userAnswer in result.UserAnswers)
+                {
+                    var points = _questionRepo.Get(userAnswer.QuestionId).Points;
+                    totalPoints += points;
+
+                    var correctAnswer = _answerRepo.Get(userAnswer.AnswerId);
+                    if (correctAnswer != null && correctAnswer.IsCorrect)
+                    {
+                        count += points;
+                    }
+
+                }
+                return count;//(int)(((double)count / (double)totalPoints) * 100);
+
+            }
+            else
+            {
+                totalPoints = quiz.Questions.Count;
+                foreach (var userAnswer in result.UserAnswers)
+                {
+                    var correctAnswer = _answerRepo.Get(userAnswer.AnswerId);
+                    if (correctAnswer != null && correctAnswer.IsCorrect)
+                    {
+                        count++;
+                    }
+
+                }
+                return count;//(int)(((double)count / (double)totalPoints) * 100);
+            }
+
+
         }
     }
 }

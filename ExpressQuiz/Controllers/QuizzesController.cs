@@ -435,7 +435,7 @@ namespace ExpressQuiz.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             _quizService.Delete(id);
-
+         
             _userActivityService.Add(User.Identity.Name, ActivityItem.Quiz, ActivityAction.Delete, id);
 
 

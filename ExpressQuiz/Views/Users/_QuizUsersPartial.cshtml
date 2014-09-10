@@ -8,8 +8,8 @@
         <thead>
             <tr>
                 <th>User</th>
-                <th>Score</th>
-                <th>Time</th>
+                <th>Score (points)</th>
+                <th>Time (seconds)</th>
 
             </tr>
         </thead>
@@ -42,9 +42,9 @@
     $(function() {
         $('#quizUsers').dataTable({
             "paging": false,
-            "ordering": true,
             "info": false,
-            "searching": false
+            "searching": false,
+            "order": [[1,"desc"]]
         });
     })
 </script>
