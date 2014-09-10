@@ -49,18 +49,20 @@ namespace ExpressQuiz.Core.Services
 
         public void SaveOrder(int quizId, string order)
         {
-            var orders = order.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var ordersStr = order.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (orders.Length == 0 )
+            if (ordersStr.Length == 0 )
             {
                 throw new ArgumentException("order");
             }
+
+            var orders = ordersStr.Select(int.Parse).ToList();
 
             var questionsToUpdate = _questionRepo.GetAll().Where(x => x.QuizId == quizId).ToList();
             int orderCount = 0;
             foreach (var o in orders)
             {
-                var q = questionsToUpdate.First(x => x.Id.ToString() == o);
+                var q = questionsToUpdate.First(x => x.Id == o);
                 q.OrderId = orderCount++;
             }
 

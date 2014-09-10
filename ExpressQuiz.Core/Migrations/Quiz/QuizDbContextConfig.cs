@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace ExpressQuiz.Core.Migrations.Quiz
     {
         public QuizDbContextConfig()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+
+            
         }
 
         protected override void Seed(QuizDbContext context)
@@ -140,7 +143,7 @@ namespace ExpressQuiz.Core.Migrations.Quiz
             //results
             var result1 = new QuizResult()
             {
-                Answers = new List<UserAnswer>()
+                UserAnswers = new List<UserAnswer>()
                 {
                     new UserAnswer() {AnswerId = q1.Answers.ToList()[0].Id, QuestionId = q1.Id},
                     new UserAnswer() {AnswerId = q2.Answers.ToList()[0].Id, QuestionId = q2.Id},
@@ -152,7 +155,7 @@ namespace ExpressQuiz.Core.Migrations.Quiz
             };
             var result2 = new QuizResult()
             {
-                Answers = new List<UserAnswer>()
+                UserAnswers = new List<UserAnswer>()
                 {
                     new UserAnswer() {AnswerId = q1.Answers.ToList()[1].Id, QuestionId = q1.Id},
                     new UserAnswer() {AnswerId = q2.Answers.ToList()[1].Id, QuestionId = q2.Id},

@@ -6,6 +6,7 @@
 {
     @Styles.Render("~/Content/font-awesome-4.2.0/css/font-awesome.min.css")
     @Styles.Render("~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css")
+    @Styles.Render("~/Scripts/upvote/jquery.upvote.css")
 
 }
 
@@ -14,6 +15,7 @@
     @Scripts.Render("~/Scripts/jquery.bootpag.min.js")
     @Scripts.Render("~/bundles/expressquiz")
     @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
+    @Scripts.Render("~/Scripts/upvote/jquery.upvote.js")
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
@@ -45,15 +47,39 @@
   
 
     <div id="page-selection"></div>
-    <div id="content">
+    
+  
 
-        <h4>Question</h4>
-        <div id="question">
+    <div id="content">
+       
+        <div class="row text-center">
+            <h4>Question</h4>
             
         </div>
-    
+        
+        
+        <div class="row">
+            <div id="voteContainer" class="col-sm-1">
+                <div id="vote" class="upvote upvote-superuser ">
+                    <a class="upvote"></a>
+                    <a class="downvote"></a>
 
-        <h4>Answers</h4>
+                </div>
+              
+
+            </div>
+           
+
+            <div class="col-sm-11" id="question">
+
+            </div>
+
+        </div>
+        
+      
+
+
+        <h4 class="text-center">Answers</h4>
         <p>
             <div id="answers" class="col-lg-10">
             </div>
@@ -66,6 +92,8 @@
     <script>
 
         $(document).ready(function () {
+
+        
 
             ExpressQuiz.Utils.togglePreventLeavingPage(true);
 
@@ -86,6 +114,8 @@
             sendResults();
         });
 
+
+        var voteHtml = $("#voteContainer").html();
         var totalTime = '@Model.EstimatedTime';
         var runtime = undefined;
         var counter = new ExpressQuiz.CountDown({
@@ -107,7 +137,7 @@
             $("#pTimeLeft").removeClass("active");
             var result = {};
             result.QuizId = "@Model.QuizId";
-            result.Answers = runtime.getResult();
+            result.UserAnswers = runtime.getResult();
             result.EllapsedTime = counter.getRemainingTime();
 
             
@@ -124,7 +154,7 @@
                 success: OnPostResultsSucces,
                 complete:  $("#done").addClass('active')
 
-        });
+            });
         }
 
      
@@ -167,7 +197,7 @@
 
             $("#question").empty();
             $("#question").append($("<textarea class='pagedown hidden' >" +
-               question.Text + "</textarea>"));
+                question.Text + "</textarea>"));
            
           
             $("textarea.pagedown").pagedownBootstrap({
@@ -176,14 +206,46 @@
             $('.wmd-preview').addClass('well');
             $(".wmd-button-bar").hide();
 
+            var upVoted = question.vote == 1;
+            var downVoted = question.vote == -1;
+
+            $("#voteContainer").empty().append(voteHtml);
+            
+
+            $('#vote').upvote({ id: question.QuestionId, callback: voteCallback, upvoted: upVoted, downvoted: downVoted });
         }
 
 
+      
+
+        function voteCallback(data) {
+
+            var vote = 0;
+            if (data.upvoted) {
+                vote = 1;
+            } else if (data.downvoted) {
+                vote = -1;
+            }
+
+            runtime.getActiveQuestion().vote = vote;
+
+            $("#vote").css("pointer-events", "none");
+            $.ajax({
+                url: '/Rating/RateQuestion/',
+                type: "POST",
+                cache: false,
+                data: JSON.stringify({ "id": data.id, "vote": vote }),
+                headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                complete: setTimeout(function (){ $("#vote").css("pointer-events","");},1000)
+
+
+            });
+        };
+
 
         function init(quiz) {
-
-           
-
 
             runtime = new ExpressQuiz.Runtime(quiz);
 
@@ -234,3 +296,5 @@
     </script>
 
 </div>
+
+

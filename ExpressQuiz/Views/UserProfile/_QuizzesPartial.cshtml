@@ -1,7 +1,6 @@
-﻿@model IEnumerable<ExpressQuiz.ViewModels.QuizViewModel> 
+﻿@model ExpressQuiz.ViewModels.UserQuizzesViewModel
 
 
-    @Scripts.Render("~/bundles/expressquiz")
 
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
@@ -9,25 +8,20 @@
     @Html.AntiForgeryToken()
 }
 
-<h3>My quizzes</h3>
-
-
-
-
 
 @{
-    var quizzes = Model.ToList();
+    var quizzes = Model.Quizzes.ToList();
     if (quizzes.Any())
     {
 
-
-
-
-        <table class="table table-striped table-hover ">
+        <table id="quizzesTbl"  class="table table-striped table-hover ">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Questions</th>
+                    <th>Votes</th>
+                    <th>Views</th>
+                    <th>Completed</th>
                     <th>Locked</th>
                     <th>Delete</th>
                 </tr>
@@ -38,29 +32,34 @@
                 @{
 
         foreach (var q in quizzes)
-                    {
+        {
 
-                        <tr @(q.Locked ? "class=danger" : "")>
-                            <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new {id = q.QuizId}, htmlAttributes: new {@class = ""})</td>
-                            <td>@q.Questions.Count()</td>
-                            <td>@q.Locked</td>
-                            <td>
-                                <a href="#" data-id="@q.QuizId" class="delete-quiz">Delete</a>
-                         
-                      
-                            </td>
+                <tr @(q.Locked ? "class=danger" : "")>
+                    <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new { id = q.QuizId }, htmlAttributes: new { @class = "" })</td>
+                    <td>@q.QuestionCount</td>
 
-                       
-                        </tr>
+                    <td>@q.Votes</td>
+                <td>@q.Views</td>
+                <td>@q.Completed</td>
 
-                    }
+                <td>@q.Locked</td>
+                <td>
+                    <a href="#" data-id="@q.QuizId" class="delete-quiz">Delete</a>
+
+
+                </td>
+
+
+            </tr>
+
+        }
                 }
 
 
             </tbody>
         </table>
     }
-    else
+    else if (!String.IsNullOrEmpty(User.Identity.Name) && User.Identity.Name == Model.UserId)
     {
         <div class="text-center">
             <br />
@@ -83,6 +82,13 @@
 
     $(function() {
     
+        $('#quizzesTbl').dataTable({
+            "paging": false,
+            "ordering": true,
+            "info": false,
+            "searching": false
+        });
+
         $('.delete-quiz').click(function () {
             
             $.ajax({

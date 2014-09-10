@@ -151,6 +151,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuizReviewController.cs" />
+    <Compile Include="Controllers\RatingController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
@@ -171,7 +172,10 @@
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\SocialSettingsViewModel.cs" />
+    <Compile Include="ViewModels\UserActivitiesViewModel.cs" />
+    <Compile Include="ViewModels\UserActivityViewModel.cs" />
     <Compile Include="ViewModels\UserAnswerViewModel.cs" />
+    <Compile Include="ViewModels\UserQuizzesViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Extensions\RepoExtensions.cs" />
     <Compile Include="ViewModels\CreateQuizViewModel.cs" />
@@ -256,6 +260,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="bla.ps1" />
     <None Include="Properties\PublishProfiles\expressquiz.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -645,6 +650,14 @@
     <Content Include="Scripts\starrating\loading.gif" />
     <Content Include="Scripts\starrating\star-rating.min.css" />
     <Content Include="Scripts\starrating\star-rating.min.js" />
+    <Content Include="Scripts\upvote\images\sprites-meta-stackoverflow.png" />
+    <Content Include="Scripts\upvote\images\sprites-programmers.png" />
+    <Content Include="Scripts\upvote\images\sprites-serverfault.png" />
+    <Content Include="Scripts\upvote\images\sprites-stackoverflow.png" />
+    <Content Include="Scripts\upvote\images\sprites-superuser.png" />
+    <Content Include="Scripts\upvote\images\sprites-unix.png" />
+    <Content Include="Scripts\upvote\jquery.upvote.css" />
+    <Content Include="Scripts\upvote\jquery.upvote.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -699,10 +712,13 @@
     <Content Include="Views\UserProfile\_SocialPartial.cshtml" />
     <Content Include="Views\UserProfile\_QuizzesPartial.cshtml" />
     <Content Include="Views\UserProfile\Public.cshtml" />
+    <Content Include="Views\UserProfile\_ActivitiesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Repos\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Views\Rating\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -744,6 +760,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>bla.ps1</ApplicationManifest>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

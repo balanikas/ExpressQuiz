@@ -7,6 +7,7 @@ namespace ExpressQuiz.Core.Models
        
         [Required]
         public  int QuizId { get; set; }
+        public virtual Quiz Quiz { get; set; }
 
         [Required]
         [Range(0,100)]

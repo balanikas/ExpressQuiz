@@ -12,6 +12,17 @@
                 $(window).off('beforeunload');
             }
         };
+
+        Utils.voteQuestion = function (id, vote, headers) {
+            $.ajax({
+                url: '/Rating/RateQuestion/' + id + "?vote=" + vote,
+                type: "POST",
+                cache: false,
+                headers: headers,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8"
+            });
+        };
         return Utils;
     })();
     ExpressQuiz.Utils = Utils;

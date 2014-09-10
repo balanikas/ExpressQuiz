@@ -23,19 +23,15 @@ namespace ExpressQuiz.Controllers
         private readonly IQuizResultService _quizResultService;
         private readonly IQuestionService _questionService;
         private readonly IAnswerService _answerService;
+        private readonly IUserActivityService _userActivityService;
 
-
-        public ActiveQuizController(
-            IQuizService quizService,
-            IQuizResultService quizResultService,
-            IAnswerService answerService,
-            IQuestionService questionService 
-            )
+        public ActiveQuizController(IQuizService quizService, IQuizResultService quizResultService, IAnswerService answerService, IQuestionService questionService, IUserActivityService userActivityService)
         {
             _quizService = quizService;
             _quizResultService = quizResultService;
             _answerService = answerService;
             _questionService = questionService;
+            _userActivityService = userActivityService;
         }
         
 
@@ -52,16 +48,20 @@ namespace ExpressQuiz.Controllers
                 return HttpNotFound();
             }
             var vm = quiz.ToActiveQuizViewModel();
+
+            var userId = String.IsNullOrEmpty(User.Identity.Name) ? Session.SessionID : User.Identity.Name;
+            _userActivityService.Add(userId, ActivityItem.Quiz, ActivityAction.BeginQuiz, id.Value);
+
             return View("Index",vm);
 
         }
 
-        [HttpPost]
-        public ActionResult Index(ActiveQuizViewModel vm)
-        {
+        //[HttpPost]
+        //public ActionResult Index(ActiveQuizViewModel vm)
+        //{
 
-            return View("Index",vm);
-        }
+        //    return View("Index",vm);
+        //}
 
         public ActionResult GetQuiz(int? id)
         {
@@ -89,13 +89,19 @@ namespace ExpressQuiz.Controllers
 
         
         [HttpPost]
-        public JsonResult PostResult(QuizResult result)
+        public JsonResult PostResult(QuizResultViewModel data)
         {
-           
-            result.UserId = User.Identity.Name;
+
+            var result = data.ToModel();
+
+            var userId = String.IsNullOrEmpty(User.Identity.Name) ? Session.SessionID : User.Identity.Name;
+            result.UserId = userId;
             result.Score = CalculateScore(result);
             _quizResultService.Insert(result);
+
             
+            _userActivityService.Add(userId, ActivityItem.Quiz, ActivityAction.EndQuiz, result.QuizId);
+
             return Json(result.Id);
           
         }
@@ -114,7 +120,7 @@ namespace ExpressQuiz.Controllers
             if (usePoints)
             {
                 
-                foreach (var userAnswer in result.Answers)
+                foreach (var userAnswer in result.UserAnswers)
                 {
                     var points = _questionService.Get(userAnswer.QuestionId).Points;
                     totalPoints += points;
@@ -132,7 +138,7 @@ namespace ExpressQuiz.Controllers
             else
             {
                 totalPoints = quiz.Questions.Count;
-                foreach (var userAnswer in result.Answers)
+                foreach (var userAnswer in result.UserAnswers)
                 {
                     var correctAnswer = _answerService.Get(userAnswer.AnswerId);
                     if (correctAnswer != null && correctAnswer.IsCorrect)

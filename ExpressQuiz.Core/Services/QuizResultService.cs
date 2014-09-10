@@ -137,9 +137,17 @@ namespace ExpressQuiz.Core.Services
             if (results.Any())
             {
                 stats.AvgScore = (int)results.Average(x => x.Score);
-                stats.AvgScorePercent = (stats.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
+                if (stats.AvgScore > 0)
+                {
+                    stats.AvgScorePercent = (stats.AvgScore * 100) / quiz.Questions.Sum(x => x.Points);
+                }
+                
                 stats.AvgTime = (int)results.Average(x => x.EllapsedTime);
-                stats.AvgTimePercent = (stats.AvgTime * 100) / quiz.Questions.Sum(x => x.EstimatedTime);
+                if (stats.AvgTime > 0)
+                {
+                    stats.AvgTimePercent = (stats.AvgTime * 100) / quiz.Questions.Sum(x => x.EstimatedTime);
+                }
+                
             }
 
             if (ratings.Any())

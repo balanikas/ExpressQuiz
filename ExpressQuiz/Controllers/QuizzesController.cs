@@ -28,14 +28,15 @@ namespace ExpressQuiz.Controllers
         private readonly IRepo<QuizRating> _quizRatingRepo;
         private readonly IQuizResultService _quizResultService;
         private readonly IQuizService _quizService;
+        private readonly IUserActivityService _userActivityService;
 
-        public QuizzesController(
-            IAnswerService answerService, 
-            IQuestionService questionService,
-            IQuizCategoryService quizCategoryService, 
+        public QuizzesController(IAnswerService answerService, 
+            IQuestionService questionService, 
+            IQuizCategoryService quizCategoryService,
             IRepo<QuizRating> quizRatingRepo,
             IQuizResultService quizResultService, 
-            IQuizService quizService)
+            IQuizService quizService, 
+            IUserActivityService userActivityService)
         {
             _questionService = questionService;
             _answerService = answerService;
@@ -43,6 +44,7 @@ namespace ExpressQuiz.Controllers
             _quizRatingRepo = quizRatingRepo;
             _quizResultService = quizResultService;
             _quizService = quizService;
+            _userActivityService = userActivityService;
         }
 
         private IQueryable<Quiz> GetQuizzes(string searchTerm, int? filter, int? selectedCategoryId, int? page = null)
@@ -54,6 +56,10 @@ namespace ExpressQuiz.Controllers
             if (filter.HasValue)
             {
                 quizzes = _quizService.GetBy((QuizFilter)filter, quizzes);
+            }
+            else
+            {
+                quizzes = _quizService.GetBy(QuizFilter.Newest, quizzes);
             }
 
             if (selectedCategoryId.HasValue && selectedCategoryId.Value != -1)
@@ -115,6 +121,9 @@ namespace ExpressQuiz.Controllers
             }
 
             var vm = quiz.ToQuizDetailsViewModel(_questionService,_answerService, _quizResultService, _quizRatingRepo);
+
+            var userId = String.IsNullOrEmpty(User.Identity.Name) ? Session.SessionID : User.Identity.Name;
+            _userActivityService.Add(userId, ActivityItem.Quiz, ActivityAction.View, quiz.Id);
 
             return View("Details",vm);
         }
@@ -187,7 +196,9 @@ namespace ExpressQuiz.Controllers
                 ModelState.Clear();
 
                 vm = _quizService.Get(quiz.Id).ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
-               
+
+          
+                _userActivityService.Add(User.Identity.Name,ActivityItem.Quiz,ActivityAction.Edit, quiz.Id);
 
                 return PartialView("_EditQuizPartial", vm);
 
@@ -237,6 +248,7 @@ namespace ExpressQuiz.Controllers
 
                 _quizService.Insert(quiz);
 
+                _userActivityService.Add(User.Identity.Name, ActivityItem.Quiz, ActivityAction.Create, quiz.Id);
              
                 return RedirectToAction("Edit",new {id= quiz.Id});
             }
@@ -273,6 +285,8 @@ namespace ExpressQuiz.Controllers
 
             var question = _questionService.Insert(model);
 
+            _userActivityService.Add(User.Identity.Name, ActivityItem.Question, ActivityAction.Create, question.Id);
+
             var vm = quiz.ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
             return PartialView("_EditQuizPartial", vm);
         }
@@ -303,7 +317,9 @@ namespace ExpressQuiz.Controllers
 
             model.OrderId = maxOrderId;
 
-           _answerService.Insert(model);
+           var answer = _answerService.Insert(model);
+
+           _userActivityService.Add(User.Identity.Name, ActivityItem.Answer, ActivityAction.Create, answer.Id);
 
             return RedirectToAction("EditQuestion", new {id = q.Id});
 
@@ -347,7 +363,9 @@ namespace ExpressQuiz.Controllers
                 ModelState.Clear();
 
                 vm = _questionService.Get(q.Id).ToEditQuestionViewModel(_answerService,_quizService);
-               
+
+                _userActivityService.Add(User.Identity.Name, ActivityItem.Question, ActivityAction.Edit, q.Id);
+
                 return PartialView("_EditQuestionPartial", vm);
             }
           
@@ -385,6 +403,8 @@ namespace ExpressQuiz.Controllers
 
                 ModelState.Clear();
 
+                _userActivityService.Add(User.Identity.Name, ActivityItem.Answer, ActivityAction.Edit, a.Id);
+
                 return RedirectToAction("EditQuestion", new {id = a.QuestionId});
             }
             return PartialView("_EditAnswerPartial", vm);
@@ -415,6 +435,9 @@ namespace ExpressQuiz.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             _quizService.Delete(id);
+
+            _userActivityService.Add(User.Identity.Name, ActivityItem.Quiz, ActivityAction.Delete, id);
+
 
             if (Request.IsAjaxRequest())
             {
@@ -458,7 +481,8 @@ namespace ExpressQuiz.Controllers
             var quiz = _quizService.Get(model.QuizId);
             var vm = quiz.ToEditQuizViewModel(_questionService, _answerService,_quizCategoryService);
 
-          
+            _userActivityService.Add(User.Identity.Name, ActivityItem.Question, ActivityAction.Delete, id.Value);
+
             return PartialView("_EditQuizPartial", vm);
         }
 
@@ -482,6 +506,8 @@ namespace ExpressQuiz.Controllers
             var question = _questionService.Get(model.QuestionId);
 
             var vm = question.ToEditQuestionViewModel(_answerService,_quizService);
+
+            _userActivityService.Add(User.Identity.Name, ActivityItem.Answer, ActivityAction.Delete, id.Value);
 
             return PartialView("_EditQuestionPartial", vm);
         }

@@ -9,12 +9,19 @@ namespace ExpressQuiz.Core.Models
     public class QuizStatistics
     {
         public int AvgScore { get; set; }
+
         public int AvgLevel { get; set; }
+
         public int AvgRating { get; set; }
+
         public int AvgTime { get; set; }
+
         public int AvgTimePercent { get; set; }
+
         public int AvgScorePercent { get; set; }
+
         public int TotalPoints { get; set; }
+
         public int TotalTime { get; set; }
 
         public QuizStatistics()

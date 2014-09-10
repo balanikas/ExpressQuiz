@@ -28,8 +28,12 @@ module ExpressQuiz {
         }
 
         getActiveQuestion(index: number) {
-
-            return this.quiz.Questions[index];
+            if (index === undefined) {
+                return this.quiz.Questions[this.currentQuestionIndex];
+            } else {
+                return this.quiz.Questions[index];
+            }
+            
         }
 
         setAnswer(index: number, answer: number) {

@@ -4,12 +4,17 @@
 {
     @Styles.Render("~/Content/font-awesome-4.2.0/css/font-awesome.min.css")
     @Styles.Render("~/Scripts/pagedown/css/jquery.pagedown-bootstrap.css")
+    @Styles.Render("//cdn.datatables.net/1.10.2/css/jquery.dataTables.css");
 }
 
 @section scripts
 {
     @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
+    @Scripts.Render("//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js");
 }
+
+
+
 
 <h2>
     @Model.Quiz.Name  (@Model.Quiz.QuestionCount questions)
@@ -79,7 +84,50 @@
 
 
     </dl>
+    
+    
+    <div class="row">
+       
+            <div class="col-xs-4 text-center">
 
+                <div class="well well-sm">
+                    <h3>
+                        @Model.Quiz.Votes
+                        <span class="glyphicon glyphicon-thumbs-up ">
+                        </span>
+                    </h3>
+                </div>
+
+
+            </div>
+       
+            <div class="col-xs-4 text-center">
+
+                <div class="well well-sm">
+                    <h3>
+                        @Model.Quiz.Views
+                        <span class="glyphicon glyphicon-zoom-in ">
+                        </span>
+                    </h3>
+                </div>
+
+            </div>
+
+        <div class="col-xs-4 text-center">
+
+            <div class="well well-sm">
+                <h3>
+                    @Model.Quiz.Completed
+                    <span class="glyphicon glyphicon-play-circle ">
+                    </span>
+                </h3>
+            </div>
+
+        </div>
+
+
+
+    </div>
 
 
     @if (!Model.Quiz.Locked || Model.Quiz.CreatedBy == User.Identity.Name)

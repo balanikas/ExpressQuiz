@@ -7,8 +7,8 @@ namespace ExpressQuiz.Core.Models
     {
  
         public int QuestionId { get; set; }
-        public virtual Question Question { get; set; }
 
+        public virtual Question Question { get; set; }
 
         [Required]
         public int OrderId { get; set; }

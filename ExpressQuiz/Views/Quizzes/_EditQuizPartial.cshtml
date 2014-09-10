@@ -154,6 +154,9 @@
                         <td></td>
                         <td>Question</td>
                         <td>Answers</td>
+                        <td>Time</td>
+                        <td>Points</td>
+                        <td>Votes</td>
                     </tr>
 
                 </thead>
@@ -169,6 +172,15 @@
             </td>
             <td>
                 @q.AnswerCount
+            </td>
+            <td>
+                @q.EstimatedTime
+            </td>
+            <td>
+                @q.Points
+            </td>
+            <td>
+                @q.Votes
             </td>
             <td>
                 @Ajax.ActionLink("Edit", "EditQuestion", "Quizzes", new { id = q.QuestionId }, new AjaxOptions()

@@ -10,7 +10,7 @@ namespace ExpressQuiz.Core.Migrations.Application
     {
         public ApplicationDbContextConfig()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(ApplicationDbContext context)

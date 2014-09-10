@@ -13,7 +13,7 @@ namespace ExpressQuiz.Controllers
 {
     public class UsersController : Controller
     {
-        private IRepo<QuizResult> _quizResultRepo;
+        private readonly IRepo<QuizResult> _quizResultRepo;
 
         public UsersController(
             IRepo<QuizResult> quizResultRepo

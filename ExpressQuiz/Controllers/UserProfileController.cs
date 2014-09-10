@@ -10,36 +10,38 @@ namespace ExpressQuiz.Controllers
     public class UserProfileController : Controller
     {
         private readonly IQuizService _quizService;
-        public UserProfileController(IQuizService quizService)
+        private readonly IUserActivityService _userActivityService;
+
+        public UserProfileController(IQuizService quizService, IUserActivityService userActivityService)
         {
             _quizService = quizService;
-
+            _userActivityService = userActivityService;
         }
 
-        public ActionResult Index(int? profileView)
+        public ActionResult Index(string id, int? profileView)
         {
             var vm = new UserProfileViewModel();
 
-            var quizzes = _quizService.GetAll().Where(x => x.CreatedBy == User.Identity.Name);
-            vm.Quizzes = quizzes.ToQuizViewModels();
-
+            vm.UserId = id;
             vm.ProfileView = profileView.HasValue ? profileView.Value : 0;
 
-            var socialSettings = new SocialSettingsViewModel();
+            var quizzes = _quizService.GetAll().Where(x => x.CreatedBy == id);
+            vm.Quizzes = quizzes.ToUserQuizzesViewModel();
+            vm.Quizzes.UserId = id;
 
+            var socialSettings = new SocialSettingsViewModel();
             vm.SocialSettings = socialSettings;
 
+            var userActivities = _userActivityService.GetAll(id);
+            vm.UserActivities = userActivities.ToUserActivitiesViewModel();
+            vm.UserActivities.UserId = id;
+
+           
 
             return View("Index",vm);
         }
 
 
-        public ActionResult Public(string id)
-        {
-            var vm = new PublicUserProfileViewModel();
-            vm.UserName = id;
-            return View("Public", vm);
-        }
 
         [HttpPost]
         public ActionResult EditSocialSettings(SocialSettingsViewModel model)

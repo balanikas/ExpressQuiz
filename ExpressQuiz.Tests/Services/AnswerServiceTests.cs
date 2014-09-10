@@ -81,7 +81,7 @@ namespace ExpressQuiz.Tests.Services
         {
             var service = _mockRepo.AnswerService;
 
-            var answers = service.GetAll().Where(x => x.QuestionId == 1).ToList();
+         
             service.SaveOrder(1, "2,1");
 
             var updated = service.GetAll().Where(x => x.QuestionId == 1).ToList();
@@ -91,14 +91,30 @@ namespace ExpressQuiz.Tests.Services
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void AnswerService_SaveOrder_InvalidOrder()
         {
             var service = _mockRepo.AnswerService;
 
-            var answers = service.GetAll().Where(x => x.QuestionId == 1).ToList();
-            
-            service.SaveOrder(1, "hello,2,1,6");
+            try
+            {
+                service.SaveOrder(1, "hello,2,1,6");
+                Assert.Fail();
+            }
+            catch
+            {
+                
+            }
+
+            try
+            {
+                service.SaveOrder(1, "1,2,3,4,5,6,7,8,9,10");
+                Assert.Fail();
+            }
+            catch
+            {
+
+            }
+           
         }
 
     }

@@ -69,7 +69,21 @@ namespace ExpressQuiz.Extensions
             return model;
         }
 
-       
+        public static QuizResult ToModel(this QuizResultViewModel vm)
+        {
+            var model = new QuizResult();
+            model.EllapsedTime = vm.EllapsedTime;
+            model.QuizId = vm.QuizId;
+            model.Score = vm.Score;
+            model.UserId = vm.UserId;
+            model.UserAnswers = vm.UserAnswers.Select(x => new UserAnswer()
+            {
+                AnswerId = x.AnswerId,
+                QuestionId = x.QuestionId
+            }).ToList();
+
+            return model;
+        }
 
         public static void SetDefaultValues(this Question question)
         {

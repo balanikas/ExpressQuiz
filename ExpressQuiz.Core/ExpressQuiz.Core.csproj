@@ -62,22 +62,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="Migrations\201409041449474_moretext.cs" />
-    <Compile Include="Migrations\201409041449474_moretext.Designer.cs">
-      <DependentUpon>201409041449474_moretext.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Models\ActivityAction.cs" />
+    <Compile Include="Models\ActivityItem.cs" />
     <Compile Include="Models\QuizStatistics.cs" />
+    <Compile Include="Models\UserActivity.cs" />
     <Compile Include="Services\IQuizResultService.cs" />
+    <Compile Include="Services\IUserActivityService.cs" />
     <Compile Include="Services\QuizResultService.cs" />
+    <Compile Include="Services\UserActivityService.cs" />
     <Compile Include="Utils\DataProvider.cs" />
-    <Compile Include="Migrations\201408281546449_Init.cs" />
-    <Compile Include="Migrations\201408281546449_Init.Designer.cs">
-      <DependentUpon>201408281546449_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201408281547335_App_Init.cs" />
-    <Compile Include="Migrations\201408281547335_App_Init.Designer.cs">
-      <DependentUpon>201408281547335_App_Init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Application\ApplicationDBContextConfig.cs" />
     <Compile Include="Migrations\Quiz\QuizDbContextConfig.cs" />
     <Compile Include="Models\Answer.cs" />
@@ -85,7 +78,6 @@
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Question.cs" />
-    <Compile Include="Models\QuestionType.cs" />
     <Compile Include="Models\Quiz.cs" />
     <Compile Include="Models\QuizCategory.cs" />
     <Compile Include="QuizDbContext.cs" />
@@ -110,17 +102,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201408281546449_Init.resx">
-      <DependentUpon>201408281546449_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408281547335_App_Init.resx">
-      <DependentUpon>201408281547335_App_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409041449474_moretext.resx">
-      <DependentUpon>201409041449474_moretext.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Migrations\Quiz\seeddata.xml">

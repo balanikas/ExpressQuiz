@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using ExpressQuiz.Core.Models;
@@ -45,6 +47,12 @@ namespace ExpressQuiz.Core.Repos
 
         public void Save()
         {
+            List<Object> modifiedOrAddedEntities = _ctx.ChangeTracker.Entries()
+                 .Where(x => x.State == EntityState.Modified
+                        || x.State == EntityState.Added
+                        || x.State == EntityState.Deleted)
+                 .Select(x => x.Entity).ToList();
+
             _ctx.SaveChanges();
         }
 

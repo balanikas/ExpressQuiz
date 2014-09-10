@@ -12,18 +12,19 @@ namespace ExpressQuiz.Core
         public QuizDbContext()
             : base("QuizDbContext")
         {
-           // Database.CreateIfNotExists();
-           
+            Database.CreateIfNotExists();
+            //Database.Log = new Logger().Info;
         }
         public DbSet<UserAnswer> UserAnswers { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<QuestionType> QuestionTypes { get; set; }
         public DbSet<QuizCategory> QuizCategories { get; set; }
         public DbSet<QuizRating> QuizRatings { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<QuizResult> QuizResults { get; set; }
         public DbSet<ContactInfo> ContactInfos { get; set; }
+        public DbSet<UserActivity> UserActivity { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

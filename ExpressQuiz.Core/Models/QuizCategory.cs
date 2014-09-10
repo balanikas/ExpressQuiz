@@ -6,7 +6,6 @@ namespace ExpressQuiz.Core.Models
     public class QuizCategory : Entity
     {
 
-        
         [Index("NameIndex", IsUnique = true)]
         [Required]
         [StringLength(50)]

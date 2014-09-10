@@ -1,26 +1,55 @@
 ﻿@model  ExpressQuiz.ViewModels.UserProfileViewModel
-@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 
 
+@section styles
+{
+    @Styles.Render("//cdn.datatables.net/1.10.2/css/jquery.dataTables.css");
+}
+
+@section scripts{
+
+    @Scripts.Render("//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js");
+    @Scripts.Render("~/bundles/expressquiz")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}
 
 <br/>
 
-
+<div class="well well-lg">
+    <h3>
+        
+        <span class="glyphicon glyphicon-user">
+        </span>
+        @Model.UserId
+    </h3>
+</div>
 
 <ul class="nav nav-tabs" style="margin-bottom: 15px;">
     <li class="@(Model.ProfileView == 0 ? "active" : "" )"><a href="#quizzes" data-toggle="tab">Quizzes</a></li>
-    <li class="@(Model.ProfileView == 1 ? "active" : "" )"><a href="#social" data-toggle="tab">Social</a></li>
-   
+    <li class="@(Model.ProfileView == 1 ? "active" : "" )"><a href="#activities" data-toggle="tab">Activity</a></li>
+    
+    @if (User.Identity.Name == Model.UserId)
+    {
+        <li class="@(Model.ProfileView == 2 ? "active" : "" )"><a href="#social" data-toggle="tab">Social</a></li>
+    }
+    
 
 </ul>
 
-<div id="myTabContent" class="tab-content">
+<div class="tab-content">
     <div class="tab-pane fade @(Model.ProfileView == 0 ? "active" : "" ) in" id="quizzes">
         @Html.Partial("_QuizzesPartial", @Model.Quizzes)
     </div>
-    <div class="tab-pane fade @(Model.ProfileView == 1 ? "active" : "" ) in" id="social">
-        @Html.Partial("_SocialPartial", @Model.SocialSettings)
+    <div class="tab-pane fade @(Model.ProfileView == 1 ? "active" : "" ) in" id="activities">
+        @Html.Partial("_ActivitiesPartial", @Model.UserActivities)
     </div>
+    @if (User.Identity.Name == Model.UserId)
+    {
+        <div class="tab-pane fade @(Model.ProfileView == 2 ? "active" : "" ) in" id="social">
+            @Html.Partial("_SocialPartial", @Model.SocialSettings)
+        </div>
+    }
+   
   
 </div>
 

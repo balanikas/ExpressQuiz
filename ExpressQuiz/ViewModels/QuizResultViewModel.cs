@@ -12,5 +12,11 @@ namespace ExpressQuiz.ViewModels
         public int Score { get; set; }
         [DisplayName("Time")]
         public int EllapsedTime { get; set; }
+
+
+        public int QuizId { get; set; }
+
+        public List<UserAnswerViewModel> UserAnswers { get; set; }
+ 
     }
 }

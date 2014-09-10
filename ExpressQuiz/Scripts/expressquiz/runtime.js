@@ -18,7 +18,11 @@
         };
 
         Runtime.prototype.getActiveQuestion = function (index) {
-            return this.quiz.Questions[index];
+            if (index === undefined) {
+                return this.quiz.Questions[this.currentQuestionIndex];
+            } else {
+                return this.quiz.Questions[index];
+            }
         };
 
         Runtime.prototype.setAnswer = function (index, answer) {

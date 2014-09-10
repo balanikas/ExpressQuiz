@@ -1,0 +1,44 @@
+﻿@model ExpressQuiz.ViewModels.UserActivitiesViewModel
+
+@{
+
+    if (Model.Activities.Any())
+    {
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Item</th>
+                    <th>ItemId</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var ua in Model.Activities)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(@ua.UserId, "Index", "UserProfile", new { id = ua.UserId, profileView = 0 }, htmlAttributes: new { @class = "" })</td>
+                        <td>@ua.Action</td>
+                        <td>@ua.Item</td>
+                        <td>
+                            @ua.ItemId
+                        </td>
+                        <td>@ua.Date</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else if(!String.IsNullOrEmpty(User.Identity.Name) && User.Identity.Name == Model.UserId)
+    {
+        <div class="text-center">
+            <br />
+            <p><i>You have not done anything yet.</i></p>
+
+        </div>
+
+    }
+}

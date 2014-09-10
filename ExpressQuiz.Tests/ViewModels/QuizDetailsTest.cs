@@ -22,7 +22,7 @@ namespace ExpressQuiz.Tests.ViewModels
             var quizResults = new List<QuizResult>();
             quizResults.Add(new QuizResult()
             {
-                Answers = new Collection<UserAnswer>()
+                UserAnswers = new Collection<UserAnswer>()
                 {
                     new UserAnswer()
                     {
@@ -43,7 +43,7 @@ namespace ExpressQuiz.Tests.ViewModels
             });
             quizResults.Add(new QuizResult()
             {
-                Answers = new Collection<UserAnswer>()
+                UserAnswers = new Collection<UserAnswer>()
                 {
                     new UserAnswer()
                     {

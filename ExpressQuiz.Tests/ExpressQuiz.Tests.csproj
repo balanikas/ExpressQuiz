@@ -106,6 +106,7 @@
     <Compile Include="Services\QuizResultServiceTests.cs" />
     <Compile Include="Services\QuizServiceTest.cs" />
     <Compile Include="Services\ServiceTest.cs" />
+    <Compile Include="Services\UserActivityServiceTests.cs" />
     <Compile Include="ViewModels\QuizDetailsTest.cs" />
     <Compile Include="ViewModels\ViewModelTest.cs" />
   </ItemGroup>

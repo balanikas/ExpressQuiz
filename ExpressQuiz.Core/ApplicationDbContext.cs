@@ -9,7 +9,7 @@ namespace ExpressQuiz.Core
             : base("ApplicationDbContext", throwIfV1Schema: false)
         {
             Database.CreateIfNotExists();
-            // Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, ApplicationDbContextConfig>());
+          
         }
 
         public static ApplicationDbContext Create()

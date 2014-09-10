@@ -10,15 +10,11 @@ namespace ExpressQuiz.Core.Services
     public class QuizService :  IQuizService
     {
         private readonly IRepo<Quiz> _quizRepo;
-
         private readonly IRepo<QuizRating> _quizRatingRepo;
 
-        public QuizService(
-            IRepo<Quiz> quizRepo,
-            IRepo<QuizRating> quizRatingRepo )
+        public QuizService(IRepo<Quiz> quizRepo, IRepo<QuizRating> quizRatingRepo)
         {
             _quizRepo = quizRepo;
-
             _quizRatingRepo = quizRatingRepo;
         }
 
@@ -65,6 +61,7 @@ namespace ExpressQuiz.Core.Services
         public void Delete(int id)
         {
             _quizRepo.Delete(id);
+
             _quizRepo.Save();
         }
 
@@ -88,15 +85,18 @@ namespace ExpressQuiz.Core.Services
             IQueryable<Quiz> topList;
             switch (filter)
             {
-                case QuizFilter.Rating:
-                    topList = GetByRating(descendingValue, list);
+                case QuizFilter.Votes:
+                    topList = list.OrderByDescending(x => x.Votes);
+                    break;
+                case QuizFilter.Views:
+                    topList = list.OrderByDescending(x => x.Views);
                     break;
                 case QuizFilter.Newest:
                     topList = GetByCreationDate(descendingValue, list);
                     break;
-                case QuizFilter.Level:
-                    topList = GetByLevel(descendingValue, list);
-                    break;
+                //case QuizFilter.Level:
+                //    topList = GetByLevel(descendingValue, list);
+                //    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

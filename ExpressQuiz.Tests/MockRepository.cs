@@ -24,12 +24,13 @@ namespace ExpressQuiz.Tests
         public IRepo<QuizRating> QuizRatingRepo { get; private set; }
         public IRepo<QuizResult> QuizResultRepo { get; private set; }
         public IRepo<ContactInfo> ContactInfoRepo { get; private set; }
+        public IRepo<UserActivity> UserActivityRepo { get; private set; }
         public IQuizService QuizService { get; private set; }
         public IQuestionService QuestionService { get; private set; }
         public IAnswerService AnswerService { get; private set; }
         public IQuizCategoryService QuizCategoryService { get; private set; }
         public IQuizResultService QuizResultService { get; private set; }
-
+        public IUserActivityService UserActivityService { get; private set; }
 
         public MockRepository(string uri)
         {
@@ -60,7 +61,7 @@ namespace ExpressQuiz.Tests
 
             var result1 = new QuizResult()
             {
-                Answers = new List<UserAnswer>()
+                UserAnswers = new List<UserAnswer>()
                 {
                     new UserAnswer() {Id = 1, AnswerId = 1, QuestionId = 1},
                     new UserAnswer() {Id = 2, AnswerId = 2, QuestionId = 2},
@@ -71,7 +72,7 @@ namespace ExpressQuiz.Tests
             };
             var result2 = new QuizResult()
             {
-                Answers = new List<UserAnswer>()
+                UserAnswers = new List<UserAnswer>()
                 {
                     new UserAnswer() {Id = 1, AnswerId = 2, QuestionId = 1},
                     new UserAnswer() {Id = 2, AnswerId = 2, QuestionId = 2},
@@ -86,6 +87,8 @@ namespace ExpressQuiz.Tests
             QuizRatingRepo = new InMemRepo<QuizRating>(ratings);
             QuizResultRepo = new InMemRepo<QuizResult>(results);
             ContactInfoRepo = new InMemRepo<ContactInfo>(new List<ContactInfo>());
+            UserActivityRepo = new InMemRepo<UserActivity>(new List<UserActivity>());
+
         }
 
         private void CreateServices()
@@ -95,6 +98,8 @@ namespace ExpressQuiz.Tests
             AnswerService = new AnswerService(AnswerRepo);
             QuizCategoryService = new QuizCategoryService(QuizCategoryRepo);
             QuizResultService = new QuizResultService(QuizRepo,QuizResultRepo,QuizRatingRepo);
+            UserActivityService = new UserActivityService( UserActivityRepo, QuizRepo, QuestionRepo);
+
         }
 
         public void Reload()

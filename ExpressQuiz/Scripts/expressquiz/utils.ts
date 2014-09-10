@@ -9,5 +9,18 @@
                 $(window).off('beforeunload');
             }
         }
+
+        public static voteQuestion(id: number, vote: number, headers: any) {
+            $.ajax({
+                url: '/Rating/RateQuestion/' + id + "?vote=" + vote,
+                type: "POST",
+                cache: false,
+                headers: headers,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8"
+
+
+            });
+        }
     }
 }

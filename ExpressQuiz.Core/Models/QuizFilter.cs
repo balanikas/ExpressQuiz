@@ -3,9 +3,10 @@
     public enum QuizFilter
     {
         
-        Rating = 1,
+        Votes = 1,
+        Views,
         Newest,
-        Level
+        //Level
 
     }
 }

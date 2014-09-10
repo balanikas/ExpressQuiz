@@ -3,22 +3,23 @@
 
 @section styles
 {
-    @Styles.Render("~/Scripts/starrating/star-rating.min.css")
-
+    @Styles.Render("~/Scripts/upvote/jquery.upvote.css")
     @Styles.Render("//cdn.datatables.net/1.10.2/css/jquery.dataTables.css");
 }
 @section scripts{
-    @Scripts.Render("~/Scripts/starrating/star-rating.min.js")
+
     @Scripts.Render("//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js");
+    @Scripts.Render("~/bundles/expressquiz")
+    @Scripts.Render("~/Scripts/upvote/jquery.upvote.js")
 }
 
 
 
 
-<br />
+
 <br />
 <div class="text-center">
-    <button type="button" onclick="rate()" class="btn btn-primary">Exit quiz</button>
+    <button onclick="rate();" class="btn btn-primary center-block">Exit</button>
 </div>
 <div>
 
@@ -73,7 +74,7 @@
 
     </div>
 
-    <table id="example" class="display" cellspacing="0" width="100%">
+    <table  id="questions">
         <thead>
             <tr>
                 <th>#</th>
@@ -99,14 +100,13 @@
                         <td>@q.PointsEarned</td>
                         <td>
                             @Html.ActionLink("Review", "Question", new
-                       {
-                           questionId = q.QuestionId,
-                           resultId = Model.ResultId,
-                           userAnswerId = Model.UserAnswers.First(x => x.QuestionId == q.QuestionId).AnswerId
-                       })
+                            {
+                                questionId = q.QuestionId,
+                                resultId = Model.ResultId,
+                                userAnswerId = Model.UserAnswers.First(x => x.QuestionId == q.QuestionId).AnswerId
+                            })
                         </td>
                     </tr>
-
                 }
             }
 
@@ -116,61 +116,41 @@
 
 </div>
 
-
-
-
 <div id="rateQuiz" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Your opinion counts</h4>
+                <h4 class="modal-title"><i>Your opinion counts</i></h4>
             </div>
 
             @using (Html.BeginForm())
             {
                 <div class="modal-body">
 
-                    <div class="form-horizontal">
+                    @Html.AntiForgeryToken()
 
-                        @Html.AntiForgeryToken()
-
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                        @Html.HiddenFor(model => model.QuizId)
-                        @Html.HiddenFor(m => m.Rating)
-                        @Html.HiddenFor(m => m.Level)
-                        <div class="form-group">
-                            @Html.Label("Did you like it?")
-                            <div>
-
-                                <input id="ratingStar" type="number" class="rating form-control" value="2.5" min=0 max=5 step=0.5 data-size="xs">
-
-                            </div>
+                    <div class="form-group row">
+                        <h3 class="col-md-4">did you like it?</h3>
+                        <div id="vote" class="upvote upvote-superuser col-md-2">
+                            <a class="upvote"></a>
+                            <a class="downvote"></a>
                         </div>
-
-                        <div class="form-group">
-                            @Html.Label("How hard was it?")
-                            <div>
-
-                                <input id="levelStar" type="number" class="rating" value="2.5" min=0 max=5 step=0.5 data-size="xs">
-
-                            </div>
-                        </div>
-
-
-
-
                     </div>
+
+                    <div class="form-group row">
+                        <h3 class="col-md-4">Was it hard?</h3>
+                        <div id="voteLevel" class="upvote upvote-superuser col-md-2">
+                            <a class="upvote"></a>
+                            <a class="downvote"></a>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="modal-footer">
-
-                    <div class="form-group">
-                        <div>
-                            <input type="submit" value="Thanks!" class="btn btn-primary center-block" />
-                        </div>
-                    </div>
+                   
+                    @Html.ActionLink("Thanks!", "Index", "Quizzes", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
                 </div>
             }
 
@@ -179,17 +159,15 @@
     </div>
 </div>
 
-
-
 <script>
 
+    $(function() {
 
+       
+     
+       
 
-    $(function () {
-
-
-
-        $('#example').dataTable({
+        $('#questions').dataTable({
             "paging": false,
             "ordering": true,
             "info": false,
@@ -197,33 +175,37 @@
         });
 
 
-
-        $("#levelStar").rating({
-            showClear: false,
-            showCaption: false,
-            stars: 5
-        });
-        $("#ratingStar").rating({
-            showClear: false,
-            showCaption: false,
-            stars: 5
-        });
-
-        $('#levelStar').on('rating.change', function (event, value, caption) {
-            $("#Level").attr('value', value);
-        });
-
-        $('#ratingStar').on('rating.change', function (event, value, caption) {
-            $("#Rating").attr('value', value);
-        });
     });
 
     function rate() {
-        $("#rateQuiz").modal("show");
 
+        function voteCallback(data) {
+
+            var vote = 0;
+            if (data.upvoted) {
+                vote = 1;
+            } else if (data.downvoted) {
+                vote = -1;
+            }
+
+            $("#vote").css("pointer-events", "none");
+            $.ajax({
+                url: '/Rating/RateQuiz/',
+                type: "POST",
+                cache: false,
+                data: JSON.stringify({ "id": data.id, "vote": vote }),
+                headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                complete: setTimeout(function () { $("#vote").css("pointer-events", ""); }, 1000)
+
+
+            });
+        };
+
+        $('#vote').upvote({ id: '@Model.QuizId', callback: voteCallback });
+        $('#voteLevel').upvote({ id: '@Model.QuizId', callback: voteCallback });
+        $("#rateQuiz").modal("show");
     }
 
-
 </script>
-
-

@@ -39,7 +39,14 @@ namespace ExpressQuiz.ViewModels
         [DisplayName("Locked")]
         public bool Locked { get; set; }
 
+        [DisplayName("Views")]
+        public int Views { get; set; }
 
+        [DisplayName("Votes")]
+        public int Votes { get; set; }
+
+        [DisplayName("Completed")]
+        public int Completed { get; set; }
 
         public IEnumerable<QuestionViewModel> Questions{ set; get;}
 

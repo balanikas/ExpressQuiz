@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Policy;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
@@ -12,6 +13,36 @@ namespace ExpressQuiz.Extensions
 {
     public static class ModelExtensions
     {
+
+        public static UserQuizzesViewModel ToUserQuizzesViewModel(this IQueryable<Quiz> quizzes)
+        {
+            var query = quizzes.Select(x => new QuizViewModel()
+            {
+                AllowPoints = x.AllowPoints,
+                Created = x.Created,
+                IsTimeable = x.IsTimeable,
+                CreatedBy = x.CreatedBy,
+                Locked = x.Locked,
+                Name = x.Name,
+                QuizId = x.Id,
+                Summary = x.Summary,
+                Votes = x.Votes,
+                Views = x.Views,
+                Completed = x.Completed,
+                Category = new QuizCategoryViewModel()
+                {
+                    Id = x.Category.Id,
+                    Name = x.Category.Name
+                },
+                QuestionCount = x.Questions.Count()
+            });
+
+            var vm = new UserQuizzesViewModel();
+            vm.Quizzes = query.ToList();
+
+            return vm;
+        }
+
 
         public static IQueryable<QuizViewModel> ToQuizViewModels(this IQueryable<Quiz> quizzes)
         {
@@ -25,6 +56,9 @@ namespace ExpressQuiz.Extensions
                 Name = x.Name,
                 QuizId = x.Id,
                 Summary = x.Summary,
+                Votes = x.Votes,
+                Views = x.Views,
+                Completed = x.Completed,
                 Category = new QuizCategoryViewModel()
                 {
                     Id = x.Category.Id,
@@ -151,6 +185,9 @@ namespace ExpressQuiz.Extensions
                 Name = quiz.Name,
                 QuizId = quiz.Id,
                 Summary = quiz.Summary,
+                Votes = quiz.Votes,
+                Views = quiz.Views,
+                Completed = quiz.Completed,
                 Category = new QuizCategoryViewModel()
                 {
                     Id = quiz.Category.Id,
@@ -227,8 +264,15 @@ namespace ExpressQuiz.Extensions
                 EllapsedTime = result.EllapsedTime,
                 Score = result.Score,
                 UserId = result.UserId,
-
+                QuizId = result.QuizId,
+                
             };
+
+            vm.UserAnswers = result.UserAnswers.Select(x => new UserAnswerViewModel()
+            {
+                AnswerId = x.AnswerId,
+                QuestionId = x.QuestionId
+            }).ToList();
 
             return vm;
         }
@@ -307,7 +351,7 @@ namespace ExpressQuiz.Extensions
             vm.Filter = QuizFilter.Newest;
            
 
-            vm.TopQuizzes = quizService.GetBy(QuizFilter.Rating, descending: true, count: 10).Select(x => new TopListItem()
+            vm.TopQuizzes = quizService.GetBy(QuizFilter.Votes, descending: true, count: 10).Select(x => new TopListItem()
             {
                 Id = x.Id,
                 Name = x.Name
@@ -409,7 +453,7 @@ namespace ExpressQuiz.Extensions
            
 
             var qDetails = new List<QuizReviewItemViewModel>();
-            foreach (var userAnswer in quizResult.Answers)
+            foreach (var userAnswer in quizResult.UserAnswers)
             {
                 var answer = answers.GetAll().FirstOrDefault(x => x.Id == userAnswer.AnswerId);
                 var isAnswerCorrect = answer != null && answer.IsCorrect;
@@ -448,7 +492,7 @@ namespace ExpressQuiz.Extensions
             vm.EllapsedTime = quizResult.EllapsedTime;
             vm.UserAnswers = new List<UserAnswerViewModel>();
             vm.UserAnswers.AddRange(
-                quizResult.Answers.Select(x => new UserAnswerViewModel()
+                quizResult.UserAnswers.Select(x => new UserAnswerViewModel()
                 {
                     AnswerId = x.AnswerId,
                     QuestionId = x.QuestionId
@@ -486,6 +530,23 @@ namespace ExpressQuiz.Extensions
             vm.QuizId = answer.Question.QuizId;
 
             vm.Answer = answer.ToAnswerViewModel();
+
+            return vm;
+        }
+
+        public static UserActivitiesViewModel ToUserActivitiesViewModel(this IQueryable<UserActivity> activities)
+        {
+            var vm = new UserActivitiesViewModel();
+
+            
+            vm.Activities = activities.Select(x => new UserActivityViewModel()
+            {
+                UserId = x.UserId,
+                Action = x.Action.ToString(),
+                Date = x.Date,
+                Item = x.Item.ToString(),
+                ItemId = x.ItemId
+            }).ToList();
 
             return vm;
         }

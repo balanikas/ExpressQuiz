@@ -17,10 +17,10 @@
             <ul class="dropdown-menu">
               
                 <li>
-                    @Html.ActionLink("Quizzes", "Index", "UserProfile", routeValues: new { profileView = 0 },htmlAttributes:new {})
+                    @Html.ActionLink("Quizzes", "Index", "UserProfile", routeValues: new { id = @User.Identity.Name, profileView = 0 }, htmlAttributes: new { })
                 </li>
                 <li>
-                    @Html.ActionLink("Social", "Index", "UserProfile", routeValues: new { profileView = 1 }, htmlAttributes: new { })
+                    @Html.ActionLink("Social", "Index", "UserProfile", routeValues: new {id= @User.Identity.Name, profileView = 1 }, htmlAttributes: new { })
                 </li>
                 <li class="divider"></li>
                 <li>

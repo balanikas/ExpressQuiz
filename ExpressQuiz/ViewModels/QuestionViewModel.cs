@@ -32,6 +32,8 @@ namespace ExpressQuiz.ViewModels
         [DisplayName("Assign points")]
         public int Points { get; set; }
 
+        public int Votes { get; set; }
+
         public IEnumerable<AnswerViewModel> Answers { get; set; }
 
         public int AnswerCount { get; set; }

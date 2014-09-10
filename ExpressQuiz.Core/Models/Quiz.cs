@@ -30,9 +30,20 @@ namespace ExpressQuiz.Core.Models
 
         public bool Locked { get; set; }
 
-        public int QuizCategoryId { get; set; }
+        public int Views { get; set; }
+
+        public int Votes { get; set; }
+
+        public int Completed { get; set; }
+
+        
         public virtual QuizCategory Category { get; set; }
+
         public virtual ICollection<Question> Questions { get; set; }
+
+        public virtual ICollection<QuizRating> Ratings { get; set; }
+
+        public virtual ICollection<QuizResult> Results { get; set; }
 
         public Quiz()
         {

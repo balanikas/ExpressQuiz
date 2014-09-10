@@ -8,8 +8,6 @@ namespace ExpressQuiz.Core.Models
     public class Question : Entity
     {
 
-      
-
         [Required]
         [StringLength(5000)]
         [DataType(DataType.MultilineText)]
@@ -26,10 +24,12 @@ namespace ExpressQuiz.Core.Models
         public int Points { get; set; }
 
         public int QuizId { get; set; }
+
         public virtual Quiz Quiz { get; set; }
+
         public virtual ICollection<Answer> Answers { get; set; }
 
-        public virtual QuestionType Type { get; set; }
+        public int Votes { get; set; }
 
         public Question()
         {
