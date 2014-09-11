@@ -18,83 +18,105 @@
 
 <div class="text-center">
     <br />
-    @Html.ActionLink("Back", "Index", new {id = @Model.QuizResultId}, new {@class = "btn btn-primary"})
+    @Html.ActionLink("Back", "Index", new { id = @Model.QuizResultId }, new { @class = "btn btn-primary" })
 
 </div>
 
 
 
-    <div id="page-selection"></div>
-    <div id="content">
+<div id="page-selection"></div>
+<div id="content">
 
-        <h4>Question</h4>
+    <h4>Question</h4>
 
-        <div id="hiddenText" class="hidden">
-            @Model.Question.Text
-        </div>
-        <div id="question" ></div>
-
-
-        <h4>Answers</h4>
-        <p>
-            <div id="answers" class="col-lg-10">
-                @{
-                    foreach (var a in Model.Question.Answers)
-                    {
-                        <div class="radio">
-                            <label>
-                                @{
-
-
-                                    <input type="radio"
-                                        @(a.IsCorrect ? "checked" : "")
-                                           name="optionsRadios" disabled />
-
-
-                                    if (Model.UserAnswerId == a.AnswerId)
-                                    {
-                                        if (a.IsCorrect)
-                                        {
-                                            <div style="background: lightgreen">@a.Text</div>
-                                        }
-                                        else
-                                        {
-                                            <div style="background: lightcoral">@a.Text</div>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <div>@a.Text</div>
-                                    }
-                                }
-                            </label>
-                        </div>
-                        <div style="color: green">
-                            @a.Explanation
-                        </div>
-                    }
-                }
-            </div>
-        </p>
-
+    <div id="hiddenText" class="hidden">
+        @Model.Question.Text
     </div>
-
-    <br />
-
+    <div id="question"></div>
 
 
+    <h4>Answers @(Model.UserAnswerId == 0 ? " (not answered)" : "")</h4>
 
+
+
+
+    <div id="answers" class="col-lg-10">
+
+
+        <div class="panel-group" id="accordion">
+
+            @{
+
+
+
+                foreach (var a in Model.Question.Answers)
+                {
+                    var glyphIcon = "";
+                    var opened = "";
+                    var color = "panel panel-default";
+                    if (Model.UserAnswerId == a.AnswerId)
+                    {
+                        if (a.IsCorrect)
+                        {
+                            color = "panel panel-success";
+                            opened = "in";
+                            glyphIcon = "glyphicon-ok";
+                        }
+                        else
+                        {
+                            color = "panel panel-danger";
+                            glyphIcon = "glyphicon-remove";
+                        }
+
+                    }
+                    else
+                    {
+                        if (a.IsCorrect)
+                        {
+                            opened = "in";
+                            glyphIcon = "glyphicon-ok";
+                        }
+                        else
+                        {
+
+                            glyphIcon = "glyphicon-remove";
+                        }
+                    }
+
+                    
+                    
+                    
+
+                    
+                    <div class="@color">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span class="glyphicon @glyphIcon"></span>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#@a.AnswerId">
+                                    @a.Text
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="@a.AnswerId" class="panel-collapse collapse @opened">
+                            <div class="panel-body">
+                                @a.Explanation
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+
+        </div>
+    </div>
+</div>
 
 <br />
-
-
-
-
 
 <script>
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         var text = $("#hiddenText").text().trim();
 
