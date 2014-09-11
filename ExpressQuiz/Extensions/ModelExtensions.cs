@@ -448,7 +448,7 @@ namespace ExpressQuiz.Extensions
         {
             var vm = new QuizReviewViewModel();
             var quiz = quizzes.Get(quizResult.QuizId);
-            var questions = quiz.Questions.Where(x => x.QuizId == quizResult.QuizId);
+            var questions = quiz.Questions.Where(x => x.QuizId == quizResult.QuizId).ToList();
 
            
 
@@ -470,18 +470,18 @@ namespace ExpressQuiz.Extensions
                 });
             }
 
-           
-            var allowPoints = quiz.AllowPoints;
-            string scoreText;
-            if (allowPoints)
+            if (quiz.AllowPoints)
             {
                 var totalPoints = questions.Sum(x => x.Points);
-                var scoredPoints = quizResult.Score*totalPoints/100;
-                scoreText = scoredPoints + " / " + totalPoints + " points";
+            
+                vm.ScoreText = quizResult.Score + " / " + totalPoints + " points";
+
+                vm.ScorePercent = Math.Ceiling(((double) quizResult.Score*100)/totalPoints);
             }
             else
             {
-                scoreText = quizResult.Score + "%";
+                vm.ScoreText = quizResult.Score + " / " + questions.Sum(x => x.Points) + "points";
+                vm.ScorePercent = ((double)quizResult.Score * 100) / questions.Sum(x => x.Points);
             }
 
             vm.Items = qDetails;
@@ -501,7 +501,7 @@ namespace ExpressQuiz.Extensions
             
             
             
-            vm.ScoreText = scoreText;
+             
             vm.EllapsedTimePercent = (int)((double)quizResult.EllapsedTime/(double)questions.Sum(x => x.EstimatedTime)*100);
             vm.QuizId = quizResult.QuizId;
 

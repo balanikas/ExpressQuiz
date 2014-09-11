@@ -97,7 +97,7 @@ namespace ExpressQuiz.Tests
             QuestionService = new QuestionService(QuestionRepo);
             AnswerService = new AnswerService(AnswerRepo);
             QuizCategoryService = new QuizCategoryService(QuizCategoryRepo);
-            QuizResultService = new QuizResultService(QuizRepo,QuizResultRepo,QuizRatingRepo, TODO, TODO);
+            QuizResultService = new QuizResultService(QuizRepo,QuizResultRepo,QuizRatingRepo, QuestionRepo,AnswerRepo);
             UserActivityService = new UserActivityService( UserActivityRepo, QuizRepo, QuestionRepo);
 
         }
