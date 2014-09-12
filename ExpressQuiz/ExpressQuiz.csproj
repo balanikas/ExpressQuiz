@@ -723,7 +723,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\expressquiz\activequiz.ts" />
+    <TypeScriptCompile Include="Scripts\expressquiz\ajaxhelper.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\answer.ts" />
+    <TypeScriptCompile Include="Scripts\expressquiz\plugins.d.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\countdown.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\question.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\quiz.ts" />

@@ -19,26 +19,21 @@ module ExpressQuiz {
 
         setActiveQuestion(index: number) {
 
-
-            //if (this.quiz.Questions[index] === undefined) {
-            //    throw "index out of range";
-            //}
             this.currentQuestionIndex = index;
-            // return this.quiz.Questions[index];
+
         }
 
-        getActiveQuestion(index: number) {
-            if (index === undefined) {
-                return this.quiz.Questions[this.currentQuestionIndex];
-            } else {
-                return this.quiz.Questions[index];
-            }
-            
+        getActiveQuestion() {
+            return this.quiz.Questions[this.currentQuestionIndex];         
         }
 
-        setAnswer(index: number, answer: number) {
+        getQuestion(index: number) {
+            return this.quiz.Questions[index];
+        }
 
-            var q = this.quiz.Questions[index];
+        setAnswer( answer: number) {
+
+            var q = this.quiz.Questions[this.currentQuestionIndex];
             var userAnswer;
             if (answer === undefined) {
                 userAnswer = new UserAnswer(q.QuestionId, undefined);
@@ -47,12 +42,12 @@ module ExpressQuiz {
                 userAnswer = new UserAnswer(q.QuestionId, a.AnswerId);
             }
 
-            this.userAnswers[index] = userAnswer;
+            this.userAnswers[this.currentQuestionIndex] = userAnswer;
         }
 
-        getAnswer(index: number) {
+        getAnswer() {
 
-            return this.userAnswers[index].answerId;
+            return this.userAnswers[this.currentQuestionIndex].answerId;
         }
 
         getProgress(): number {

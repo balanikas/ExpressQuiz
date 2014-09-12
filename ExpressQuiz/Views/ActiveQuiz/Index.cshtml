@@ -18,7 +18,7 @@
     @Scripts.Render("~/Scripts/upvote/jquery.upvote.js")
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new {id = "__AjaxAntiForgeryForm"}))
 {
     @Html.AntiForgeryToken()
 }
@@ -42,256 +42,45 @@
     </div>
     <br />
     <div class="progress">
-        <div id="prgCompleted" class="progress-bar" style="width: 0%;"></div>
+        <div id="prgCompleted" class="progress-bar"></div>
     </div>
-  
 
     <div id="page-selection"></div>
     
-  
-
     <div id="content">
-       
         <div class="row text-center">
             <h4>Question</h4>
-            
         </div>
-        
-        
         <div class="row">
-            <div id="voteContainer" class="col-sm-1">
-                <div id="vote" class="upvote upvote-superuser ">
-                    <a class="upvote"></a>
-                    <a class="downvote"></a>
-
-                </div>
-              
-
-            </div>
-           
-
-            <div class="col-sm-11" id="question">
-
-            </div>
-
+            <div id="voteContainer" class="col-sm-1"></div>
+            <div class="col-sm-11" id="question"></div>
         </div>
-        
-      
-
-
         <h4 class="text-center">Answers</h4>
         <p>
-            <div id="answers" class="col-lg-10">
-            </div>
+            <div id="answers" class="col-lg-10"></div>
         </p>
-
     </div>
 
     <br />
 
     <script>
 
-        $(document).ready(function () {
+        $(function() {
 
+            var activeQuiz = new ExpressQuiz.ActiveQuiz({
+                $counter: $("#pTimeLeft"),
+                totalTime: '@Model.EstimatedTime',
+                quizId: "@Model.QuizId",
+                $pager: $('#page-selection'),
+                $questions: $("#question"),
+                $progressBar: $("#prgCompleted"),
+                $done: $("#done"),
+                $answers: $("#answers"),
+                $voting: $("#voteContainer")
+            });
         
-
-            ExpressQuiz.Utils.togglePreventLeavingPage(true);
-
-            $.ajax({
-                url: "/ActiveQuiz/GetQuiz/" + "@Model.QuizId",
-                type: "GET",
-                error: OnGetQuizError,
-                success: OnGetQuizSuccess
-            });
-
-           
-
         });
 
-        $("#done").click(function () {
-            counter.stop();
-            
-            sendResults();
-        });
-
-
-        var voteHtml = $("#voteContainer").html();
-        var totalTime = '@Model.EstimatedTime';
-        var runtime = undefined;
-        var counter = new ExpressQuiz.CountDown({
-            seconds: "@Model.EstimatedTime",
-            onUpdateStatus: function (sec) {
-                $("#pTimeLeft").text(sec + " seconds left");
-
-                var timeLeftPercent = (sec / totalTime) * 100;
-                $("#pTimeLeft").width(timeLeftPercent + "%");
-            },
-            onCounterEnd: function () {
-                sendResults();
-            }
-        });
-
-
-        function sendResults() {
-            $("#done").addClass('active');
-            $("#pTimeLeft").removeClass("active");
-            var result = {};
-            result.QuizId = "@Model.QuizId";
-            result.UserAnswers = runtime.getResult();
-            result.EllapsedTime = counter.getRemainingTime();
-
-            
-         
-            $.ajax({
-                url: '/ActiveQuiz/PostResult/',
-                type: "POST",
-                cache: false,
-                headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
-                data: JSON.stringify(result),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                error: OnPostResultsError,
-                success: OnPostResultsSucces,
-                complete:  $("#done").addClass('active')
-
-            });
-        }
-
-     
-
-        function OnPostResultsSucces(data, textStatus, jqXHR) {
-            var url = '/QuizReview/Index/' + data;
-            ExpressQuiz.Utils.togglePreventLeavingPage(false);
-            window.location.href = url;
-        }
-
-        function OnPostResultsError(jqXHR, textStatus, errorThrown) {
-            ExpressQuiz.Utils.togglePreventLeavingPage(false);
-            location.href = "/Home/Error/?message=" + errorThrown;
-        }
-
-        function loadQuestion(question, answerId) {
-
-            $("#answers").empty();
-
-            for (var i = 0; i < question.Answers.length; i++) {
-                var checked = answerId == question.Answers[i].AnswerId ? "checked" : "";
-
-                var div = $(" <div class='radio'/>");
-                var label = $("<label/>");
-                var input = $("<input type='radio' " + checked + " name='optionsRadios' id=" + i + " value=" + i + ">");
-
-
-                label.append(input);
-                label.append(question.Answers[i].Text);
-
-                div.append(label);
-                $("#answers").append(div);
-            }
-
-            $('input[type=radio][name=optionsRadios]').on('change', function () {
-                var a = $('input[name=optionsRadios]:checked', '#answers').val();
-                runtime.setAnswer(runtime.currentQuestionIndex, a);
-                updateProgress();
-            });
-
-            $("#question").empty();
-            $("#question").append($("<textarea class='pagedown hidden' >" +
-                question.Text + "</textarea>"));
-           
-          
-            $("textarea.pagedown").pagedownBootstrap({
-                'sanatize': true
-            });
-            $('.wmd-preview').addClass('well');
-            $(".wmd-button-bar").hide();
-
-            var upVoted = question.vote == 1;
-            var downVoted = question.vote == -1;
-
-            $("#voteContainer").empty().append(voteHtml);
-            
-
-            $('#vote').upvote({ id: question.QuestionId, callback: voteCallback, upvoted: upVoted, downvoted: downVoted });
-        }
-
-
-      
-
-        function voteCallback(data) {
-
-            var vote = 0;
-            if (data.upvoted) {
-                vote = 1;
-            } else if (data.downvoted) {
-                vote = -1;
-            }
-
-            runtime.getActiveQuestion().vote = vote;
-
-            $("#vote").css("pointer-events", "none");
-            $.ajax({
-                url: '/Rating/RateQuestion/',
-                type: "POST",
-                cache: false,
-                data: JSON.stringify({ "id": data.id, "vote": vote }),
-                headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                complete: setTimeout(function (){ $("#vote").css("pointer-events","");},1000)
-
-
-            });
-        };
-
-
-        function init(quiz) {
-
-            runtime = new ExpressQuiz.Runtime(quiz);
-
-            $('#page-selection').bootpag({
-                total: runtime.quiz.Questions.length,
-                page: 1,
-                leaps: false,
-                maxVisible: 10,
-                next: "next",
-                prev: "previous",
-            });
-
-            $('#page-selection').on("page", function (event, num) {
-                var a = $('input[name=optionsRadios]:checked', '#answers').val();
-
-                runtime.setAnswer(runtime.currentQuestionIndex, a);
-
-                runtime.setActiveQuestion(num - 1);
-                var question = runtime.getActiveQuestion(num - 1);
-                loadQuestion(question, runtime.getAnswer(runtime.currentQuestionIndex));
-
-            });
-
-        }
-
-
-        function updateProgress() {
-            var value = runtime.getProgress();
-            $('#prgCompleted').css('width', value + '%').attr('aria-valuenow', value);
-        }
-
-       
-
-        function OnGetQuizSuccess(data, textStatus, jqXHR) {
-            init(data);
-            loadQuestion(data.Questions[0]);
-
-            counter.start();
-        }
-
-        function OnGetQuizError(jqXHR, textStatus, errorThrown) {
-
-            ExpressQuiz.Utils.togglePreventLeavingPage(false);
-            location.href = "/Home/Error/?message=" + errorThrown;
-        }
-        
 
     </script>
 

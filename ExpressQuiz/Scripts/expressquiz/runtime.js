@@ -17,16 +17,16 @@
             // return this.quiz.Questions[index];
         };
 
-        Runtime.prototype.getActiveQuestion = function (index) {
-            if (index === undefined) {
-                return this.quiz.Questions[this.currentQuestionIndex];
-            } else {
-                return this.quiz.Questions[index];
-            }
+        Runtime.prototype.getActiveQuestion = function () {
+            return this.quiz.Questions[this.currentQuestionIndex];
         };
 
-        Runtime.prototype.setAnswer = function (index, answer) {
-            var q = this.quiz.Questions[index];
+        Runtime.prototype.getQuestion = function (index) {
+            return this.quiz.Questions[index];
+        };
+
+        Runtime.prototype.setAnswer = function (answer) {
+            var q = this.quiz.Questions[this.currentQuestionIndex];
             var userAnswer;
             if (answer === undefined) {
                 userAnswer = new ExpressQuiz.UserAnswer(q.QuestionId, undefined);
@@ -35,11 +35,11 @@
                 userAnswer = new ExpressQuiz.UserAnswer(q.QuestionId, a.AnswerId);
             }
 
-            this.userAnswers[index] = userAnswer;
+            this.userAnswers[this.currentQuestionIndex] = userAnswer;
         };
 
-        Runtime.prototype.getAnswer = function (index) {
-            return this.userAnswers[index].answerId;
+        Runtime.prototype.getAnswer = function () {
+            return this.userAnswers[this.currentQuestionIndex].answerId;
         };
 
         Runtime.prototype.getProgress = function () {
