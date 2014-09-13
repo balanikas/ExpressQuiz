@@ -12,6 +12,7 @@
 {
     @Scripts.Render("~/Scripts/jquery.bootpag.min.js")
     @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
+    @Scripts.Render("~/bundles/expressquiz")
 }
 
 
@@ -124,11 +125,8 @@
         $("#question").append($("<textarea class='pagedown hidden' >" +
             text + "</textarea>"));
 
-        $("textarea.pagedown").pagedownBootstrap({
-            'sanatize': true
-        });
-        $('.wmd-preview').addClass('well');
-        $(".wmd-button-bar").hide();
+        ExpressQuiz.Ui.toTextEditor($("textarea.pagedown"), true);
+      
 
     });
 </script>

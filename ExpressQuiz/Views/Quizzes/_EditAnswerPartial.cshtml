@@ -1,7 +1,7 @@
 ﻿@model ExpressQuiz.ViewModels.EditAnswerViewModel
 
 
-<ul class="breadcrumb" style="margin-bottom: 5px;">
+<ul class="breadcrumb" >
     <li>
        @Html.ActionLink("Quiz", "Edit", new { id = Model.QuizId })
     </li>
@@ -12,7 +12,7 @@
             HttpMethod = "Get",
             InsertionMode = InsertionMode.Replace,
             OnSuccess = "applyValidation",
-            OnFailure = "handleError",
+            OnFailure = "ExpressQuiz.Ui.handleAjaxError",
            
         })
     </li>

@@ -264,7 +264,6 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\expressquiz\ajaxhelper.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.af-ZA.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.af.js" />
     <Content Include="Scripts\globalize\cultures\globalize.culture.am-ET.js" />
@@ -731,6 +730,7 @@
     <TypeScriptCompile Include="Scripts\expressquiz\question.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\quiz.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\runtime.ts" />
+    <TypeScriptCompile Include="Scripts\expressquiz\ui.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\useranswer.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\utils.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />

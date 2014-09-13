@@ -1,6 +1,6 @@
 ﻿
 module ExpressQuiz {
-
+    "use strict";
     export class ActiveQuiz {
 
         private counter: ExpressQuiz.CountDown;
@@ -34,72 +34,39 @@ module ExpressQuiz {
 
         }
 
-        private onCounterUpdate = (remainingSeconds) => {
+        private onCounterUpdate = (remainingSeconds: number) => {
             this.$counter.text(remainingSeconds + " seconds left");
 
             var timeLeftPercent = (remainingSeconds / this.totalTime) * 100;
             this.$counter.width(timeLeftPercent + "%");
-        }
+        };
 
-        private onCounterEnd = () => {
+        private onCounterEnd = () : void => {
             this.sendResults();
-        }
+        };
 
-        private onQuizFinished = () => {
+        private onQuizFinished = () : void=> {
             this.counter.stop();
             this.sendResults();
-        }
+        };
 
-        private onAnswerSelected = () => {
-            var a = $('input[name=optionsRadios]:checked', this.$answers).val();
+        private onAnswerSelected = () : void => {
+            var a = $("input[name=optionsRadios]:checked", this.$answers).val();
             this.runtime.setAnswer(a);
             var value = this.runtime.getProgress();
-            this.$progressBar.css('width', value + '%').attr('aria-valuenow', value);
-        }
+            this.$progressBar.css("width", value + "%").attr("aria-valuenow", value);
+        };
 
-        private onPageChanged = (event, num) => {
+        private onPageChanged = (event, num: number) : void => {
 
-            var a = $('input[name=optionsRadios]:checked', this.$answers).val();
+            var a = $("input[name=optionsRadios]:checked", this.$answers).val();
             this.runtime.setAnswer(a);
             this.runtime.setActiveQuestion(num - 1);
             var question = this.runtime.getQuestion(num - 1);
             this.loadQuestion(question, this.runtime.getAnswer());
-        }
+        };
 
-        private initPaging() {
-
-
-            this.$pager.bootpag({
-                total: this.runtime.quiz.Questions.length,
-                page: 1,
-                leaps: false,
-                maxVisible: 10,
-                next: "next",
-                prev: "previous",
-            });
-
-            this.$pager.on("page", this.onPageChanged);
-
-            this.loadQuestion(this.runtime.quiz.Questions[0], this.runtime.getAnswer());
-        }
-
-        private initVoting(question) {
-
-            var upvote = $('<a/>').addClass('upvote');
-            var downvote = $('<a/>').addClass('downvote');
-            var container = $('<div />')
-                .append(upvote)
-                .append(downvote)
-                .addClass('upvote-superuser')
-                .addClass('upvote');
-            this.$voting.empty().append(container);
-
-            var upVoted = question.vote == 1;
-            var downVoted = question.vote == -1;
-            container.upvote({ id: question.QuestionId, callback: this.voteCallback, upvoted: upVoted, downvoted: downVoted });
-        }
-
-        private voteCallback = (data) => {
+         private onVoteCast = (data : any) => {
 
             var vote = 0;
             if (data.upvoted) {
@@ -112,24 +79,50 @@ module ExpressQuiz {
 
             this.$voting.css("pointer-events", "none");
             $.ajax({
-                url: '/Rating/RateQuestion/',
+                url: "/Rating/RateQuestion/",
                 type: "POST",
                 cache: false,
                 data: JSON.stringify({ "id": data.id, "vote": vote }),
                 headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                complete: () => {
-                    setTimeout(() => {
-                            this.$voting.css("pointer-events", "");
-                        },1000);
+                complete: () : void=> {
+                    setTimeout(() : void=> {
+                        this.$voting.css("pointer-events", "");
+                    }, 1000);
                 }
 
 
             });
+        };
+
+        private initPaging() : void {
+
+            ExpressQuiz.Ui.toPager(this.$pager, this.runtime.quiz.Questions.length, this.onPageChanged);
+
+            this.loadQuestion(this.runtime.quiz.Questions[0], this.runtime.getAnswer());
         }
 
-        private loadQuestion(question, answerId) {
+        private initVoting(question: any) : void {
+
+            var upvote = $("<a/>").addClass("upvote");
+            var downvote = $("<a/>").addClass("downvote");
+            var container = $("<div />")
+                .append(upvote)
+                .append(downvote)
+                .addClass("upvote-superuser")
+                .addClass("upvote");
+            this.$voting.empty().append(container);
+
+            var upVoted = question.vote === 1;
+            var downVoted = question.vote === -1;
+
+            container.upvote({ id: question.QuestionId, callback: this.onVoteCast, upvoted: upVoted, downvoted: downVoted });
+        }
+
+       
+
+        private loadQuestion(question, answerId) : void {
 
             this.$answers.empty();
 
@@ -147,7 +140,7 @@ module ExpressQuiz {
                 this.$answers.append(div);
             }
 
-            $('input[type=radio][name=optionsRadios]').on('change',
+            $("input[type=radio][name=optionsRadios]").on("change",
                 this.onAnswerSelected
             );
 
@@ -155,31 +148,9 @@ module ExpressQuiz {
             this.$questions.empty().append($("<textarea class='pagedown hidden' >" +
                 question.Text + "</textarea>"));
 
-            $("textarea.pagedown").pagedownBootstrap({});
-            $('.wmd-preview').addClass('well');
-            $(".wmd-button-bar").hide();
-
+            ExpressQuiz.Ui.toTextEditor($("textarea.pagedown"), true);
+            
             this.initVoting(question);
-        }
-
-
-        private init() {
-
-            $.ajax({
-                url: "/ActiveQuiz/GetQuiz/" + this.quizId,
-                type: "GET",
-                error: (jqXHR, textStatus, errorThrown) => {
-                    ExpressQuiz.Utils.togglePreventLeavingPage(false);
-                    location.href = "/Home/Error/?message=" + errorThrown;
-                },
-                success: (data) => {
-                    this.runtime = new ExpressQuiz.Runtime(data);
-                    this.initPaging();
-                    this.initCounter(this.$counter, this.totalTime);
-                    this.$done.click(this.onQuizFinished);
-                    this.counter.start();
-                }
-            });
         }
 
         private initCounter = ($counter, totalTime) => {
@@ -191,11 +162,30 @@ module ExpressQuiz {
             });
 
             this.counter.start();
+        };
+
+        private init(): void {
+
+            $.ajax({
+                url: "/ActiveQuiz/GetQuiz/" + this.quizId,
+                type: "GET",
+                error: (jqXHR: JQueryXHR, textStatus: string, errorThrown: string) => {
+                    ExpressQuiz.Utils.togglePreventLeavingPage(false);
+                    location.href = "/Home/Error/?message=" + errorThrown;
+                },
+                success: (data: any) => {
+                    this.runtime = new ExpressQuiz.Runtime(data);
+                    this.initPaging();
+                    this.initCounter(this.$counter, this.totalTime);
+                    this.$done.click(this.onQuizFinished);
+                    this.counter.start();
+                }
+            });
         }
 
-        sendResults() {
+        sendResults() : void  {
 
-            this.$done.addClass('active');
+            this.$done.addClass("active");
             this.$counter.removeClass("active");
 
             var result: any;
@@ -207,7 +197,7 @@ module ExpressQuiz {
             };
 
             $.ajax({
-                url: '/ActiveQuiz/PostResult/',
+                url: "/ActiveQuiz/PostResult/",
                 type: "POST",
                 cache: false,
                 headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
@@ -215,16 +205,16 @@ module ExpressQuiz {
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
 
-                error: (jqXHR, textStatus, errorThrown) => {
+                error: (jqXHR : JQueryXHR, textStatus: string, errorThrown : string) => {
                     ExpressQuiz.Utils.togglePreventLeavingPage(false);
                     location.href = "/Home/Error/?message=" + errorThrown;
                 },
-                success: (data, textStatus, jqXHR) => {
-                    var url = '/QuizReview/Index/' + data;
+                success: (data : any) => {
+                    var url = "/QuizReview/Index/" + data;
                     ExpressQuiz.Utils.togglePreventLeavingPage(false);
                     window.location.href = url;
                 },
-                complete: () => { this.$done.addClass('active'); }
+                complete: () => { this.$done.addClass("active"); }
 
             });
         }

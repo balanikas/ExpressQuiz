@@ -37,12 +37,7 @@
         $("form").removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse("form");
     }
-
-    function handleError(ajaxContext) {
-        $("#content").empty();
-        $("#content").append(ajaxContext.responseText);
-    }
-
+    
     function beforePost() {
         $("button[type=submit]").addClass('active');
     }

@@ -3,6 +3,7 @@
 @section scripts
 {
     @Scripts.Render("~/Scripts/jquery.bootpag.min.js")
+    @Scripts.Render("~/bundles/expressquiz")
 }
 
 <div style="width: 1280px">
@@ -65,21 +66,6 @@
 
 
     $(function () {
-
-
-        if ('@Model.PageCount' > 1) {
-            enablePaging();
-        }
-
-    });
-
-    function handleError(ajaxContext) {
-        $("#quizList").empty();
-        $("#quizList").append(ajaxContext.responseText);
-    }
-
-    function enablePaging() {
-
         var catId = '@Model.SelectedCategoryId';
         var filterId = '@Convert.ChangeType(Model.Filter, Model.Filter.GetTypeCode())';
         var searchTerm = $("#searchTerm").val();
@@ -91,18 +77,7 @@
                 "selectedCategoryId=" + catId + "&" +
                 "page=";
 
-
-        $('#page-selection').bootpag({
-            total: pageCount,
-            page: 1,
-            leaps: false,
-            maxVisible: 10,
-            next: "next",
-            prev: "previous",
-        });
-
-        $('#page-selection').on("page", function (event, num) {
-
+        var onPageChanged = function (event, num) {
             $.ajax({
                 url: url + num,
                 type: "GET",
@@ -115,12 +90,15 @@
                     $("#quizList").html(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    handleError(jqXHR);
+                    ExpressQuiz.Ui.handleAjaxError(jqXHR);
                 }
 
             });
+        }
 
-        });
-    }
+        ExpressQuiz.Ui.toPager($('#page-selection'), pageCount, onPageChanged);
+        
+    });
 
+   
 </script>

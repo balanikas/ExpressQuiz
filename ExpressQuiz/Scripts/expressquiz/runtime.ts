@@ -2,9 +2,9 @@
 
 
 module ExpressQuiz {
-
+    "use strict";
     export class Runtime {
-        private userAnswers: Array<UserAnswer>
+        private userAnswers: Array<UserAnswer>;
         private currentQuestionIndex: number;
 
         constructor(public quiz: any) {
@@ -17,21 +17,21 @@ module ExpressQuiz {
 
 
 
-        setActiveQuestion(index: number) {
+        setActiveQuestion(index: number): void {
 
             this.currentQuestionIndex = index;
 
         }
 
-        getActiveQuestion() {
+        getActiveQuestion() : any {
             return this.quiz.Questions[this.currentQuestionIndex];         
         }
 
-        getQuestion(index: number) {
+        getQuestion(index: number) :any {
             return this.quiz.Questions[index];
         }
 
-        setAnswer( answer: number) {
+        setAnswer( answer: number):void {
 
             var q = this.quiz.Questions[this.currentQuestionIndex];
             var userAnswer;
@@ -45,7 +45,7 @@ module ExpressQuiz {
             this.userAnswers[this.currentQuestionIndex] = userAnswer;
         }
 
-        getAnswer() {
+        getAnswer() :number {
 
             return this.userAnswers[this.currentQuestionIndex].answerId;
         }

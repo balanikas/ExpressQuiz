@@ -1,17 +1,18 @@
 ﻿
 
 module ExpressQuiz {
-
+    "use strict";
     export class AjaxHelper {
 
 
-        static createRequestionVerificationTokenHeader() {
+        static createRequestionVerificationTokenHeader() : any{
             var headers: any;
+            var token: string;
             headers = {};
-            var token = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();
+            token = $("#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]").val() ;
 
             if (token === undefined) {
-                token = $('input[name=__RequestVerificationToken]').val();
+                token = $("input[name=__RequestVerificationToken]").val();
             }
             headers["__RequestVerificationToken"] = token;
            

@@ -161,11 +161,11 @@
 
 <script>
 
-    $(function() {
+    $(function () {
 
-       
-     
-       
+
+
+
 
         $('#questions').dataTable({
             "paging": false,
@@ -179,32 +179,11 @@
 
     function rate() {
 
-        function voteCallback(data) {
-
-            var vote = 0;
-            if (data.upvoted) {
-                vote = 1;
-            } else if (data.downvoted) {
-                vote = -1;
-            }
-
-            $("#vote").css("pointer-events", "none");
-            $.ajax({
-                url: '/Rating/RateQuiz/',
-                type: "POST",
-                cache: false,
-                data: JSON.stringify({ "id": data.id, "vote": vote }),
-                headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                complete: setTimeout(function () { $("#vote").css("pointer-events", ""); }, 1000)
+        
 
 
-            });
-        };
-
-        $('#vote').upvote({ id: '@Model.QuizId', callback: voteCallback });
-        $('#voteLevel').upvote({ id: '@Model.QuizId', callback: voteCallback });
+        ExpressQuiz.Ui.toVoter($('#vote'), "/Rating/RateQuiz", "@Model.QuizId", false,false);
+        ExpressQuiz.Ui.toVoter($('#voteLevel'), "/Rating/RateQuiz", "@Model.QuizId", false, false);
         $("#rateQuiz").modal("show");
     }
 

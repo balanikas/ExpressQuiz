@@ -24,15 +24,15 @@
     </h3>
 </div>
 
-<ul class="nav nav-tabs" style="margin-bottom: 15px;">
+<ul class="nav nav-tabs bottom-buffer">
     <li class="@(Model.ProfileView == 0 ? "active" : "" )"><a href="#quizzes" data-toggle="tab">Quizzes</a></li>
     <li class="@(Model.ProfileView == 1 ? "active" : "" )"><a href="#activities" data-toggle="tab">Activity</a></li>
-    
+
     @if (User.Identity.Name == Model.UserId)
     {
         <li class="@(Model.ProfileView == 2 ? "active" : "" )"><a href="#social" data-toggle="tab">Social</a></li>
     }
-    
+
 
 </ul>
 

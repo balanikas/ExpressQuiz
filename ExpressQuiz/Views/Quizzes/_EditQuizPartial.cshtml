@@ -3,7 +3,7 @@
 
 
 
-<ul class="breadcrumb" style="margin-bottom: 5px;">
+<ul class="breadcrumb" >
     <li class="active">Quiz</li>
 </ul>
 
@@ -13,7 +13,7 @@
     HttpMethod = "Post",
     InsertionMode = InsertionMode.Replace,
     OnSuccess = "applyValidation",
-    OnFailure = "handleError",
+    OnFailure = "ExpressQuiz.Ui.handleAjaxError",
     OnBegin = "beforePost",
 
 }))
@@ -124,7 +124,7 @@
                                         HttpMethod = "Get",
                                         UpdateTargetId = "content",
                                         OnSuccess = "applyValidation",
-                                        OnFailure = "handleError"
+                                        OnFailure = "ExpressQuiz.Ui.handleAjaxError"
 
                                     }, htmlAttributes: new { @class = "btn btn-primary " })
 
@@ -189,7 +189,7 @@
                     HttpMethod = "Get",
                     UpdateTargetId = "content",
                     OnSuccess = "applyValidation",
-                    OnFailure = "handleError"
+                    OnFailure = "ExpressQuiz.Ui.handleAjaxError"
 
                 })
 
@@ -217,36 +217,9 @@
 
     $(function () {
 
-        $("textarea.pagedown").pagedownBootstrap({
-            'sanatize': true
-        });
-
-        $('.wmd-preview').addClass('well');
-
-
-        $("#questionsTbl").tableDnD({
-            onDrop: function (table, row) {
-                var rows = table.tBodies[0].rows;
-                var ids = "";
-                for (var i = 0; i < rows.length; i++) {
-                    if (rows[i] !== undefined) {
-                        ids += rows[i].id + ",";
-                    }
-                }
-                $("#QuestionOrder").val(ids);
-            },
-            dragHandle: ".dragHandle"
-        });
-
-    
-        $("#questionsTbl tr").hover(function () {
-            $(this.cells[0]).addClass('showDragHandle');
-        }, function () {
-            $(this.cells[0]).removeClass('showDragHandle');
-        });
-
-
-
+        ExpressQuiz.Ui.toTextEditor($("textarea.pagedown"));
+        ExpressQuiz.Ui.toReorderableTable($("#questionsTbl"), $("#QuestionOrder"));
+      
         $('.delete-question').click(function () {
             
             $.ajax({
@@ -258,7 +231,7 @@
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    handlerError(jqXHR.responseText);
+                    ExpressQuiz.Ui.handleAjaxError(jqXHR);
                     
                 }
             });
