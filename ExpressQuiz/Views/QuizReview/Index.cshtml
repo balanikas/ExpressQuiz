@@ -19,7 +19,7 @@
 
 <br />
 <div class="text-center">
-    <button onclick="rate();" class="btn btn-primary center-block">Exit</button>
+    <button onclick=" rate(); " class="btn btn-primary center-block">Exit</button>
 </div>
 <div>
 
@@ -150,7 +150,7 @@
 
                 <div class="modal-footer">
                    
-                    @Html.ActionLink("Thanks!", "Index", "Quizzes", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Thanks!", "Index", "Quizzes", null, new {@class = "btn btn-primary"})
                 </div>
             }
 
@@ -161,10 +161,7 @@
 
 <script>
 
-    $(function () {
-
-
-
+    $(function() {
 
 
         $('#questions').dataTable({
@@ -179,10 +176,8 @@
 
     function rate() {
 
-        
 
-
-        ExpressQuiz.Ui.toVoter($('#vote'), "/Rating/RateQuiz", "@Model.QuizId", false,false);
+        ExpressQuiz.Ui.toVoter($('#vote'), "/Rating/RateQuiz", "@Model.QuizId", false, false);
         ExpressQuiz.Ui.toVoter($('#voteLevel'), "/Rating/RateQuiz", "@Model.QuizId", false, false);
         $("#rateQuiz").modal("show");
     }

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ExpressQuiz.Core.Models;
-using ExpressQuiz.Core.Repos;
+﻿using ExpressQuiz.Core.Models;
 
 namespace ExpressQuiz.Core.Services
 {
     public interface IAnswerService : IService<Answer>
     {
-        void SaveOrder(int questionId, string order);
+        void SaveOrder(Question question, string order);
     }
 }

@@ -11,7 +11,6 @@ namespace ExpressQuiz.Core.Utils
 {
     public class DataProvider
     {
-
         private static bool ValidateData(XDocument doc, string schemaUri)
         {
             var schemas = new XmlSchemaSet();
@@ -30,8 +29,6 @@ namespace ExpressQuiz.Core.Utils
 
         public static IEnumerable<Quiz> Import(string uri)
         {
-
-          
             var xml = XDocument.Load(uri, LoadOptions.PreserveWhitespace);
             //string schemaUri = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xsd";
             //if (!ValidateData(xml,schemaUri))
@@ -42,7 +39,7 @@ namespace ExpressQuiz.Core.Utils
             //    }
             //}
 
-            char[] charsToTrim = { '\r', ' ', '\n' };
+            char[] charsToTrim = {'\r', ' ', '\n'};
 
 
             var content = xml.Element("Content");
@@ -56,32 +53,30 @@ namespace ExpressQuiz.Core.Utils
                     var answers = new List<Answer>();
                     foreach (var a in q.Elements("Answer"))
                     {
-                        answers.Add(new Answer()
+                        answers.Add(new Answer
                         {
                             Text = a.Element("Text").Value.Trim(charsToTrim),
                             IsCorrect = a.Descendants("IsCorrect").Any(),
                             Explanation = a.Element("Explanation").Value.Trim(charsToTrim),
                             OrderId = int.Parse(a.Element("OrderId").Value.Trim(charsToTrim))
                         });
-
                     }
-                    questions.Add(new Question()
+                    questions.Add(new Question
                     {
                         Answers = answers,
                         Text = q.Element("Text").Value.Trim(charsToTrim),
                         OrderId = int.Parse(q.Element("OrderId").Value.Trim(charsToTrim)),
                         EstimatedTime = int.Parse(q.Element("EstimatedTime").Value.Trim(charsToTrim)),
                         Points = int.Parse(q.Element("Points").Value.Trim(charsToTrim)),
-
                     });
                 }
 
-                quizzes.Add(new Quiz()
+                quizzes.Add(new Quiz
                 {
-                    Category = new QuizCategory()
+                    Category = new QuizCategory
                     {
-                        Name =  ((string)quiz.Attribute("category")).Trim(charsToTrim)
-                    } ,
+                        Name = ((string) quiz.Attribute("category")).Trim(charsToTrim)
+                    },
                     Name = quiz.Element("Name").Value.Trim(charsToTrim),
                     Summary = quiz.Element("Summary").Value.Trim(charsToTrim),
                     Questions = questions,
@@ -90,16 +85,13 @@ namespace ExpressQuiz.Core.Utils
                     CreatedBy = quiz.Element("CreatedBy").Value.Trim(charsToTrim),
                     Locked = quiz.Descendants("Locked").Any(),
                     AllowPoints = quiz.Descendants("AllowPoints").Any(),
-                    
                 });
-
             }
             return quizzes;
-
         }
 
 
-        public static void Export(List<Quiz> quizzes , string fileName)
+        public static void Export(List<Quiz> quizzes, string fileName)
         {
             var doc = new XDocument();
             var root = new XElement("Content");
@@ -107,12 +99,11 @@ namespace ExpressQuiz.Core.Utils
             var quizzesEl = new XElement("Quizzes");
             root.Add(quizzesEl);
 
-          
 
             foreach (var quiz in quizzes.ToList())
             {
-                var quizEl = new XElement("Quiz", new XAttribute("category",quiz.Category.Name));
-                quizEl.Add(new XElement("Name",quiz.Name));
+                var quizEl = new XElement("Quiz", new XAttribute("category", quiz.Category.Name));
+                quizEl.Add(new XElement("Name", quiz.Name));
                 quizEl.Add(new XElement("Summary", quiz.Summary));
                 quizEl.Add(new XElement("CreatedBy", quiz.CreatedBy));
                 if (quiz.IsTimeable)
@@ -153,7 +144,6 @@ namespace ExpressQuiz.Core.Utils
             }
 
             doc.Save(fileName);
-
         }
 
 
@@ -165,7 +155,5 @@ namespace ExpressQuiz.Core.Utils
 
             return path;
         }
-
-
     }
 }

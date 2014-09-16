@@ -1,8 +1,9 @@
 ﻿module ExpressQuiz {
     "use strict";
+
     export class Utils {
-      
-        public static togglePreventLeavingPage(enable: boolean) : void{
+
+        public static togglePreventLeavingPage(enable: boolean): void {
             if (enable) {
                 $(window).on("beforeunload", () =>
                     "All unsaved changes will be lost if you leave or refresh the page.");
@@ -11,7 +12,7 @@
             }
         }
 
-        public static voteQuestion(id: number, vote: number, headers: any) :void {
+        public static voteQuestion(id: number, vote: number, headers: any): void {
             $.ajax({
                 url: "/Rating/RateQuestion/" + id + "?vote=" + vote,
                 type: "POST",

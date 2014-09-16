@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ExpressQuiz.Core.Models;
-using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
-using ExpressQuiz.ViewModels;
 
 namespace ExpressQuiz.Extensions
 {
-    public static class RepoExtensions
+    public static class ServiceExtensions
     {
-       
-       
-
-        public static IEnumerable<SelectListItem> GetCategoriesAsSelectList(this IQuizCategoryService repo )
+        public static IEnumerable<SelectListItem> GetCategoriesAsSelectList(this IQuizCategoryService repo)
         {
             var cats = repo.GetAll()
                 .Select(x =>

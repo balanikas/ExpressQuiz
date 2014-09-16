@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ExpressQuiz.ViewModels
 {
@@ -8,7 +7,6 @@ namespace ExpressQuiz.ViewModels
         [Required]
         [Display(Name = "Username")]
         public string NickName { get; set; }
-
 
 
         [Required]

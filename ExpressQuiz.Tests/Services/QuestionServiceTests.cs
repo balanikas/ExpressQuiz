@@ -84,7 +84,7 @@ namespace ExpressQuiz.Tests.Services
             var service = _mockRepo.QuestionService;
 
             var questions = service.GetAll().Where(x=> x.QuizId == 1).ToList();
-            service.SaveOrder(1, "2,1");
+            service.SaveOrder(_mockRepo.QuizService.Get(1), "2,1");
 
             var updated = service.GetAll().Where(x=> x.QuizId == 1).ToList();
 
@@ -101,7 +101,7 @@ namespace ExpressQuiz.Tests.Services
 
             try
             {
-                service.SaveOrder(1, "hello,2,1,6");
+                service.SaveOrder(_mockRepo.QuizService.Get(1), "hello,2,1,6");
                 Assert.Fail();
             }
             catch 
@@ -111,7 +111,7 @@ namespace ExpressQuiz.Tests.Services
 
             try
             {
-                service.SaveOrder(1, "1,2,3,4,5,6,7,8,9,10");
+                service.SaveOrder(_mockRepo.QuizService.Get(1), "1,2,3,4,5,6,7,8,9,10");
                 Assert.Fail();
             }
             catch

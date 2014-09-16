@@ -1,5 +1,4 @@
-﻿@using System.Web.UI.WebControls
-@model ExpressQuiz.ViewModels.CreateQuizViewModel
+﻿@model ExpressQuiz.ViewModels.CreateQuizViewModel
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -7,23 +6,23 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Quiz</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
         
-        @Html.HiddenFor(m=>m.Quiz.CreatedBy)
+        @Html.HiddenFor(m => m.Quiz.CreatedBy)
         
         @if (Model.Categories.Any())
         {
             <div class="form-group">
-                @Html.LabelFor(m => m.SelectedCategory, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.SelectedCategory, new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.SelectedCategory, Model.Categories, htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.SelectedCategory, Model.Categories, new {@class = "form-control"})
                 </div>
 
             </div>
@@ -31,9 +30,9 @@
        
         
         <div class="form-group">
-            @Html.LabelFor(model => model.NewCategory, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NewCategory, new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NewCategory, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.NewCategory, new {htmlAttributes = new {@class = "form-control"}})
                 @if (ViewData.ModelState["NewCategory"] != null && ViewData.ModelState["NewCategory"].Errors.Any())
                 {
                     <span class="field-validation-error text-danger">
@@ -45,10 +44,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Quiz.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Quiz.Name, new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Quiz.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Quiz.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Quiz.Name, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Quiz.Name, "", new {@class = "text-danger"})
                 @if (ViewData.ModelState["Name"] != null && ViewData.ModelState["Name"].Errors.Any())
                 {
                     <span class="field-validation-error text-danger">
@@ -61,10 +60,10 @@
         <div class="form-group">
            
 
-            @Html.LabelFor(model => model.Quiz.Summary, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Quiz.Summary, new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Quiz.Summary, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
-                @Html.ValidationMessageFor(model => model.Quiz.Summary, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Quiz.Summary, new {htmlAttributes = new {@class = "form-control", @rows = 5}})
+                @Html.ValidationMessageFor(model => model.Quiz.Summary, "", new {@class = "text-danger"})
             </div>
         </div>
 
@@ -75,7 +74,7 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    @Html.ActionLink("Back", "Index", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Back", "Index", null, new {@class = "btn btn-primary"})
 
                 
                     
@@ -94,5 +93,3 @@
 }
 
 <div></div>
-
-

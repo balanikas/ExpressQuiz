@@ -1,42 +1,42 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
            
             
 
-        </li>
+            </li>
         
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@User.Identity.GetUserName() <b class="caret"></b></a>
-            <ul class="dropdown-menu">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@User.Identity.GetUserName() <b class="caret"></b></a>
+                <ul class="dropdown-menu">
               
-                <li>
-                    @Html.ActionLink("Quizzes", "Index", "UserProfile", routeValues: new { id = @User.Identity.Name, profileView = 0 }, htmlAttributes: new { })
-                </li>
-                <li>
-                    @Html.ActionLink("Social", "Index", "UserProfile", routeValues: new {id= @User.Identity.Name, profileView = 1 }, htmlAttributes: new { })
-                </li>
-                <li class="divider"></li>
-                <li>
-                    @Html.ActionLink("Acount", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-        </ul>
-        </li>
+                    <li>
+                        @Html.ActionLink("Quizzes", "Index", "UserProfile", new {id = @User.Identity.Name, profileView = 0}, new {})
+                    </li>
+                    <li>
+                        @Html.ActionLink("Social", "Index", "UserProfile", new {id = @User.Identity.Name, profileView = 1}, new {})
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        @Html.ActionLink("Acount", "Manage", "Account", null, new {title = "Manage"})
+                    </li>
+                </ul>
+            </li>
 
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Register", "Register", "Account", null, new {id = "registerLink"})</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", null, new {id = "loginLink"})</li>
     </ul>
 }

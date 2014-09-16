@@ -5,7 +5,6 @@ using ExpressQuiz.Core.Repos;
 
 namespace ExpressQuiz.Core.Services
 {
-    
     public class QuestionService : IQuestionService
     {
         private readonly IRepo<Question> _questionRepo;
@@ -47,18 +46,22 @@ namespace ExpressQuiz.Core.Services
         }
 
 
-        public void SaveOrder(int quizId, string order)
+        public void SaveOrder(Quiz quiz, string order)
         {
-            var ordersStr = order.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (quiz.Questions.Count() <= 1)
+            {
+                return;
+            }
+            var ordersStr = order.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-            if (ordersStr.Length == 0 )
+            if (ordersStr.Length == 0)
             {
                 throw new ArgumentException("order");
             }
 
             var orders = ordersStr.Select(int.Parse).ToList();
 
-            var questionsToUpdate = _questionRepo.GetAll().Where(x => x.QuizId == quizId).ToList();
+            var questionsToUpdate = _questionRepo.GetAll().Where(x => x.QuizId == quiz.Id).ToList();
             int orderCount = 0;
             foreach (var o in orders)
             {
@@ -68,8 +71,5 @@ namespace ExpressQuiz.Core.Services
 
             _questionRepo.Save();
         }
-
     }
-
-    
 }

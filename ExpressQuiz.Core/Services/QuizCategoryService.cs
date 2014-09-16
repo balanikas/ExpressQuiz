@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 
 namespace ExpressQuiz.Core.Services
 {
-    
     public class QuizCategoryService : IQuizCategoryService
     {
         private readonly IRepo<QuizCategory> _quizCategoryRepo;
@@ -16,10 +11,9 @@ namespace ExpressQuiz.Core.Services
         public QuizCategoryService(
             IRepo<QuizCategory> quizCategoryRepo)
         {
-
             _quizCategoryRepo = quizCategoryRepo;
         }
-        
+
         public QuizCategory Get(int id)
         {
             return _quizCategoryRepo.Get(id);
@@ -56,12 +50,9 @@ namespace ExpressQuiz.Core.Services
             {
                 return existing;
             }
-            else
-            {
-                var newCat = _quizCategoryRepo.Insert(new QuizCategory() { Name = name });
-                _quizCategoryRepo.Save();
-                return newCat;
-            }
+            var newCat = _quizCategoryRepo.Insert(new QuizCategory {Name = name});
+            _quizCategoryRepo.Save();
+            return newCat;
         }
 
         public bool Exists(string name)

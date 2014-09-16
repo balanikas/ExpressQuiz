@@ -7,12 +7,12 @@ namespace ExpressQuiz.Core.Services
 {
     public class UserActivityService : IUserActivityService
     {
-
-        private readonly IRepo<UserActivity> _userActivityRepo;
-        private readonly IRepo<Quiz> _quizRepo;
         private readonly IRepo<Question> _questionRepo;
+        private readonly IRepo<Quiz> _quizRepo;
+        private readonly IRepo<UserActivity> _userActivityRepo;
 
-        public UserActivityService(IRepo<UserActivity> userActivityRepo, IRepo<Quiz> quizRepo, IRepo<Question> questionRepo)
+        public UserActivityService(IRepo<UserActivity> userActivityRepo, IRepo<Quiz> quizRepo,
+            IRepo<Question> questionRepo)
         {
             _quizRepo = quizRepo;
             _questionRepo = questionRepo;
@@ -28,11 +28,10 @@ namespace ExpressQuiz.Core.Services
                 {
                     Delete(userId, item, action, itemId);
                 }
-                
             }
-           
 
-            var ua = new UserActivity()
+
+            var ua = new UserActivity
             {
                 UserId = userId,
                 Item = item,
@@ -43,7 +42,6 @@ namespace ExpressQuiz.Core.Services
 
             _userActivityRepo.Insert(ua);
             _userActivityRepo.Save();
-
 
 
             switch (item)
@@ -79,8 +77,109 @@ namespace ExpressQuiz.Core.Services
                     }
                     break;
             }
+        }
 
-           
+        public void UpdateVote(string userId, ActivityItem item, int itemId, int vote)
+        {
+            Delete(userId, item, ActivityAction.DownVote, itemId);
+            Delete(userId, item, ActivityAction.UpVote, itemId);
+
+            if (vote == 1)
+            {
+                Add(userId, item, ActivityAction.UpVote, itemId);
+            }
+            else if (vote == -1)
+            {
+                Add(userId, item, ActivityAction.DownVote, itemId);
+            }
+        }
+
+        public void Delete(string userId, ActivityItem item, int itemId)
+        {
+            var uas = _userActivityRepo.GetAll().Where(
+                x => x.UserId == userId &&
+                     x.Item == item).ToList();
+
+            if (!uas.Any())
+            {
+                return;
+            }
+
+            foreach (var ua in uas)
+            {
+                _userActivityRepo.Delete(ua.Id);
+                _userActivityRepo.Save();
+            }
+        }
+
+        public void Delete(string userId, ActivityItem item, ActivityAction action, int itemId)
+        {
+            var uas = _userActivityRepo.GetAll().Where(
+                x => x.UserId == userId &&
+                     x.Item == item &&
+                     x.Action == action &&
+                     x.ItemId == itemId).ToList();
+
+            if (!uas.Any())
+            {
+                return;
+            }
+
+            foreach (var ua in uas)
+            {
+                _userActivityRepo.Delete(ua.Id);
+                _userActivityRepo.Save();
+            }
+        }
+
+
+        public void DeleteAll(string userId)
+        {
+            var uas = _userActivityRepo.GetAll().Where(
+                x => x.UserId == userId).ToList();
+
+            if (!uas.Any())
+            {
+                return;
+            }
+
+            foreach (var ua in uas)
+            {
+                _userActivityRepo.Delete(ua.Id);
+                _userActivityRepo.Save();
+            }
+        }
+
+        public IQueryable<UserActivity> GetAll(string userId)
+        {
+            return _userActivityRepo.GetAll().Where(
+                x => x.UserId == userId);
+        }
+
+        public IQueryable<UserActivity> GetAll(string userId, ActivityItem item)
+        {
+            return _userActivityRepo.GetAll().Where(
+                x => x.UserId == userId &&
+                     x.Item == item);
+        }
+
+        public IQueryable<UserActivity> GetAll(string userId, ActivityItem item, ActivityAction action)
+        {
+            return _userActivityRepo.GetAll().Where(
+                x => x.UserId == userId &&
+                     x.Item == item &&
+                     x.Action == action);
+        }
+
+        public bool Exists(string userId, ActivityItem item, ActivityAction action, int itemId)
+        {
+            var result = _userActivityRepo.GetAll().FirstOrDefault(
+                x => x.UserId == userId &&
+                     x.Item == item &&
+                     x.Action == action &&
+                     x.ItemId == itemId);
+
+            return result != null;
         }
 
         private void UpdateQuizCompletions(int id)
@@ -91,7 +190,7 @@ namespace ExpressQuiz.Core.Services
             _quizRepo.Save();
         }
 
-        private void UpdateQuizVotes(int id ,int vote)
+        private void UpdateQuizVotes(int id, int vote)
         {
             var quiz = _quizRepo.Get(id);
             quiz.Votes += vote;
@@ -113,115 +212,6 @@ namespace ExpressQuiz.Core.Services
             question.Votes += vote;
             _questionRepo.Update(question);
             _questionRepo.Save();
-        }
-
-        public void UpdateVote(string userId, ActivityItem item, int itemId, int vote)
-        {
-            Delete(userId, item, ActivityAction.DownVote, itemId);
-            Delete(userId, item, ActivityAction.UpVote, itemId);
-
-            if (vote == 1)
-            {
-                Add(userId, item, ActivityAction.UpVote, itemId);
-            }
-            else if (vote == -1)
-            {
-                Add(userId, item, ActivityAction.DownVote, itemId);
-            }
-
-        }
-
-        public void Delete(string userId, ActivityItem item, int itemId)
-        {
-            var uas = _userActivityRepo.GetAll().Where(
-                x => x.UserId == userId &&
-                x.Item == item ).ToList();
-
-            if (!uas.Any())
-            {
-                return;
-            }
-
-            foreach (var ua in uas)
-            {
-                _userActivityRepo.Delete(ua.Id);
-                _userActivityRepo.Save();
-            }
-            
-
-        }
-
-        public void Delete(string userId, ActivityItem item, ActivityAction action, int itemId)
-        {
-            var uas = _userActivityRepo.GetAll().Where(
-                 x => x.UserId == userId &&
-                 x.Item == item && 
-                 x.Action == action &&
-                 x.ItemId == itemId).ToList();
-
-            if (!uas.Any())
-            {
-                return;
-            }
-
-            foreach (var ua in uas)
-            {
-                _userActivityRepo.Delete(ua.Id);
-                _userActivityRepo.Save();
-            }
-            
-        }
-
-
-        public void DeleteAll(string userId)
-        {
-            var uas = _userActivityRepo.GetAll().Where(
-               x => x.UserId == userId).ToList();
-
-            if (!uas.Any())
-            {
-                return;
-            }
-
-            foreach (var ua in uas)
-            {
-                _userActivityRepo.Delete(ua.Id);
-                _userActivityRepo.Save();
-            }
-            
-
-        }
-
-        public IQueryable<UserActivity> GetAll(string userId)
-        {
-            return _userActivityRepo.GetAll().Where(
-              x => x.UserId == userId );
-        }
-
-        public IQueryable<UserActivity> GetAll(string userId, ActivityItem item)
-        {
-            return _userActivityRepo.GetAll().Where(
-              x => x.UserId == userId &&
-              x.Item == item);
-        }
-
-        public IQueryable<UserActivity> GetAll(string userId, ActivityItem item, ActivityAction action)
-        {
-            return _userActivityRepo.GetAll().Where(
-                x => x.UserId == userId &&
-                x.Item == item &&
-                x.Action == action);
-        }
-
-        public bool Exists(string userId, ActivityItem item, ActivityAction action, int itemId)
-        {
-            var result = _userActivityRepo.GetAll().FirstOrDefault(
-                x => x.UserId == userId &&
-                     x.Item == item &&
-                     x.Action == action &&
-                     x.ItemId == itemId);
-
-            return result != null;
         }
     }
 }

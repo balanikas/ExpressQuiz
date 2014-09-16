@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ExpressQuiz.Core.Models;
-
-namespace ExpressQuiz.ViewModels
+﻿namespace ExpressQuiz.ViewModels
 {
     public class UserProfileViewModel
     {
@@ -14,6 +8,4 @@ namespace ExpressQuiz.ViewModels
         public SocialSettingsViewModel SocialSettings { get; set; }
         public string UserId { get; set; }
     }
-
-   
 }

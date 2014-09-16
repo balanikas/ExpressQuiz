@@ -9,6 +9,7 @@ using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
 using ExpressQuiz.Core.Utils;
 using ExpressQuiz.Tests.Repos;
+using ExpressQuiz;
 
 namespace ExpressQuiz.Tests
 {
@@ -31,6 +32,9 @@ namespace ExpressQuiz.Tests
         public IQuizCategoryService QuizCategoryService { get; private set; }
         public IQuizResultService QuizResultService { get; private set; }
         public IUserActivityService UserActivityService { get; private set; }
+
+        public ModelConverter ModelConverter { get; private set; }
+        public ViewModelConverter ViewModelConverter { get; private set; }
 
         public MockRepository(string uri)
         {
@@ -100,6 +104,11 @@ namespace ExpressQuiz.Tests
             QuizResultService = new QuizResultService(QuizRepo,QuizResultRepo,QuizRatingRepo, QuestionRepo,AnswerRepo);
             UserActivityService = new UserActivityService( UserActivityRepo, QuizRepo, QuestionRepo);
 
+
+            ModelConverter = new ModelConverter(
+                 QuizCategoryService, QuizResultService, AnswerService, QuestionService, QuizService);
+            ViewModelConverter = new ViewModelConverter(
+                QuizService,AnswerService,QuestionService,QuizCategoryService);
         }
 
         public void Reload()

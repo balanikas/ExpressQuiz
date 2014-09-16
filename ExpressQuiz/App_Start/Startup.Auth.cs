@@ -1,11 +1,11 @@
-﻿using ExpressQuiz.Core;
+﻿using System;
+using ExpressQuiz.Core;
 using ExpressQuiz.Core.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using System;
 
 namespace ExpressQuiz
 {
@@ -27,28 +27,25 @@ namespace ExpressQuiz
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider
                 {
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                    OnValidateIdentity =
+                        SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                            TimeSpan.FromMinutes(30), (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
             });
-            
+
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
             //    clientSecret: "");
-            
 
-        
+
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-               appId: "279501512254173",
-               appSecret: "4d635bf03a064b718f6570dcc43830f1");
+            app.UseFacebookAuthentication("279501512254173", "4d635bf03a064b718f6570dcc43830f1");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

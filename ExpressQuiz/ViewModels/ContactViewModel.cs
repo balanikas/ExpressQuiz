@@ -5,7 +5,6 @@ namespace ExpressQuiz.ViewModels
 {
     public class ContactViewModel
     {
-
         [DisplayName("Your email")]
         [DataType(DataType.EmailAddress)]
         [Required]
@@ -23,6 +22,5 @@ namespace ExpressQuiz.ViewModels
         public string Message { get; set; }
 
         public bool WasSent { get; set; }
-
     }
 }

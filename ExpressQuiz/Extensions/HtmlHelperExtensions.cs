@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 
 namespace ExpressQuiz.Extensions
 {
@@ -12,7 +8,7 @@ namespace ExpressQuiz.Extensions
     {
         public static MvcHtmlString Slider<TModel, TValue>(
             this HtmlHelper<TModel> helper,
-            Expression<Func<TModel, TValue>> expression, 
+            Expression<Func<TModel, TValue>> expression,
             object htmlAttributes = null)
         {
             var data = ModelMetadata.FromLambdaExpression(expression, helper.ViewData);

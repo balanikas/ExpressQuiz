@@ -37,8 +37,8 @@ module ExpressQuiz {
                     headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
-                    complete: (): void=> {
-                        setTimeout((): void=> {
+                    complete: (): void => {
+                        setTimeout((): void => {
                             selector.css("pointer-events", "");
                         }, 1000);
                     }
@@ -47,10 +47,10 @@ module ExpressQuiz {
                 });
             };
 
-            selector.upvote({ id: id, callback: callback, upvoted : upVoted, downvoted: downVoted });
+            selector.upvote({ id: id, callback: callback, upvoted: upVoted, downvoted: downVoted });
 
         }
-     
+
         static toPager(selector: JQuery, pageCount: number, callback: any): void {
 
             if (pageCount <= 1) {
@@ -82,23 +82,23 @@ module ExpressQuiz {
                     }
                     order.val(ids);
                 }
-            });   
-            
-            $("#" + selector.attr("id") + " tr") .hover(function () {
+            });
+
+            $("#" + selector.attr("id") + " tr").hover(function() {
                 $(this.cells[0]).addClass('showDragHandle');
-            }, function () {
+            }, function() {
                 $(this.cells[0]).removeClass('showDragHandle');
-            });         
+            });
         }
 
         static toSlider(selector: JQuery, updateTarget: JQuery): void {
-            
+
             selector.slider({
                 formater: value => Math.round(value)
             });
 
-            selector.on('slide', (slideEvt : any) => {
-                
+            selector.on('slide', (slideEvt: any) => {
+
                 updateTarget.attr("value", Math.round(slideEvt.value));
             });
         }
@@ -113,4 +113,3 @@ module ExpressQuiz {
 
 
 }
-

@@ -3,6 +3,7 @@
 
 module ExpressQuiz {
     "use strict";
+
     export class Runtime {
         private userAnswers: Array<UserAnswer>;
         private currentQuestionIndex: number;
@@ -16,22 +17,21 @@ module ExpressQuiz {
         }
 
 
-
         setActiveQuestion(index: number): void {
 
             this.currentQuestionIndex = index;
 
         }
 
-        getActiveQuestion() : any {
-            return this.quiz.Questions[this.currentQuestionIndex];         
+        getActiveQuestion(): any {
+            return this.quiz.Questions[this.currentQuestionIndex];
         }
 
-        getQuestion(index: number) :any {
+        getQuestion(index: number): any {
             return this.quiz.Questions[index];
         }
 
-        setAnswer( answer: number):void {
+        setAnswer(answer: number): void {
 
             var q = this.quiz.Questions[this.currentQuestionIndex];
             var userAnswer;
@@ -45,7 +45,7 @@ module ExpressQuiz {
             this.userAnswers[this.currentQuestionIndex] = userAnswer;
         }
 
-        getAnswer() :number {
+        getAnswer(): number {
 
             return this.userAnswers[this.currentQuestionIndex].answerId;
         }
@@ -67,5 +67,3 @@ module ExpressQuiz {
         }
     }
 }
-
- 

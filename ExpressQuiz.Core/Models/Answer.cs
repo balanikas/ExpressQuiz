@@ -1,11 +1,9 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ExpressQuiz.Core.Models
 {
     public class Answer : Entity
     {
- 
         public int QuestionId { get; set; }
 
         public virtual Question Question { get; set; }
@@ -23,9 +21,5 @@ namespace ExpressQuiz.Core.Models
         public string Explanation { get; set; }
 
         public bool IsCorrect { get; set; }
-
-
     }
-
-   
 }

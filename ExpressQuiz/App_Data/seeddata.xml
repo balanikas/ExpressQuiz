@@ -7,8 +7,8 @@
     <Quiz category="category 1">
       <Name>quiz 1</Name>
       <Summary>quiz 1 summary</Summary>
-      <IsTimeable/>
-      <AllowPoints/>
+      <IsTimeable />
+      <AllowPoints />
       <CreatedBy>
         info@coderentals.com
       </CreatedBy>
@@ -21,12 +21,12 @@
           <OrderId>1</OrderId>
           <IsCorrect />
           <Text>a1 (correct)</Text>
-         <Explanation>.</Explanation>
+          <Explanation>.</Explanation>
         </Answer>
         <Answer>
           <OrderId>2</OrderId>
           <Text>a2</Text>
-        <Explanation>.</Explanation>
+          <Explanation>.</Explanation>
         </Answer>
       </Question>
       <Question>
@@ -37,21 +37,21 @@
         <Answer>
           <OrderId>1</OrderId>
           <Text>a1</Text>
-        <Explanation>.</Explanation>
+          <Explanation>.</Explanation>
         </Answer>
         <Answer>
           <OrderId>2</OrderId>
           <IsCorrect />
           <Text>a2(correct)</Text>
-        <Explanation>.</Explanation>
+          <Explanation>.</Explanation>
         </Answer>
       </Question>
     </Quiz>
     <Quiz category="category 2">
       <Name>quiz 2</Name>
       <Summary>quiz 2 summary</Summary>
-      <IsTimeable/>
-      <AllowPoints/>
+      <IsTimeable />
+      <AllowPoints />
       <CreatedBy>
         info@coderentals.com
       </CreatedBy>

@@ -1,41 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 using ExpressQuiz.Core.Services;
-using ExpressQuiz.Extensions;
 using ExpressQuiz.ViewModels;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ExpressQuiz.Controllers
 {
     [ValidateAntiForgeryTokenOnAllPosts]
     public class QuizReviewController : Controller
     {
-        private readonly IQuizService _quizService;
-        private readonly IQuizResultService _quizResultService;
+        private readonly ModelConverter _modelConverter;
         private readonly IQuestionService _questionService;
-        private readonly IAnswerService _answerService;
         private readonly IRepo<QuizRating> _quizRatingRepo;
+        private readonly IQuizResultService _quizResultService;
 
         public QuizReviewController(
-            IQuizService quizService,
             IQuizResultService quizResultService,
             IQuestionService questionService,
-            IAnswerService answerService,
-            IRepo<QuizRating> quizRatingRepo
-
-            )
+            IRepo<QuizRating> quizRatingRepo, ModelConverter modelConverter)
         {
-            _quizService = quizService;
             _quizResultService = quizResultService;
             _questionService = questionService;
-            _answerService = answerService;
             _quizRatingRepo = quizRatingRepo;
+            _modelConverter = modelConverter;
         }
 
         [HttpGet]
@@ -48,11 +36,9 @@ namespace ExpressQuiz.Controllers
 
             QuizResult result = _quizResultService.Get(id.Value);
 
-
             if (result != null)
             {
-
-                var vm = result.ToQuizReviewViewModel(_quizService, _answerService, _quizResultService);
+                var vm = _modelConverter.ToQuizReviewViewModel(result);
                 return View("Index", vm);
             }
 
@@ -60,13 +46,12 @@ namespace ExpressQuiz.Controllers
         }
 
 
-
         [HttpPost]
         public ActionResult Index(QuizReviewViewModel model)
         {
             var quizRating = new QuizRating();
-            quizRating.Rating = model.Rating * 20;
-            quizRating.Level = model.Level * 20;
+            quizRating.Rating = model.Rating*20;
+            quizRating.Level = model.Level*20;
             quizRating.QuizId = model.QuizId;
             _quizRatingRepo.Insert(quizRating);
             _quizRatingRepo.Save();
@@ -84,7 +69,7 @@ namespace ExpressQuiz.Controllers
             var q = _questionService.Get(questionId.Value);
             if (q != null)
             {
-                var vm = q.ToQuestionReviewViewModel(_answerService, resultId, userAnswerId);
+                var vm = _modelConverter.ToQuestionReviewViewModel(q, resultId, userAnswerId);
                 return View("Question", vm);
             }
 

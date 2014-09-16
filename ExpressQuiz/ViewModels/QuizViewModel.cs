@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using ExpressQuiz.Core.Models;
-using ExpressQuiz.Extensions;
 
 namespace ExpressQuiz.ViewModels
 {
     public class QuizViewModel
     {
+        public QuizViewModel()
+        {
+            Questions = new List<QuestionViewModel>();
+        }
 
         public int QuizId { get; set; }
 
@@ -48,16 +48,12 @@ namespace ExpressQuiz.ViewModels
         [DisplayName("Completed")]
         public int Completed { get; set; }
 
-        public IEnumerable<QuestionViewModel> Questions{ set; get;}
+        public IEnumerable<QuestionViewModel> Questions { set; get; }
 
 
         public QuizCategoryViewModel Category { get; set; }
 
 
         public int QuestionCount { get; set; }
-        public QuizViewModel()
-        {
-            Questions = new List<QuestionViewModel>();
-        }
     }
 }

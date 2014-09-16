@@ -1,8 +1,8 @@
-﻿
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(ExpressQuiz.Startup))]
+[assembly: OwinStartup(typeof (ExpressQuiz.Startup))]
+
 namespace ExpressQuiz
 {
     public partial class Startup
@@ -10,8 +10,6 @@ namespace ExpressQuiz
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-
         }
-
     }
 }

@@ -1,5 +1,7 @@
 ﻿var ExpressQuiz;
 (function (ExpressQuiz) {
+    "use strict";
+
     var UserAnswer = (function () {
         function UserAnswer(questionId, answerId) {
             this.questionId = questionId;

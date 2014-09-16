@@ -1,35 +1,33 @@
 ﻿@model ExpressQuiz.ViewModels.SocialSettingsViewModel
            
 
-@using (Ajax.BeginForm("EditSocialSettings", "UserProfile", new AjaxOptions()
+@using (Ajax.BeginForm("EditSocialSettings", "UserProfile", new AjaxOptions
 {
     UpdateTargetId = "content",
     InsertionMode = InsertionMode.Replace,
     HttpMethod = "Post"
-
-
 }))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SendEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SendEmail, new {@class = "control-label col-md-2"})
             <div class="col-md-10">
                 @Html.EditorFor(model => model.SendEmail)
-                @Html.ValidationMessageFor(model => model.SendEmail, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.SendEmail, "", new {@class = "text-danger"})
             </div>
         </div>
 
 
         <div class="form-group">
     
-            @Html.LabelFor(model => model.OnQuizAttempt, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.OnQuizAttempt, new {@class = "control-label col-md-2"})
             <div class="col-md-2">
                 @Html.EditorFor(model => model.OnQuizAttempt)
-                @Html.ValidationMessageFor(model => model.OnQuizAttempt, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.OnQuizAttempt, "", new {@class = "text-danger"})
             </div>
 
         </div>
@@ -42,5 +40,4 @@
 
 
     </div>
-
 }

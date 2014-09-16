@@ -28,10 +28,10 @@ namespace ExpressQuiz.Tests
             _mockRepo.AnswerService,
             _mockRepo.QuestionService,
             _mockRepo.QuizCategoryService,
-            _mockRepo.QuizRatingRepo,
-            _mockRepo.QuizResultService,
             _mockRepo.QuizService, 
-            _mockRepo.UserActivityService);
+            _mockRepo.UserActivityService,
+            _mockRepo.ModelConverter,
+            _mockRepo.ViewModelConverter);
 
             MockUser(c);
             return c;
@@ -48,10 +48,10 @@ namespace ExpressQuiz.Tests
         {
             var c = new ActiveQuizController(
                 _mockRepo.QuizService, 
-                _mockRepo.QuizResultService, 
-                _mockRepo.AnswerService,
-                _mockRepo.QuestionService, 
-                _mockRepo.UserActivityService);
+                _mockRepo.QuizResultService,  
+                _mockRepo.UserActivityService,
+                _mockRepo.ModelConverter,
+            _mockRepo.ViewModelConverter);
             MockUser(c);
 
             return c;
@@ -60,11 +60,10 @@ namespace ExpressQuiz.Tests
         public QuizReviewController CreateQuizReviewController()
         {
             var c = new QuizReviewController(
-                _mockRepo.QuizService,
                 _mockRepo.QuizResultService,
                 _mockRepo.QuestionService,
-                _mockRepo.AnswerService,
-                _mockRepo.QuizRatingRepo);
+                _mockRepo.QuizRatingRepo,
+                _mockRepo.ModelConverter);
             MockUser(c);
 
             return c;

@@ -24,11 +24,11 @@
                             <h4 class="list-group-item-heading">@item.Name</h4>
                             <p class="list-group-item-text truncated" >@item.Summary</p>
                             <br />
-                            @Html.ActionLink(item.Category.Name, "Index", new {selectedCategoryId = item.Category.Id}, htmlAttributes: new {@class = "btn btn-default btn-xs"})
+                            @Html.ActionLink(item.Category.Name, "Index", new {selectedCategoryId = item.Category.Id}, new {@class = "btn btn-default btn-xs"})
                         </div>
                         <div class="col-sm-2">
                             <div class="text-center">
-                                @Html.ActionLink("View", "Details", new {id = item.QuizId}, htmlAttributes: new {@class = "btn btn-default "})
+                                @Html.ActionLink("View", "Details", new {id = item.QuizId}, new {@class = "btn btn-default "})
                             </div>
                             <br />
                             

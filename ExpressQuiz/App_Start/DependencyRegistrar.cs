@@ -32,15 +32,16 @@ namespace ExpressQuiz
             cb.RegisterType<QuizResultService>().As<IQuizResultService>().InstancePerRequest();
             cb.RegisterType<UserActivityService>().As<IUserActivityService>().InstancePerRequest();
 
+            cb.RegisterType<ModelConverter>().InstancePerRequest();
+            cb.RegisterType<ViewModelConverter>().InstancePerRequest();
 
-            cb.RegisterControllers(typeof(MvcApplication).Assembly).InstancePerRequest();
+            cb.RegisterControllers(typeof (MvcApplication).Assembly).InstancePerRequest();
             cb.RegisterType<AccountController>().InstancePerDependency();
-            cb.RegisterAssemblyModules(typeof(MvcApplication).Assembly);
+            cb.RegisterAssemblyModules(typeof (MvcApplication).Assembly);
 
             var container = cb.Build();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-
         }
     }
 }

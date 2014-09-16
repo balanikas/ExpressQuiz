@@ -1,5 +1,4 @@
-﻿@using System.Web.UI.WebControls
-@model ExpressQuiz.ViewModels.EditQuizViewModel
+﻿@model ExpressQuiz.ViewModels.EditQuizViewModel
 
 @section Styles {
     @Styles.Render("~/Scripts/tablednd/css/tablednd.css")
@@ -30,26 +29,25 @@
 
 
 <script>
-    
+
 
     function applyValidation() {
         $("form").removeData("validator");
         $("form").removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse("form");
     }
-    
+
     function beforePost() {
         $("button[type=submit]").addClass('active');
     }
 
 
     $(function() {
-        
+
     });
-    
+
 </script>
 
 @Scripts.Render("~/Scripts/tablednd/jquery.tablednd.js")
 @Scripts.Render("~/Scripts/slider/bootstrap-slider.min.js")
 @Scripts.Render("~/Scripts/pagedown/js/jquery.pagedown-bootstrap.combined.min.js")
-

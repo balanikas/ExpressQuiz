@@ -22,7 +22,7 @@
 </h2>
 <h4>
     created by
-    @Html.ActionLink(Model.Quiz.CreatedBy, "Index", "UserProfile", new { id = Model.Quiz.CreatedBy, profileView = 0 }, htmlAttributes: null)
+    @Html.ActionLink(Model.Quiz.CreatedBy, "Index", "UserProfile", new {id = Model.Quiz.CreatedBy, profileView = 0}, null)
 </h4>
 
 <div class="container">
@@ -30,7 +30,7 @@
     <hr />
 
 
-    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new { id = Model.Quiz.QuizId }, new { @class = "btn btn-lg btn-success" })</div>
+    <div class=" text-center">@Html.ActionLink("Start quiz", "Index", "ActiveQuiz", new {id = Model.Quiz.QuizId}, new {@class = "btn btn-lg btn-success"})</div>
 
 
     <br />
@@ -141,20 +141,18 @@
 
     <div class="row">
 
-        @if ((!Model.Quiz.Locked && !String.IsNullOrEmpty(User.Identity.Name))
-            || Model.Quiz.CreatedBy == User.Identity.Name)
-        {
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Quiz.QuizId },
-                    new { @class = "btn btn-primary  " })
-        }
+        
+        @Html.ActionLink("Edit", "Edit", new {id = Model.Quiz.QuizId},
+            new {@class = "btn btn-primary  "})
+      
 
 
 
 
         @if (Model.Quiz.CreatedBy == User.Identity.Name)
         {
-            @Html.ActionLink("Delete", "Delete", new { id = Model.Quiz.QuizId },
-                    new { @class = "btn btn-primary  " })
+            @Html.ActionLink("Delete", "Delete", new {id = Model.Quiz.QuizId},
+                new {@class = "btn btn-primary  "})
         }
 
 
@@ -171,15 +169,15 @@
 
 
 
-    @Html.Action("Index", "Users", new { quizId = @Model.Quiz.QuizId })
+    @Html.Action("Index", "Users", new {quizId = @Model.Quiz.QuizId})
 </div>
 
 
 
 <script>
 
-    $(function () {
-        
+    $(function() {
+
         ExpressQuiz.Ui.toTextEditor($("textarea.pagedown"), true);
     });
 

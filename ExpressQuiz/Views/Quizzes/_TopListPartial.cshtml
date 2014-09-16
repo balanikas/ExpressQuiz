@@ -7,7 +7,7 @@
     <div class="list-group">
         @foreach (var quiz in Model)
         {
-            @Html.ActionLink(quiz.Name, "Details", new { id = quiz.Id }, new { @class = "list-group-item" })
+            @Html.ActionLink(quiz.Name, "Details", new {id = quiz.Id}, new {@class = "list-group-item"})
         }
     </div>
 </div>

@@ -18,18 +18,16 @@
 
             @{
 
-    foreach (var r in Model)
-    {
-
-        <tr>
+                foreach (var r in Model)
+                {
+                    <tr>
            
 
-            <td>@Html.ActionLink(r.UserId, "Index", "UserProfile", new { id = r.UserId, profileView = 0}, htmlAttributes: null)</td>
-            <td>@r.Score</td>
-            <td>@r.EllapsedTime</td>
-        </tr>
-
-    }
+                        <td>@Html.ActionLink(r.UserId, "Index", "UserProfile", new {id = r.UserId, profileView = 0}, null)</td>
+                        <td>@r.Score</td>
+                        <td>@r.EllapsedTime</td>
+                    </tr>
+                }
             }
 
 
@@ -38,13 +36,13 @@
 }
 
 <script>
-    
+
     $(function() {
         $('#quizUsers').dataTable({
             "paging": false,
             "info": false,
             "searching": false,
-            "order": [[1,"desc"]]
+            "order": [[1, "desc"]]
         });
     })
 </script>

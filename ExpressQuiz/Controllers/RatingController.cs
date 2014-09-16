@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Services;
@@ -17,11 +14,10 @@ namespace ExpressQuiz.Controllers
         {
             _userActivityService = userActivityService;
         }
-       
-        [HttpPost]
-        public HttpStatusCodeResult RateQuiz(int? id, int vote )
-        {
 
+        [HttpPost]
+        public HttpStatusCodeResult RateQuiz(int? id, int vote)
+        {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -52,8 +48,8 @@ namespace ExpressQuiz.Controllers
             }
 
             var userId = String.IsNullOrEmpty(User.Identity.Name) ? Session.SessionID : User.Identity.Name;
-           _userActivityService.UpdateVote(userId,ActivityItem.Question, id.Value,vote);
-          
+            _userActivityService.UpdateVote(userId, ActivityItem.Question, id.Value, vote);
+
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
     }

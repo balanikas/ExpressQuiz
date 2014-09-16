@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,6 +7,10 @@ namespace ExpressQuiz.Core.Models
 {
     public class Quiz : Entity
     {
+        public Quiz()
+        {
+            Questions = new List<Question>();
+        }
 
         [Required]
         [StringLength(100)]
@@ -36,7 +39,7 @@ namespace ExpressQuiz.Core.Models
 
         public int Completed { get; set; }
 
-        
+
         public virtual QuizCategory Category { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
@@ -44,12 +47,5 @@ namespace ExpressQuiz.Core.Models
         public virtual ICollection<QuizRating> Ratings { get; set; }
 
         public virtual ICollection<QuizResult> Results { get; set; }
-
-        public Quiz()
-        {
-            Questions = new List<Question>();
-        }
     }
-
-  
 }

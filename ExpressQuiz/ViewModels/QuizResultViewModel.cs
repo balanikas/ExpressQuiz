@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Web;
 
 namespace ExpressQuiz.ViewModels
 {
@@ -10,6 +7,7 @@ namespace ExpressQuiz.ViewModels
     {
         public string UserId { get; set; }
         public int Score { get; set; }
+
         [DisplayName("Time")]
         public int EllapsedTime { get; set; }
 
@@ -17,6 +15,5 @@ namespace ExpressQuiz.ViewModels
         public int QuizId { get; set; }
 
         public List<UserAnswerViewModel> UserAnswers { get; set; }
- 
     }
 }

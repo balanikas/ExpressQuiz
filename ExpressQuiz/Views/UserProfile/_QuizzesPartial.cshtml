@@ -3,7 +3,7 @@
 
 
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new {id = "__AjaxAntiForgeryForm"}))
 {
     @Html.AntiForgeryToken()
 }
@@ -13,7 +13,6 @@
     var quizzes = Model.Quizzes.ToList();
     if (quizzes.Any())
     {
-
         <table id="quizzesTbl"  class="table table-striped table-hover ">
             <thead>
                 <tr>
@@ -31,28 +30,26 @@
 
                 @{
 
-        foreach (var q in quizzes)
-        {
+                    foreach (var q in quizzes)
+                    {
+                        <tr @(q.Locked ? "class=danger" : "")>
+                            <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new {id = q.QuizId}, new {@class = ""})</td>
+                            <td>@q.QuestionCount</td>
 
-                <tr @(q.Locked ? "class=danger" : "")>
-                    <td>@Html.ActionLink(@q.Name, "Details", "Quizzes", new { id = q.QuizId }, htmlAttributes: new { @class = "" })</td>
-                    <td>@q.QuestionCount</td>
+                            <td>@q.Votes</td>
+                            <td>@q.Views</td>
+                            <td>@q.Completed</td>
 
-                    <td>@q.Votes</td>
-                <td>@q.Views</td>
-                <td>@q.Completed</td>
-
-                <td>@q.Locked</td>
-                <td>
-                    <a href="#" data-id="@q.QuizId" class="delete-quiz">Delete</a>
-
-
-                </td>
+                            <td>@q.Locked</td>
+                            <td>
+                                <a href="#" data-id="@q.QuizId" class="delete-quiz">Delete</a>
 
 
-            </tr>
+                            </td>
 
-        }
+
+                        </tr>
+                    }
                 }
 
 
@@ -64,16 +61,14 @@
         <div class="text-center">
             <br />
             <p><i>You have not created any quizzes yet.</i></p>
-            @Html.ActionLink("Create", "Create", "Quizzes", routeValues: null, htmlAttributes: new {@class = "btn btn-primary"})
+            @Html.ActionLink("Create", "Create", "Quizzes", null, new {@class = "btn btn-primary"})
 
         </div>
-
     }
 }
 
 <script>
-    
-    
+
 
     function OnPostResultsError(jqXHR, textStatus, errorThrown) {
         ExpressQuiz.Utils.togglePreventLeavingPage(false);
@@ -81,7 +76,7 @@
     }
 
     $(function() {
-    
+
         $('#quizzesTbl').dataTable({
             "paging": false,
             "ordering": true,
@@ -89,17 +84,17 @@
             "searching": false
         });
 
-        $('.delete-quiz').click(function () {
-            
+        $('.delete-quiz').click(function() {
+
             $.ajax({
                 url: "/Quizzes/Delete/" + this.getAttribute("data-id"),
                 type: 'POST',
                 headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
-                success: function () {
+                success: function() {
                     location.reload(true);
 
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function(jqXHR, textStatus, errorThrown) {
                     alert("could not delete quiz");
 
                 }

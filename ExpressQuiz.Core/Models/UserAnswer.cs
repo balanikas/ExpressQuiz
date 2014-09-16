@@ -4,7 +4,6 @@ namespace ExpressQuiz.Core.Models
 {
     public class UserAnswer : Entity
     {
-       
         [Required]
         public int AnswerId { get; set; }
 

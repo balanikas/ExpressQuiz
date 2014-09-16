@@ -10,24 +10,23 @@
 
     <br />
 
-    <div id="leftSideBar" style="float:left;width:20%; margin:5px">
+    <div id="leftSideBar" style="float: left; margin: 5px; width: 20%;">
         @Html.Partial("_QuizCategoriesPartial", Model.QuizCategories)
     </div>
-    <div id="content" style="float:left;width:50%;margin:5px">
+    <div id="content" style="float: left; margin: 5px; width: 50%;">
 
         @using (Html.BeginForm("Index", "Quizzes"))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.SelectedCategoryId)
-            @Html.TextBox("searchTerm", null, new { id = "searchTerm", @class = "form-control input-lg ", placeholder = Model.SearchPlaceHolder })
+            @Html.TextBox("searchTerm", null, new {id = "searchTerm", @class = "form-control input-lg ", placeholder = Model.SearchPlaceHolder})
             <br />
             <div class="form-group">
 
                 <div class="row">
                     <div class="col-sm-offset-6 col-sm-6">
 
-                        @Html.EnumDropDownListFor(m => m.Filter,
-                            htmlAttributes: new { @class = "form-control input-sm col-sm-1", id = "filterList", @onchange="form.submit()" })
+                        @Html.EnumDropDownListFor(m => m.Filter, new {@class = "form-control input-sm col-sm-1", id = "filterList", @onchange = "form.submit()"})
 
                       
                     </div>
@@ -37,13 +36,11 @@
 
 
             </div>
-
-           
         }
 
         <br />
         <div class="text-center">
-            @Html.ActionLink("Create New", "Create", "Quizzes", routeValues: null, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+            @Html.ActionLink("Create New", "Create", "Quizzes", null, new {@class = "btn btn-primary btn-sm"})
         </div>
         <br />
 
@@ -55,7 +52,7 @@
         <div id="page-selection"></div>
 
     </div>
-    <div id="rightSideBar" style="float:left;width:20%;margin:5px">
+    <div id="rightSideBar" style="float: left; margin: 5px; width: 20%;">
         @Html.Partial("_TopListPartial", Model.TopQuizzes)
     </div>
 </div>
@@ -65,19 +62,19 @@
 <script>
 
 
-    $(function () {
+    $(function() {
         var catId = '@Model.SelectedCategoryId';
         var filterId = '@Convert.ChangeType(Model.Filter, Model.Filter.GetTypeCode())';
         var searchTerm = $("#searchTerm").val();
         var pageCount = '@Model.PageCount';
 
         var url = "/Quizzes/GetQuizList/?" +
-                "searchTerm=" + searchTerm + "&" +
-                "filter=" + filterId + "&" +
-                "selectedCategoryId=" + catId + "&" +
-                "page=";
+            "searchTerm=" + searchTerm + "&" +
+            "filter=" + filterId + "&" +
+            "selectedCategoryId=" + catId + "&" +
+            "page=";
 
-        var onPageChanged = function (event, num) {
+        var onPageChanged = function(event, num) {
             $.ajax({
                 url: url + num,
                 type: "GET",
@@ -85,20 +82,19 @@
                 dataType: "html",
                 contentType: "text/html",
 
-                success: function (data) {
+                success: function(data) {
                     $("#quizList").empty();
                     $("#quizList").html(data);
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function(jqXHR, textStatus, errorThrown) {
                     ExpressQuiz.Ui.handleAjaxError(jqXHR);
                 }
 
             });
-        }
-
+        };
         ExpressQuiz.Ui.toPager($('#page-selection'), pageCount, onPageChanged);
-        
+
     });
 
-   
+
 </script>

@@ -8,17 +8,17 @@ namespace ExpressQuiz.Logic
 {
     public class JsonNetResult : ActionResult
     {
+        public JsonNetResult()
+        {
+            SerializerSettings = new JsonSerializerSettings();
+        }
+
         public Encoding ContentEncoding { get; set; }
         public string ContentType { get; set; }
         public object Data { get; set; }
 
         public JsonSerializerSettings SerializerSettings { get; set; }
         public Formatting Formatting { get; set; }
-
-        public JsonNetResult()
-        {
-            SerializerSettings = new JsonSerializerSettings();
-        }
 
         public override void ExecuteResult(ControllerContext context)
         {
@@ -36,7 +36,7 @@ namespace ExpressQuiz.Logic
 
             if (Data != null)
             {
-                JsonTextWriter writer = new JsonTextWriter(response.Output) { Formatting = Formatting };
+                JsonTextWriter writer = new JsonTextWriter(response.Output) {Formatting = Formatting};
 
                 JsonSerializer serializer = JsonSerializer.Create(SerializerSettings);
                 serializer.Serialize(writer, Data);

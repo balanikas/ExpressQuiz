@@ -6,7 +6,6 @@ using ExpressQuiz.Core.Utils;
 using StackExchange.Profiling;
 using StackExchange.Profiling.EntityFramework6;
 
-
 namespace ExpressQuiz
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -16,17 +15,12 @@ namespace ExpressQuiz
 #if DEBUG
             MiniProfilerEF6.Initialize();
 #endif
-            
-           
-            
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DependencyRegistrar.Register();
-
-
-           
         }
 
 
@@ -35,12 +29,9 @@ namespace ExpressQuiz
 #if DEBUG
             if (Request.IsLocal)
             {
-                
                 MiniProfiler.Start();
-               
             }
 #endif
-            
         }
 
 
@@ -51,23 +42,21 @@ namespace ExpressQuiz
             {
                 MiniProfiler.Stop();
             }
-#endif            
+#endif
         }
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            
             Exception exception = Server.GetLastError();
             if (exception == null)
             {
                 return;
             }
-                
+
             new Logger().Error("Application error! " + exception.Message);
 
             Response.Clear();
             Response.Redirect(String.Format("~/Home/Error/?message={0}", exception.Message));
-
         }
     }
 }

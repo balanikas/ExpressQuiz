@@ -1,6 +1,7 @@
 ﻿
 module ExpressQuiz {
     "use strict";
+
     export class ActiveQuiz {
 
         private counter: ExpressQuiz.CountDown;
@@ -27,7 +28,7 @@ module ExpressQuiz {
             this.quizId = options.quizId;
             this.totalTime = options.totalTime;
 
-            
+
             this.init();
 
             ExpressQuiz.Utils.togglePreventLeavingPage(true);
@@ -41,23 +42,23 @@ module ExpressQuiz {
             this.$counter.width(timeLeftPercent + "%");
         };
 
-        private onCounterEnd = () : void => {
+        private onCounterEnd = (): void => {
             this.sendResults();
         };
 
-        private onQuizFinished = () : void=> {
+        private onQuizFinished = (): void => {
             this.counter.stop();
             this.sendResults();
         };
 
-        private onAnswerSelected = () : void => {
+        private onAnswerSelected = (): void => {
             var a = $("input[name=optionsRadios]:checked", this.$answers).val();
             this.runtime.setAnswer(a);
             var value = this.runtime.getProgress();
             this.$progressBar.css("width", value + "%").attr("aria-valuenow", value);
         };
 
-        private onPageChanged = (event, num: number) : void => {
+        private onPageChanged = (event, num: number): void => {
 
             var a = $("input[name=optionsRadios]:checked", this.$answers).val();
             this.runtime.setAnswer(a);
@@ -66,7 +67,7 @@ module ExpressQuiz {
             this.loadQuestion(question, this.runtime.getAnswer());
         };
 
-         private onVoteCast = (data : any) => {
+        private onVoteCast = (data: any) => {
 
             var vote = 0;
             if (data.upvoted) {
@@ -86,8 +87,8 @@ module ExpressQuiz {
                 headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                complete: () : void=> {
-                    setTimeout(() : void=> {
+                complete: (): void => {
+                    setTimeout((): void => {
                         this.$voting.css("pointer-events", "");
                     }, 1000);
                 }
@@ -96,14 +97,14 @@ module ExpressQuiz {
             });
         };
 
-        private initPaging() : void {
+        private initPaging(): void {
 
             ExpressQuiz.Ui.toPager(this.$pager, this.runtime.quiz.Questions.length, this.onPageChanged);
 
             this.loadQuestion(this.runtime.quiz.Questions[0], this.runtime.getAnswer());
         }
 
-        private initVoting(question: any) : void {
+        private initVoting(question: any): void {
 
             var upvote = $("<a/>").addClass("upvote");
             var downvote = $("<a/>").addClass("downvote");
@@ -120,9 +121,8 @@ module ExpressQuiz {
             container.upvote({ id: question.QuestionId, callback: this.onVoteCast, upvoted: upVoted, downvoted: downVoted });
         }
 
-       
 
-        private loadQuestion(question, answerId) : void {
+        private loadQuestion(question, answerId): void {
 
             this.$answers.empty();
 
@@ -149,7 +149,7 @@ module ExpressQuiz {
                 question.Text + "</textarea>"));
 
             ExpressQuiz.Ui.toTextEditor($("textarea.pagedown"), true);
-            
+
             this.initVoting(question);
         }
 
@@ -183,7 +183,7 @@ module ExpressQuiz {
             });
         }
 
-        sendResults() : void  {
+        sendResults(): void {
 
             this.$done.addClass("active");
             this.$counter.removeClass("active");
@@ -205,11 +205,11 @@ module ExpressQuiz {
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
 
-                error: (jqXHR : JQueryXHR, textStatus: string, errorThrown : string) => {
+                error: (jqXHR: JQueryXHR, textStatus: string, errorThrown: string) => {
                     ExpressQuiz.Utils.togglePreventLeavingPage(false);
                     location.href = "/Home/Error/?message=" + errorThrown;
                 },
-                success: (data : any) => {
+                success: (data: any) => {
                     var url = "/QuizReview/Index/" + data;
                     ExpressQuiz.Utils.togglePreventLeavingPage(false);
                     window.location.href = url;
@@ -219,4 +219,4 @@ module ExpressQuiz {
             });
         }
     }
-} 
+}

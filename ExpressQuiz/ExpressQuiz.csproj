@@ -157,7 +157,9 @@
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\ViewModelExtensions.cs" />
     <Compile Include="Logic\JsonNetResult.cs" />
+    <Compile Include="ModelConverter.cs" />
     <Compile Include="ValidateAntiForgeryTokenOnAllPosts.cs" />
+    <Compile Include="ViewModelConverter.cs" />
     <Compile Include="ViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\EditAnswerViewModel.cs" />
@@ -177,11 +179,10 @@
     <Compile Include="ViewModels\UserAnswerViewModel.cs" />
     <Compile Include="ViewModels\UserQuizzesViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
-    <Compile Include="Extensions\RepoExtensions.cs" />
+    <Compile Include="Extensions\ServiceExtensions.cs" />
     <Compile Include="ViewModels\CreateQuizViewModel.cs" />
     <Compile Include="ViewModels\EditQuestionViewModel.cs" />
     <Compile Include="ViewModels\EditQuizViewModel.cs" />
-    <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="ViewModels\QuestionReviewViewModel.cs" />
     <Compile Include="ViewModels\QuizCategoryViewModel.cs" />
     <Compile Include="ViewModels\QuizDetailsViewModel.cs" />
@@ -714,6 +715,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="ModelBinders\" />
     <Folder Include="Repos\" />
     <Folder Include="Utilities\" />
     <Folder Include="Views\Rating\" />

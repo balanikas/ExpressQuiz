@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel;
 
 namespace ExpressQuiz.ViewModels
 {
@@ -13,7 +9,5 @@ namespace ExpressQuiz.ViewModels
 
         [DisplayName("When someone attempted one of your quizzes")]
         public bool OnQuizAttempt { get; set; }
-       
-
     }
 }

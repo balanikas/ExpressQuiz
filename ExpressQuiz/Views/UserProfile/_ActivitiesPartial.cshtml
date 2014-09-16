@@ -19,7 +19,7 @@
                 @foreach (var ua in Model.Activities)
                 {
                     <tr>
-                        <td>@Html.ActionLink(@ua.UserId, "Index", "UserProfile", new { id = ua.UserId, profileView = 0 }, htmlAttributes: new { @class = "" })</td>
+                        <td>@Html.ActionLink(@ua.UserId, "Index", "UserProfile", new {id = ua.UserId, profileView = 0}, new {@class = ""})</td>
                         <td>@ua.Action</td>
                         <td>@ua.Item</td>
                         <td>
@@ -32,13 +32,12 @@
             </tbody>
         </table>
     }
-    else if(!String.IsNullOrEmpty(User.Identity.Name) && User.Identity.Name == Model.UserId)
+    else if (!String.IsNullOrEmpty(User.Identity.Name) && User.Identity.Name == Model.UserId)
     {
         <div class="text-center">
             <br />
             <p><i>You have not done anything yet.</i></p>
 
         </div>
-
     }
 }

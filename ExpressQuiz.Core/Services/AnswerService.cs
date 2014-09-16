@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ExpressQuiz.Core.Models;
 using ExpressQuiz.Core.Repos;
 
 namespace ExpressQuiz.Core.Services
 {
-    
     public class AnswerService : IAnswerService
     {
         private readonly IRepo<Answer> _answerRepo;
@@ -16,7 +12,6 @@ namespace ExpressQuiz.Core.Services
         public AnswerService(
             IRepo<Answer> answerRepo)
         {
-
             _answerRepo = answerRepo;
         }
 
@@ -50,28 +45,30 @@ namespace ExpressQuiz.Core.Services
         }
 
 
-        public void SaveOrder(int questionId, string order)
+        public void SaveOrder(Question question, string order)
         {
+            if (question.Answers.Count() <= 1)
+            {
+                return;
+            }
+
             var ordersStr = order.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-            if (ordersStr.Length == 0 )
+            if (ordersStr.Length == 0)
             {
                 throw new ArgumentException("order");
             }
 
-            var orders =  ordersStr.Select(int.Parse).ToList();
+            var orders = ordersStr.Select(int.Parse).ToList();
 
-            var answersToUpdate = _answerRepo.GetAll().Where(x => x.QuestionId == questionId).ToList();
+            var answersToUpdate = _answerRepo.GetAll().Where(x => x.QuestionId == question.Id).ToList();
             int orderCount = 0;
             foreach (var o in orders)
             {
                 var q = answersToUpdate.First(x => x.Id == o);
                 q.OrderId = orderCount++;
-                
             }
             _answerRepo.Save();
         }
-
-
     }
 }

@@ -27,13 +27,14 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
 
         <div class="row">
            
-           @Html.ActionLink("Back", "Details", new { id = @Model.QuizId }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Back", "Details", new {id = @Model.QuizId}, new {@class = "btn btn-primary"})
 
 
 
@@ -42,7 +43,5 @@
 
 
         </div>
-
-
     }
 </div>

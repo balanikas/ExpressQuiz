@@ -1,13 +1,11 @@
-﻿@using System.Data.Entity
-@using ExpressQuiz.Extensions
-@model ExpressQuiz.ViewModels.EditQuestionViewModel
+﻿@model ExpressQuiz.ViewModels.EditQuestionViewModel
 
 
 
 <div>
     <ul class="breadcrumb" >
         <li>
-            @Html.ActionLink("Quiz", "Edit", new { id = Model.QuizId })
+            @Html.ActionLink("Quiz", "Edit", new {id = Model.QuizId})
         </li>
 
         <li class="active">Question</li>
@@ -15,7 +13,7 @@
 
 </div>
 
-@using (Ajax.BeginForm("EditQuestion", "Quizzes", new AjaxOptions()
+@using (Ajax.BeginForm("EditQuestion", "Quizzes", new AjaxOptions
 {
     UpdateTargetId = "content",
     HttpMethod = "Post",
@@ -23,23 +21,22 @@
     OnSuccess = "applyValidation",
     OnFailure = "ExpressQuiz.Ui.handleAjaxError",
     OnBegin = "beforePost",
-
 }))
 {
     <div class="form-horizontal">
 
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
         @Html.HiddenFor(model => model.Question.QuestionId)
         @Html.HiddenFor(model => model.Order)
         @Html.HiddenFor(model => model.QuizId)
         @Html.HiddenFor(model => model.Question.Points)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Question.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Question.Text, new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Question.Text, new { htmlAttributes = new { @class = "form-control pagedown", @rows = 10 } })
-                @Html.ValidationMessageFor(model => model.Question.Text, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Question.Text, new {htmlAttributes = new {@class = "form-control pagedown", @rows = 10}})
+                @Html.ValidationMessageFor(model => model.Question.Text, "", new {@class = "text-danger"})
 
 
 
@@ -50,10 +47,10 @@
         {
             <div class="form-group">
 
-                @Html.LabelFor(model => model.Question.EstimatedTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Question.EstimatedTime, new {@class = "control-label col-md-2"})
                 <div class="col-md-2">
-                    @Html.EditorFor(model => model.Question.EstimatedTime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Question.EstimatedTime, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Question.EstimatedTime, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Question.EstimatedTime, "", new {@class = "text-danger"})
                 </div>
 
             </div>
@@ -67,7 +64,7 @@
         {
             <div class="form-group">
 
-                @Html.LabelFor(model => model.Question.Points, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Question.Points, new {@class = "control-label col-md-2"})
                 <div class="col-md-2">
                     <input id="points" class="form-control" data-slider-id='ex1Slider' type="text" data-slider-min="1" data-slider-max="10"
                            data-slider-step="0.1" data-slider-value="@Model.Question.Points" />
@@ -77,24 +74,19 @@
 
             </div>
         }
-        else
-        {
-
-        }
         <div class="form-group">
 
             <div class="row">
                 <div class="col-md-4">
 
-                    @Ajax.ActionLink("Add answer", "CreateAnswer", "Quizzes", new { id = Model.Question.QuestionId, orderId = Model.Question.AnswerCount }, new AjaxOptions()
-                                    {
-                                        InsertionMode = InsertionMode.Replace,
-                                        HttpMethod = "Get",
-                                        UpdateTargetId = "content",
-                                        OnSuccess = "applyValidation",
-                                        OnFailure = "ExpressQuiz.Ui.handleAjaxError"
-
-                                    }, htmlAttributes: new { @class = "btn btn-primary" })
+                    @Ajax.ActionLink("Add answer", "CreateAnswer", "Quizzes", new {questionId = Model.Question.QuestionId, orderId = Model.Question.AnswerCount}, new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "Get",
+                        UpdateTargetId = "content",
+                        OnSuccess = "applyValidation",
+                        OnFailure = "ExpressQuiz.Ui.handleAjaxError"
+                    }, new {@class = "btn btn-primary"})
 
 
                     <button type="submit" class="btn btn-primary has-spinner">
@@ -121,71 +113,66 @@
             <tbody>
                 @{
 
-    foreach (var a in Model.Question.Answers.OrderBy(x => x.OrderId))
-    {
+                    foreach (var a in Model.Question.Answers.OrderBy(x => x.OrderId))
+                    {
+                        <tr id="@a.AnswerId">
+                            <td class="dragHandle"></td>
+                            <td>
+                                @a.Text
+                            </td>
+                            <td>
+                                @a.IsCorrect
+                            </td>
 
-        <tr id="@a.AnswerId">
-            <td class="dragHandle"></td>
-            <td>
-                @a.Text
-            </td>
-            <td>
-                @a.IsCorrect
-            </td>
+                            <td>
+                                @Ajax.ActionLink("Edit", "EditAnswer", "Quizzes", new {id = a.AnswerId}, new AjaxOptions
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    HttpMethod = "Get",
+                                    UpdateTargetId = "content",
+                                    OnSuccess = "applyValidation",
+                                    OnFailure = "ExpressQuiz.Ui.handleAjaxError"
+                                })
 
-            <td>
-                @Ajax.ActionLink("Edit", "EditAnswer", "Quizzes", new { id = a.AnswerId }, new AjaxOptions()
-                {
-                    InsertionMode = InsertionMode.Replace,
-                    HttpMethod = "Get",
-                    UpdateTargetId = "content",
-                    OnSuccess = "applyValidation",
-                    OnFailure = "ExpressQuiz.Ui.handleAjaxError"
+                            </td>
+                            <td>
+                                <a href="#" data-id="@a.AnswerId" class="delete-answer">Delete</a>
 
-                })
-
-            </td>
-            <td>
-                <a href="#" data-id="@a.AnswerId" class="delete-answer">Delete</a>
-
-            </td>
-        </tr>
-
-    }
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
 
         </table>
 
     </div>
-
-
 }
 
 
 
 
 <script>
-    $(function () {
+    $(function() {
 
 
         ExpressQuiz.Ui.toTextEditor($("textarea.pagedown"));
 
         ExpressQuiz.Ui.toReorderableTable($("#answersTbl"), $("#Order"));
 
-        ExpressQuiz.Ui.toSlider($('#points'), $('#' + '@Html.IdFor(m=>m.Question.Points)'));
+        ExpressQuiz.Ui.toSlider($('#points'), $('#' + '@Html.IdFor(m => m.Question.Points)'));
 
-        $('.delete-answer').click(function () {
+        $('.delete-answer').click(function() {
 
             $.ajax({
                 url: "/Quizzes/DeleteAnswer/" + this.getAttribute("data-id"),
                 type: 'POST',
                 headers: ExpressQuiz.AjaxHelper.createRequestionVerificationTokenHeader(),
-                success: function (result) {
+                success: function(result) {
                     $("#content").empty().html(result);
 
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function(jqXHR, textStatus, errorThrown) {
                     ExpressQuiz.Ui.handleAjaxError(jqXHR);
 
                 }

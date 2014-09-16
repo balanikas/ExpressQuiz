@@ -116,7 +116,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void Edit_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuizViewModel model = _mockRepository.QuizService.Get(1).ToEditQuizViewModel(_mockRepository.QuestionService,_mockRepository.AnswerService,  _mockRepository.QuizCategoryService);
+            EditQuizViewModel model = _mockRepository.ModelConverter.ToEditQuizViewModel(_mockRepository.QuizService.Get(1));
 
             model.Quiz.Name = "test";
 
@@ -167,7 +167,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void EditQuestion_Post()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            EditQuestionViewModel model = _mockRepository.QuestionRepo.Get(1).ToEditQuestionViewModel(_mockRepository.AnswerService, _mockRepository.QuizService);
+            EditQuestionViewModel model = _mockRepository.ModelConverter.ToEditQuestionViewModel(_mockRepository.QuestionRepo.Get(1));
 
             model.Question.Text = "text";
 
@@ -223,9 +223,9 @@ namespace ExpressQuiz.Tests.Controllers
             var c = _controllerProvider.CreateQuizzesController();
             Answer model = _mockRepository.AnswerRepo.Get(1);
 
-            
 
-            var result = c.EditAnswer(model.ToEditAnswerViewModel()) as RedirectToRouteResult;
+
+            var result = c.EditAnswer(_mockRepository.ModelConverter.ToEditAnswerViewModel(model)) as RedirectToRouteResult;
             Assert.AreEqual(result.RouteValues["action"], "EditQuestion");
         }
 
@@ -261,7 +261,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void CreateQuestion_Get()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            var result = c.CreateQuestion(1,1) as PartialViewResult;
+            var result = c.CreateQuestion(1) as PartialViewResult;
             var model = result.Model as EditQuizViewModel;
 
             Assert.IsNotNull(model);
@@ -273,7 +273,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void CreateQuestion_Bad_Request()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            var result = c.CreateQuestion(null, 1) as HttpStatusCodeResult;
+            var result = c.CreateQuestion(null) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.BadRequest).StatusCode);
 
         }
@@ -282,7 +282,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void CreateQuestion_Not_Found()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            var result = c.CreateQuestion(-1, 1) as HttpStatusCodeResult;
+            var result = c.CreateQuestion(-1) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.NotFound).StatusCode);
 
         }
@@ -291,7 +291,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void CreateAnswer_Get()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            var result = c.CreateAnswer(1, 1) as RedirectToRouteResult;
+            var result = c.CreateAnswer(1) as RedirectToRouteResult;
        
             Assert.AreEqual(result.RouteValues["action"], "EditQuestion");
             Assert.AreEqual(result.RouteValues["id"], 1);
@@ -302,7 +302,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void CreateAnswer_Bad_Request()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            var result = c.CreateAnswer(null, 1) as HttpStatusCodeResult;
+            var result = c.CreateAnswer(null) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.BadRequest).StatusCode);
 
         }
@@ -311,7 +311,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void CreateAnswer_Not_Found()
         {
             var c = _controllerProvider.CreateQuizzesController();
-            var result = c.CreateAnswer(-1, 1) as HttpStatusCodeResult;
+            var result = c.CreateAnswer(-1) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.NotFound).StatusCode);
 
         }

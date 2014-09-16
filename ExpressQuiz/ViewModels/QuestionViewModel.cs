@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using ExpressQuiz.Core.Models;
-using ExpressQuiz.Extensions;
 
 namespace ExpressQuiz.ViewModels
 {
     public class QuestionViewModel
     {
+        public QuestionViewModel()
+        {
+            Answers = new List<AnswerViewModel>();
+        }
+
         public int QuestionId { get; set; }
 
         [Required]
@@ -37,11 +37,5 @@ namespace ExpressQuiz.ViewModels
         public IEnumerable<AnswerViewModel> Answers { get; set; }
 
         public int AnswerCount { get; set; }
-
-        public QuestionViewModel()
-        {
-            Answers = new List<AnswerViewModel>();
-        }
-
     }
 }

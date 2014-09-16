@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
-using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 
@@ -26,7 +22,6 @@ namespace ExpressQuiz
                 }
                 catch (Exception)
                 {
-
                     if (request.IsAjaxRequest())
                     {
                         var antiForgeryCookie = request.Cookies[AntiForgeryConfig.CookieName];
@@ -37,11 +32,7 @@ namespace ExpressQuiz
 
                         AntiForgery.Validate(cookieValue, request.Headers["__RequestVerificationToken"]);
                     }
-                    
                 }
-                
-
-               
             }
         }
     }
