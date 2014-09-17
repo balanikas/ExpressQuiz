@@ -149,6 +149,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActiveQuizController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuizReviewController.cs" />
     <Compile Include="Controllers\RatingController.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="ViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\EditAnswerViewModel.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -661,7 +663,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -704,6 +705,7 @@
     <Content Include="Views\UserProfile\_QuizzesPartial.cshtml" />
     <Content Include="Views\UserProfile\Public.cshtml" />
     <Content Include="Views\UserProfile\_ActivitiesPartial.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

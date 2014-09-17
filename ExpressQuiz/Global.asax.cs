@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using ExpressQuiz.Controllers;
 using ExpressQuiz.Core.Utils;
 using StackExchange.Profiling;
 using StackExchange.Profiling.EntityFramework6;
@@ -47,16 +49,35 @@ namespace ExpressQuiz
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Exception exception = Server.GetLastError();
-            if (exception == null)
+            Exception lastError = Server.GetLastError();
+            Server.ClearError();
+
+            int statusCode = 0;
+
+            if (lastError.GetType() == typeof(HttpException))
             {
-                return;
+                statusCode = ((HttpException)lastError).GetHttpCode();
+            }
+            else
+            {
+                statusCode = 500;
             }
 
-            new Logger().Error("Application error! " + exception.Message);
+            var contextWrapper = new HttpContextWrapper(this.Context);
 
-            Response.Clear();
-            Response.Redirect(String.Format("~/Home/Error/?message={0}", exception.Message));
+            var routeData = new RouteData();
+            routeData.Values.Add("controller", "Error");
+            routeData.Values.Add("action", "Index");
+            routeData.Values.Add("statusCode", statusCode);
+            routeData.Values.Add("exception", lastError);
+            routeData.Values.Add("isAjaxRequet", contextWrapper.Request.IsAjaxRequest());
+
+            IController controller = new ErrorController();
+
+            var requestContext = new RequestContext(contextWrapper, routeData);
+
+            controller.Execute(requestContext);
+            Response.End();
         }
     }
 }

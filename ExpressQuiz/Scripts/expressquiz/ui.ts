@@ -105,8 +105,7 @@ module ExpressQuiz {
 
 
         static handleAjaxError(jqXhr?: JQueryXHR): void {
-            alert(jqXhr.responseText);
-            //location.href = "/Home/Error/?message=" + errorThrown;
+            alert(JSON.parse(jqXhr.responseText).message);
         }
 
     }
