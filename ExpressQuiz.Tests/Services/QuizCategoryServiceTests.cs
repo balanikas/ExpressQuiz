@@ -14,14 +14,14 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizCategoryService_GetAll()
         {
-            var service = _mockRepo.QuizCategoryService;
+            var service = Mocks.QuizCategoryService;
             Assert.IsNotNull(service.GetAll());
         }
 
         [TestMethod]
         public void QuizCategoryService_Get()
         {
-            var service = _mockRepo.QuizCategoryService;
+            var service = Mocks.QuizCategoryService;
             var cat = service.Get(1);
             Assert.IsNotNull(cat);
         }
@@ -29,7 +29,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizCategoryService_Insert()
         {
-            var service = _mockRepo.QuizCategoryService;
+            var service = Mocks.QuizCategoryService;
 
             var cat = new QuizCategory();
             cat.Name = "name";
@@ -44,7 +44,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizCategoryService_Update()
         {
-            var service = _mockRepo.QuizCategoryService;
+            var service = Mocks.QuizCategoryService;
 
             var cat = service.Get(1);
             cat.Name = "name";
@@ -59,7 +59,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizCategoryService_Delete()
         {
-            var service = _mockRepo.QuizCategoryService;
+            var service = Mocks.QuizCategoryService;
             service.Delete(1);
             Assert.IsNull(service.Get(1));
         }
@@ -67,7 +67,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizCategoryService_Exists()
         {
-            var service = _mockRepo.QuizCategoryService;
+            var service = Mocks.QuizCategoryService;
 
             var cat = service.Get(1);
             cat.Name = "name";
@@ -79,7 +79,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizCategoryService_InsertByName()
         {
-            var service = _mockRepo.QuizCategoryService;
+            var service = Mocks.QuizCategoryService;
 
 
             var cat = service.InsertByName("name");

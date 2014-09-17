@@ -15,7 +15,7 @@ namespace ExpressQuiz.Tests.Controllers
         public void Index()
         {
 
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
 
             QuizzesViewModel model;
@@ -41,7 +41,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Details()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             var result = c.Details(1) as ViewResult;
             var model = result.Model as QuizDetailsViewModel;
@@ -52,7 +52,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Details_Resource_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             HttpStatusCodeResult result;
 
@@ -65,7 +65,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Details_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             HttpStatusCodeResult result;
 
@@ -79,7 +79,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Edit_Get()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             var result = c.Edit(1) as ViewResult;
             var model = result.Model as EditQuizViewModel;
@@ -91,7 +91,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Edit_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             HttpStatusCodeResult result;
 
@@ -103,7 +103,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Edit_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             HttpStatusCodeResult result;
 
@@ -115,8 +115,8 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Edit_Post()
         {
-            var c = _controllerProvider.CreateQuizzesController();
-            EditQuizViewModel model = _mockRepository.ModelConverter.ToEditQuizViewModel(_mockRepository.QuizService.Get(1));
+            var c = ControllerProvider.CreateQuizzesController();
+            EditQuizViewModel model = Mocks.ModelConverter.ToEditQuizViewModel(Mocks.QuizService.Get(1));
 
             model.Quiz.Name = "test";
 
@@ -130,7 +130,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void EditQuestion_Get()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             
             var result = c.EditQuestion(1) as PartialViewResult;
             var model = result.Model as EditQuestionViewModel;
@@ -142,7 +142,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void EditQuestion_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             HttpStatusCodeResult result;
 
@@ -154,7 +154,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void EditQuestion_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             HttpStatusCodeResult result;
 
@@ -166,8 +166,8 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void EditQuestion_Post()
         {
-            var c = _controllerProvider.CreateQuizzesController();
-            EditQuestionViewModel model = _mockRepository.ModelConverter.ToEditQuestionViewModel(_mockRepository.QuestionRepo.Get(1));
+            var c = ControllerProvider.CreateQuizzesController();
+            EditQuestionViewModel model = Mocks.ModelConverter.ToEditQuestionViewModel(Mocks.QuestionRepo.Get(1));
 
             model.Question.Text = "text";
 
@@ -184,7 +184,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void EditAnswer_Get()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             var result = c.EditAnswer(1) as PartialViewResult;
             var model = result.Model as EditAnswerViewModel;
@@ -196,7 +196,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void EditAnswer_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             HttpStatusCodeResult result;
 
@@ -208,7 +208,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void EditAnswer_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
 
             HttpStatusCodeResult result;
 
@@ -220,33 +220,33 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void EditAnswer_Post()
         {
-            var c = _controllerProvider.CreateQuizzesController();
-            Answer model = _mockRepository.AnswerRepo.Get(1);
+            var c = ControllerProvider.CreateQuizzesController();
+            Answer model = Mocks.AnswerRepo.Get(1);
 
 
 
-            var result = c.EditAnswer(_mockRepository.ModelConverter.ToEditAnswerViewModel(model)) as RedirectToRouteResult;
+            var result = c.EditAnswer(Mocks.ModelConverter.ToEditAnswerViewModel(model)) as RedirectToRouteResult;
             Assert.AreEqual(result.RouteValues["action"], "EditQuestion");
         }
 
 
-        //[TestMethod]
-        //public void Create_Get()
-        //{
-        //    var c = _controllerProvider.CreateQuizzesController();
-        //    var result = c.Create() as ViewResult;
-        //    var model = result.Model as CreateQuizViewModel;
+        [TestMethod]
+        public void Create_Get()
+        {
+            var c = ControllerProvider.CreateQuizzesController();
+            var result = c.Create() as ViewResult;
+            var model = result.Model as CreateQuizViewModel;
 
-        //    Assert.IsNotNull(model);
+            Assert.IsNotNull(model);
 
-        //}
+        }
 
         //[TestMethod]
         //public void Create_Post()
         //{
-        //    var c = _controllerProvider.CreateQuizzesController();
+        //    var c = ControllerProvider.CreateQuizzesController();
 
-        //    CreateQuizViewModel model = _mockRepository.QuizRepo.Get(1).ToActiveQuizViewModel(_mockRepository.QuizCategoryRepo, "username");
+        //    CreateQuizViewModel model = Mocks.ModelConverter.ToCreateQuizViewModel(Mocks.QuizRepo.Get(1), "username");
 
 
         //    var result = c.Create(model) as ViewResult;
@@ -260,7 +260,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void CreateQuestion_Get()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.CreateQuestion(1) as PartialViewResult;
             var model = result.Model as EditQuizViewModel;
 
@@ -272,7 +272,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void CreateQuestion_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.CreateQuestion(null) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.BadRequest).StatusCode);
 
@@ -281,7 +281,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void CreateQuestion_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.CreateQuestion(-1) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.NotFound).StatusCode);
 
@@ -290,7 +290,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void CreateAnswer_Get()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.CreateAnswer(1) as RedirectToRouteResult;
        
             Assert.AreEqual(result.RouteValues["action"], "EditQuestion");
@@ -301,7 +301,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void CreateAnswer_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.CreateAnswer(null) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.BadRequest).StatusCode);
 
@@ -310,7 +310,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void CreateAnswer_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.CreateAnswer(-1) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.NotFound).StatusCode);
 
@@ -319,7 +319,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Delete()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.Delete(1) as ViewResult;
             var model = result.Model as QuizViewModel;
 
@@ -330,7 +330,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Delete_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.Delete(null) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.BadRequest).StatusCode);
 
@@ -339,7 +339,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Delete_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.Delete(-1) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.NotFound).StatusCode);
 
@@ -348,7 +348,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void DeleteQuestion()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.DeleteQuestion(1) as PartialViewResult;
             var model = result.Model as EditQuizViewModel;
 
@@ -359,7 +359,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void DeleteQuestion_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.DeleteQuestion(null) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.BadRequest).StatusCode);
 
@@ -368,7 +368,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void DeleteQuestion_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.DeleteQuestion(-1) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.NotFound).StatusCode);
 
@@ -377,7 +377,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void DeleteAnswer()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.DeleteAnswer(1) as PartialViewResult;
             var model = result.Model as EditQuestionViewModel;
 
@@ -388,7 +388,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void DeleteAnswer_Bad_Request()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.DeleteAnswer(null) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.BadRequest).StatusCode);
 
@@ -397,7 +397,7 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void DeleteAnswer_Not_Found()
         {
-            var c = _controllerProvider.CreateQuizzesController();
+            var c = ControllerProvider.CreateQuizzesController();
             var result = c.DeleteAnswer(-1) as HttpStatusCodeResult;
             Assert.AreEqual(result.StatusCode, new HttpStatusCodeResult(HttpStatusCode.NotFound).StatusCode);
 

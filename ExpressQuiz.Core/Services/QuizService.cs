@@ -93,9 +93,6 @@ namespace ExpressQuiz.Core.Services
                 case QuizFilter.Newest:
                     topList = GetByCreationDate(descendingValue, list);
                     break;
-                    //case QuizFilter.Level:
-                    //    topList = GetByLevel(descendingValue, list);
-                    //    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -13,7 +13,10 @@ namespace ExpressQuiz.Core
             : base("QuizDbContext")
         {
             Database.CreateIfNotExists();
-            //Database.Log = new Logger().Info;
+            /*
+             * Uncomment to print sql queries generated from EF
+             * Database.Log = new Logger().Info;
+             */
         }
         public DbSet<UserAnswer> UserAnswers { get; set; }
         public DbSet<Answer> Answers { get; set; }

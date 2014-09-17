@@ -30,14 +30,8 @@ namespace ExpressQuiz.Core.Utils
         public static IEnumerable<Quiz> Import(string uri)
         {
             var xml = XDocument.Load(uri, LoadOptions.PreserveWhitespace);
-            //string schemaUri = @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\App_Data\seeddata.xsd";
-            //if (!ValidateData(xml,schemaUri))
-            //{
-            //    if (!Debugger.IsAttached)
-            //    {
-            //        Debugger.Launch();
-            //    }
-            //}
+           
+            //TODO: validate against xsd file
 
             char[] charsToTrim = {'\r', ' ', '\n'};
 

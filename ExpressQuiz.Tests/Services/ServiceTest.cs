@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,19 +11,18 @@ namespace ExpressQuiz.Tests.Services
     [TestClass]
     public abstract class ServiceTest
     {
-        protected readonly MockRepository _mockRepo;
+        protected readonly MockRepository Mocks;
 
         public ServiceTest()
         {
-            var uri =
-              @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\bin\App_Data\seeddata.xml";
-            _mockRepo = new MockRepository(uri);
+            var uri = Path.Combine(Environment.CurrentDirectory, "testdata.xml");
+            Mocks = new MockRepository(uri);
         }
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _mockRepo.Reload();
+            Mocks.Reload();
         }
     }
 }

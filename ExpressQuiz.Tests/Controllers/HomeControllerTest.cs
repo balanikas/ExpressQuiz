@@ -15,39 +15,24 @@ namespace ExpressQuiz.Tests.Controllers
         [TestMethod]
         public void Index()
         {
-
-            HomeController controller = _controllerProvider.CreateHomeController();
-
-          
-            ViewResult result = controller.Index() as ViewResult;
-
-    
+            var controller = ControllerProvider.CreateHomeController();
+            var result = controller.Index() as ViewResult;
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void About()
         {
-
-            HomeController controller = _controllerProvider.CreateHomeController();
-
-      
-            ViewResult result = controller.About() as ViewResult;
-
-   
+            var controller = ControllerProvider.CreateHomeController();
+            var result = controller.About() as ViewResult;
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void Contact()
         {
-
-            HomeController controller = _controllerProvider.CreateHomeController();
-
-
-            ViewResult result = controller.Contact() as ViewResult;
-
-          
+            var controller = ControllerProvider.CreateHomeController();
+            var result = controller.Contact() as ViewResult;
             Assert.IsNotNull(result);
         }
     }

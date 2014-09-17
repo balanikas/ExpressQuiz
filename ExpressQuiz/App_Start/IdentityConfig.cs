@@ -8,7 +8,6 @@ using Microsoft.Owin;
 
 namespace ExpressQuiz
 {
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
 
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
@@ -21,23 +20,21 @@ namespace ExpressQuiz
             IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-            // Configure validation logic for usernames
+
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
-            // Configure validation logic for passwords
+
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                //RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
-            // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
-            // You can write your own provider and plug in here.
+
             manager.RegisterTwoFactorProvider("PhoneCode", new PhoneNumberTokenProvider<ApplicationUser>
             {
                 MessageFormat = "Your security code is: {0}"
@@ -63,7 +60,6 @@ namespace ExpressQuiz
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
             return Task.FromResult(0);
         }
     }
@@ -72,7 +68,6 @@ namespace ExpressQuiz
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your sms service here to send a text message.
             return Task.FromResult(0);
         }
     }

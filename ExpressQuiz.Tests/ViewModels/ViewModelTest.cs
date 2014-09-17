@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,14 +16,10 @@ namespace ExpressQuiz.Tests.ViewModels
         [TestInitialize()]
         public void Initialize()
         {
-            
 
-            var uri =
-               @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\bin\App_Data\seeddata.xml";
+            var uri = Path.Combine(Environment.CurrentDirectory, "testdata.xml");
             _mockRepository = new MockRepository(uri);
            
-
-
         }
     }
 }

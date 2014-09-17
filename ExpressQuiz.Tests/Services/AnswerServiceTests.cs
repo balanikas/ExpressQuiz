@@ -14,14 +14,14 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void AnswerService_GetAll()
         {
-            var service = _mockRepo.AnswerService;
+            var service = Mocks.AnswerService;
             Assert.IsNotNull(service.GetAll());
         }
 
         [TestMethod]
         public void AnswerService_Get()
         {
-            var service = _mockRepo.AnswerService;
+            var service = Mocks.AnswerService;
             var answer = service.Get(1);
             Assert.IsNotNull(answer);
         }
@@ -29,7 +29,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void AnswerService_Insert()
         {
-            var service = _mockRepo.AnswerService;
+            var service = Mocks.AnswerService;
 
             var answer = new Answer();
             answer.IsCorrect = true;
@@ -49,7 +49,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void AnswerService_Delete()
         {
-            var service = _mockRepo.AnswerService;
+            var service = Mocks.AnswerService;
             service.Delete(1);
             Assert.IsNull(service.Get(1));
         }
@@ -57,7 +57,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void AnswerService_Update()
         {
-            var service = _mockRepo.AnswerService;
+            var service = Mocks.AnswerService;
 
             var answer = service.Get(1);
             answer.IsCorrect = true;
@@ -79,10 +79,10 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void AnswerService_SaveOrder()
         {
-            var service = _mockRepo.AnswerService;
+            var service = Mocks.AnswerService;
 
          
-            service.SaveOrder(_mockRepo.QuestionService.Get(1), "2,1");
+            service.SaveOrder(Mocks.QuestionService.Get(1), "2,1");
 
             var updated = service.GetAll().Where(x => x.QuestionId == 1).ToList();
 
@@ -93,11 +93,11 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void AnswerService_SaveOrder_InvalidOrder()
         {
-            var service = _mockRepo.AnswerService;
+            var service = Mocks.AnswerService;
 
             try
             {
-                service.SaveOrder(_mockRepo.QuestionService.Get(1), "hello,2,1,6");
+                service.SaveOrder(Mocks.QuestionService.Get(1), "hello,2,1,6");
                 Assert.Fail();
             }
             catch
@@ -107,7 +107,7 @@ namespace ExpressQuiz.Tests.Services
 
             try
             {
-                service.SaveOrder(_mockRepo.QuestionService.Get(1), "1,2,3,4,5,6,7,8,9,10");
+                service.SaveOrder(Mocks.QuestionService.Get(1), "1,2,3,4,5,6,7,8,9,10");
                 Assert.Fail();
             }
             catch

@@ -132,15 +132,10 @@ namespace ExpressQuiz.Core.Migrations.Quiz
         private void AddQuizResults(QuizDbContext ctx)
         {
 
-            //if (!Debugger.IsAttached)
-            //{
-            //    Debugger.Launch();
-            //}
             var quiz = ctx.Set<Models.Quiz>().ToList()[0];
             var q1 = quiz.Questions.ToList()[0];
             var q2 = quiz.Questions.ToList()[1];
 
-            //results
             var result1 = new QuizResult()
             {
                 UserAnswers = new List<UserAnswer>()

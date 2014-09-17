@@ -21,7 +21,6 @@ namespace ExpressQuiz.Controllers
             _quizCategoryService = quizCategoryService;
         }
 
-        // GET: Admin
         public ActionResult Index()
         {
             return View("Index");
@@ -32,8 +31,8 @@ namespace ExpressQuiz.Controllers
             var quizzes = from m in _quizService.GetAll().OrderByDescending(x => x.Created)
                 select m;
             DataProvider.Export(quizzes.ToList(),
-                System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"));
-            return File(System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/seeddata.xml"), "text/xml");
+                System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/exported.xml"));
+            return File(System.Web.HttpContext.Current.Server.MapPath("~/bin/App_Data/exported.xml"), "text/xml");
         }
 
         [HttpPost]

@@ -15,7 +15,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void UserActivityService_Add()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
             service.Add("1",ActivityItem.Quiz,ActivityAction.Create,1);
 
@@ -27,7 +27,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void UserActivityService_Delete()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
             service.Add("1", ActivityItem.Quiz, ActivityAction.Create, 1);
 
@@ -40,7 +40,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void UserActivityService_DeleteAll()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
             service.Add("1", ActivityItem.Quiz, ActivityAction.Create, 1);
             service.Add("1", ActivityItem.Quiz, ActivityAction.Create, 2);
@@ -54,7 +54,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void UserActivityService_GetAll()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
             service.Add("1", ActivityItem.Quiz, ActivityAction.Create, 1);
             service.Add("1", ActivityItem.Quiz, ActivityAction.Edit, 1);
@@ -73,7 +73,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void UserActivityService_Delete_One()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
             service.Add("1", ActivityItem.Quiz, ActivityAction.Create, 1);
             service.Delete("1", ActivityItem.Quiz, ActivityAction.Create, 1);
@@ -84,67 +84,67 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void UserActivityService_QuizVoting_VoteUpAndDown()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
-            var voteCountBefore = _mockRepo.QuizService.Get(1).Votes;
+            var voteCountBefore = Mocks.QuizService.Get(1).Votes;
             
             service.UpdateVote("1",ActivityItem.Quiz, 1,1);
 
           
-            Assert.AreEqual(voteCountBefore + 1, _mockRepo.QuizService.Get(1).Votes);
+            Assert.AreEqual(voteCountBefore + 1, Mocks.QuizService.Get(1).Votes);
 
             service.UpdateVote("1", ActivityItem.Quiz, 1, -1);
 
-            Assert.AreEqual(voteCountBefore, _mockRepo.QuizService.Get(1).Votes);
+            Assert.AreEqual(voteCountBefore, Mocks.QuizService.Get(1).Votes);
         }
 
         [TestMethod]
         public void UserActivityService_QuestionVoting_VoteUpAndDown()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
-            var voteCountBefore = _mockRepo.QuestionService.Get(1).Votes;
+            var voteCountBefore = Mocks.QuestionService.Get(1).Votes;
 
             service.UpdateVote("1", ActivityItem.Question, 1, 1);
 
 
-            Assert.AreEqual(voteCountBefore + 1, _mockRepo.QuestionService.Get(1).Votes);
+            Assert.AreEqual(voteCountBefore + 1, Mocks.QuestionService.Get(1).Votes);
 
             service.UpdateVote("1", ActivityItem.Question, 1, -1);
 
-            Assert.AreEqual(voteCountBefore, _mockRepo.QuestionService.Get(1).Votes);
+            Assert.AreEqual(voteCountBefore, Mocks.QuestionService.Get(1).Votes);
         }
 
         [TestMethod]
         public void UserActivityService_QuizViews()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
-            var viewCountBefore = _mockRepo.QuizService.Get(1).Views;
+            var viewCountBefore = Mocks.QuizService.Get(1).Views;
 
             service.Add("1", ActivityItem.Quiz, ActivityAction.View, 1);
 
-            Assert.AreEqual(viewCountBefore + 1, _mockRepo.QuizService.Get(1).Views);
+            Assert.AreEqual(viewCountBefore + 1, Mocks.QuizService.Get(1).Views);
 
         }
 
         [TestMethod]
         public void UserActivityService_QuizCompletions()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
 
-            var completionCountBefore = _mockRepo.QuizService.Get(1).Completed;
+            var completionCountBefore = Mocks.QuizService.Get(1).Completed;
 
             service.Add("1", ActivityItem.Quiz, ActivityAction.EndQuiz, 1);
 
-            Assert.AreEqual(completionCountBefore + 1, _mockRepo.QuizService.Get(1).Completed);
+            Assert.AreEqual(completionCountBefore + 1, Mocks.QuizService.Get(1).Completed);
 
         }
 
         [TestMethod]
         public void UserActivityService_Exists()
         {
-            var service = _mockRepo.UserActivityService;
+            var service = Mocks.UserActivityService;
             service.Add("1",ActivityItem.Answer, ActivityAction.Create,1);
             
             Assert.IsTrue( service.Exists("1",ActivityItem.Answer, ActivityAction.Create,1));

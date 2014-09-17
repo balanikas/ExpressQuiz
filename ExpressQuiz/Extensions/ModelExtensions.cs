@@ -2,7 +2,7 @@
 
 namespace ExpressQuiz.Extensions
 {
-    public static class ViewModelExtensions
+    public static class ModelExtensions
     {
         public static void SetDefaultValues(this Question question)
         {

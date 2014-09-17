@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,19 +12,18 @@ namespace ExpressQuiz.Tests.Controllers
     public abstract class ControllerTest
     {
 
-        protected MockRepository _mockRepository;
-        protected ControllerProvider _controllerProvider;
+        protected MockRepository Mocks;
+        protected ControllerProvider ControllerProvider;
         [TestInitialize()]
         public void Initialize()
         {
-           
 
-            var uri =
-               @"C:\Users\grillo\Documents\GitHub\ExpressQuiz\ExpressQuiz\bin\App_Data\seeddata.xml";
-            _mockRepository = new MockRepository(uri);
+
+            var uri = Path.Combine(Environment.CurrentDirectory, "testdata.xml");
+            Mocks = new MockRepository(uri);
 
           
-            _controllerProvider = new ControllerProvider(_mockRepository);
+            ControllerProvider = new ControllerProvider(Mocks);
         }
     }
 }

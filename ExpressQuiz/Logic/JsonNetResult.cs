@@ -25,7 +25,7 @@ namespace ExpressQuiz.Logic
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            HttpResponseBase response = context.HttpContext.Response;
+            var response = context.HttpContext.Response;
 
             response.ContentType = !string.IsNullOrEmpty(ContentType)
                 ? ContentType
@@ -36,7 +36,7 @@ namespace ExpressQuiz.Logic
 
             if (Data != null)
             {
-                JsonTextWriter writer = new JsonTextWriter(response.Output) {Formatting = Formatting};
+                var writer = new JsonTextWriter(response.Output) {Formatting = Formatting};
 
                 JsonSerializer serializer = JsonSerializer.Create(SerializerSettings);
                 serializer.Serialize(writer, Data);

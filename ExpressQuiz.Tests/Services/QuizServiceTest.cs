@@ -17,7 +17,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_NotExisting_ShouldReturnFalse()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             Assert.IsFalse(service.Exists(""));
 
         }
@@ -25,7 +25,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_Existing_ShouldReturnTrue()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             Assert.IsTrue(service.Exists("quiz 1"));
 
         }
@@ -33,7 +33,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_Delete()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             Assert.IsNotNull(service.Get(1));
             service.Delete(1);
             Assert.IsNull(service.Get(1));
@@ -43,7 +43,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_Get()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             Assert.IsNotNull(service.Get(1));
             Assert.IsNull(service.Get(-1));
   
@@ -52,7 +52,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_GetAll()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             Assert.IsNotNull(service.GetAll());
             
 
@@ -61,7 +61,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_GetPublicQuizzes_locked_is_not_returned()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
 
             var publicCount = service.GetPublicQuizzes().Count();
 
@@ -82,7 +82,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_GetPublicQuizzes_with_zero_questions_is_not_returned()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
 
             var publicCount = service.GetPublicQuizzes().Count();
 
@@ -103,7 +103,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_GetPublicQuizzes_with_incomplete_question_is_not_returned()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
 
             var publicCount = service.GetPublicQuizzes().Count();
 
@@ -124,7 +124,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_Insert()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             var quiz = new Quiz();
             quiz.Name = "666";
             service.Insert(quiz);
@@ -138,7 +138,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_Update()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             var quiz = service.Get(1);
             quiz.Name = "666";
             service.Update(quiz);
@@ -151,7 +151,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_GetByCategory()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             Assert.IsTrue( service.GetByCategory(1).Count() == 1);
 
         }
@@ -159,7 +159,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_GetByCreationDate()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             var quiz = service.Get(1);
             quiz.Created = DateTime.Now + TimeSpan.FromHours(1);
             service.Update(quiz);
@@ -179,7 +179,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_GetByRating()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             var quizzes = service.GetByRating(true).ToList();
 
             Assert.AreEqual("quiz 1",quizzes.First().Name);
@@ -192,7 +192,7 @@ namespace ExpressQuiz.Tests.Services
         [TestMethod]
         public void QuizService_GetByLevel()
         {
-            var service = _mockRepo.QuizService;
+            var service = Mocks.QuizService;
             var quizzes = service.GetByLevel(true).ToList();
 
             Assert.AreEqual("quiz 2", quizzes.First().Name);
