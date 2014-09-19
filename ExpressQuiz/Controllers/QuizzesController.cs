@@ -370,6 +370,13 @@ namespace ExpressQuiz.Controllers
             return PartialView("_EditAnswerPartial", vm);
         }
 
+        [HttpGet]
+        public ActionResult GetCategories()
+        {
+            var model =_modelConverter.ToQuizCategoriesViewModel(null);
+            return View("_QuizCategoriesPartial", model);
+        }
+
         [Authorize]
         public ActionResult Delete(int? id)
         {

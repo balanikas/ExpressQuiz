@@ -6,14 +6,14 @@
     @Scripts.Render("~/bundles/expressquiz")
 }
 
-<div style="width: 1280px">
+<div class="row">
 
     <br />
 
-    <div id="leftSideBar" style="float: left; margin: 5px; width: 20%;">
+    <div class="hidden-sm hidden-xs col-md-3"  style="width: 200px;">
         @Html.Partial("_QuizCategoriesPartial", Model.QuizCategories)
     </div>
-    <div id="content" style="float: left; margin: 5px; width: 50%;">
+    <div id="content" class="col-md-6" >
 
         @using (Html.BeginForm("Index", "Quizzes"))
         {
@@ -52,7 +52,7 @@
         <div id="page-selection"></div>
 
     </div>
-    <div id="rightSideBar" style="float: left; margin: 5px; width: 20%;">
+    <div class="hidden-sm hidden-xs col-md-3" style="width: 200px;">
         @Html.Partial("_TopListPartial", Model.TopQuizzes)
     </div>
 </div>
