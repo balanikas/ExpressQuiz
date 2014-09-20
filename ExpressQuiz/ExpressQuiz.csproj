@@ -259,7 +259,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <None Include="Properties\PublishProfiles\expressquiz.pubxml" />
+    <None Include="Properties\PublishProfiles\expressquiz2 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\expressquiz2 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -715,6 +716,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="robots.txt" />
     <TypeScriptCompile Include="Scripts\expressquiz\activequiz.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\ajaxhelper.ts" />
     <TypeScriptCompile Include="Scripts\expressquiz\answer.ts" />
