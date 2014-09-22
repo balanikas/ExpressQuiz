@@ -211,10 +211,6 @@
     <Content Include="Content\font-awesome-4.2.0\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.2.0\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome-4.2.0\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\images\front\1.png" />
-    <Content Include="Content\images\front\2.png" />
-    <Content Include="Content\images\front\3.png" />
-    <Content Include="Content\images\front\4.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -653,6 +649,7 @@
     <Content Include="Scripts\upvote\jquery.upvote.css" />
     <Content Include="Scripts\upvote\jquery.upvote.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="sitemap.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -710,6 +707,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\" />
     <Folder Include="Views\Rating\" />
   </ItemGroup>
   <ItemGroup>

@@ -17,9 +17,9 @@
 
 
 
-<h2>
+<h1>
     @Model.Quiz.Name  (@Model.Quiz.QuestionCount questions)
-</h2>
+</h1>
 <h4>
     created by
     @Html.ActionLink(Model.Quiz.CreatedBy, "Index", "UserProfile", new {id = Model.Quiz.CreatedBy, profileView = 0}, null)
