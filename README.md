@@ -2,7 +2,7 @@ ExpressQuiz
 ===========
 Trying to become the de facto free quiz site.
 
-temprary website: https://expressquiz2.azurewebsites.net/
+temprary website: https://expressquiz3.azurewebsites.net/
 
 Goal
 =========
