@@ -32,7 +32,7 @@ namespace ExpressQuiz
 
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
-            app.UseFacebookAuthentication("279501512254173", "4d635bf03a064b718f6570dcc43830f1");
+            
 
         }
     }
